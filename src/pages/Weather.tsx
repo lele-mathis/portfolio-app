@@ -1,5 +1,6 @@
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 
+import NewLocation from '../components/NewLocation';
 const rows: GridRowsProp = [
   { id: 1, col1: 'Hello', col2: 'World' },
   { id: 2, col1: 'DataGridPro', col2: 'is Awesome' },
@@ -15,6 +16,7 @@ function WeatherPage() {
   return (
     <>
       <h1>Weather info will go here</h1>
+      <NewLocation />
       <div style={{ height: 300, width: '100%' }}>
         <DataGrid rows={rows} columns={columns} />
       </div>
