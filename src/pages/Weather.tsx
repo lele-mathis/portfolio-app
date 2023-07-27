@@ -1,6 +1,10 @@
+import { useSelector } from 'react-redux';
+
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 
 import NewLocation from '../components/NewLocation';
+import { RootState } from '../store/store';
+
 const rows: GridRowsProp = [
   { id: 1, col1: 'Hello', col2: 'World' },
   { id: 2, col1: 'DataGridPro', col2: 'is Awesome' },
@@ -13,6 +17,11 @@ const columns: GridColDef[] = [
 ];
 
 function WeatherPage() {
+  const locationsList = useSelector(
+    (state: RootState) => state.weather.locations
+  );
+  console.log('Weather locations' + locationsList[0]);
+
   return (
     <>
       <h1>Weather info will go here</h1>

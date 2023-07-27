@@ -1,33 +1,28 @@
-const apiKey = 12345;
-const limit = 1;
-const weather_api =
-  'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}';
+import Geocode from '../models/geocode';
 
-const geocoder_api =
-  'http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}';
+const apiKey = 'eab41386ed58a65dbb29ff0e92e2757a';
+const limit = 1;
+//const weather_api = ('https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}');
 
 export async function geocodeCity(city: string, state = '', country = '') {
   let stateCode = '';
   let countryCode = '';
   if (state !== '') {
-    stateCode = ''; //find state code from state name
+    stateCode = ','; //find state code from state name
   }
   if (country !== '') {
-    countryCode = ''; //find country code from country name
+    countryCode = ','; //find country code from country name
   }
-  const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${stateCode},${countryCode}&limit=${limit}&appid=${apiKey}`;
-  try {
-    const weatherData = await fetchGeocodeData(url);
-    //save in the store
-  } catch (error) {
-    // dispatch(
-    //   uiActions.showNotification({
-    //     status: 'error',
-    //     title: 'Error!',
-    //     message: 'Fetching cart data failed!',
-    //   })
-    // );
+  const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}${stateCode}${countryCode}&limit=${limit}&appid=${apiKey}`;
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error('Could not fetch geocode data for url:' + url);
   }
+  const data = await response.json();
+  const geocodeData: Geocode = data[0];
+  console.log('lat:' + geocodeData.lat + ' lon:' + geocodeData.lon);
+  return geocodeData;
 }
 
 export async function geocodeZip(zip: string | number, country = '') {
@@ -38,7 +33,8 @@ export async function geocodeZip(zip: string | number, country = '') {
 
   const url = `https://api.openweathermap.org/data/2.5/weather?zip=${zip},${countryCode}&appid=${apiKey}`;
   try {
-    const weatherData = await fetchGeocodeData(url);
+    const weatherData = await fetch(url);
+
     //save in the store
   } catch (error) {
     // dispatch(
@@ -51,44 +47,31 @@ export async function geocodeZip(zip: string | number, country = '') {
   }
 }
 
-//helper function
-const fetchGeocodeData = async (url: string) => {
-  const response = await fetch(url);
+// export function fetchWeatherData(url: string) {
+//   return async (dispatch: any) => {
+//     const fetchData = async () => {
+//       const response = await fetch(url);
 
-  if (!response.ok) {
-    throw new Error('Could not fetch geocode data for url:' + url);
-  }
+//       if (!response.ok) {
+//         throw new Error('Could not fetch weather data!');
+//       }
 
-  const data = await response.json();
+//       const data = await response.json();
 
-  return data;
-};
+//       return data;
+//     };
 
-export function fetchWeatherData(url: string) {
-  return async (dispatch: any) => {
-    const fetchData = async () => {
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Could not fetch weather data!');
-      }
-
-      const data = await response.json();
-
-      return data;
-    };
-
-    try {
-      const weatherData = await fetchData();
-      //save in the store
-    } catch (error) {
-      // dispatch(
-      //   uiActions.showNotification({
-      //     status: 'error',
-      //     title: 'Error!',
-      //     message: 'Fetching cart data failed!',
-      //   })
-      // );
-    }
-  };
-}
+//     try {
+//       const weatherData = await fetchData();
+//       //save in the store
+//     } catch (error) {
+//       // dispatch(
+//       //   uiActions.showNotification({
+//       //     status: 'error',
+//       //     title: 'Error!',
+//       //     message: 'Fetching cart data failed!',
+//       //   })
+//       // );
+//     }
+//   };
+// }
