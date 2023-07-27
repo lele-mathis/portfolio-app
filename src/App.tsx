@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import RootLayout from './pages/Root';
 import HomePage from './pages/Home';
-import WeatherPage from './pages/Weather';
+import WeatherHomePage from './pages/WeatherHome';
 import DataPage from './pages/Data';
 
 import './App.css';
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: 'weather', element: <WeatherPage /> },
+      { path: 'weather', element: <WeatherHomePage /> },
       { path: 'data', element: <DataPage /> },
     ],
   },

@@ -4,7 +4,6 @@ import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 
 import Geocode from '../models/geocode';
 import NewLocation from '../components/NewLocation';
-import { RootState } from '../store/store';
 
 const rows: GridRowsProp = [
   { id: 1, col1: 'Hello', col2: 'World' },
@@ -17,7 +16,7 @@ const columns: GridColDef[] = [
   { field: 'col2', headerName: 'Column 2', width: 150 },
 ];
 
-function WeatherPage() {
+function WeatherHomePage() {
   const locationsList: Geocode[] = useAppSelector(
     (state) => state.weather.locations
   );
@@ -35,4 +34,4 @@ function WeatherPage() {
   );
 }
 
-export default WeatherPage;
+export default WeatherHomePage;
