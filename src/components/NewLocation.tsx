@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../hooks';
 
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
@@ -13,7 +13,7 @@ import { weatherActions } from '../store/store';
 import { geocodeCity, geocodeZip } from '../store/weather-actions';
 
 function NewLocation() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [zipMode, setZipMode] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 

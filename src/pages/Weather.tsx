@@ -1,7 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../hooks';
 
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 
+import Geocode from '../models/geocode';
 import NewLocation from '../components/NewLocation';
 import { RootState } from '../store/store';
 
@@ -12,15 +13,16 @@ const rows: GridRowsProp = [
 ];
 
 const columns: GridColDef[] = [
-  { field: 'col1', headerName: 'Column 1', width: 150 },
+  { field: 'city', headerName: 'City', width: 150 },
   { field: 'col2', headerName: 'Column 2', width: 150 },
 ];
 
 function WeatherPage() {
-  const locationsList = useSelector(
-    (state: RootState) => state.weather.locations
+  const locationsList: Geocode[] = useAppSelector(
+    (state) => state.weather.locations
   );
-  console.log('Weather locations' + locationsList[0]);
+
+  //request weather data and display it
 
   return (
     <>

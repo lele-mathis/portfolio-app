@@ -1,4 +1,4 @@
-import { createSlice, configureStore } from '@reduxjs/toolkit';
+import { createSlice, configureStore, PayloadAction } from '@reduxjs/toolkit';
 import Geocode from '../models/geocode';
 
 const initialLocations: Geocode[] = [];
@@ -7,8 +7,8 @@ export const weatherSlice = createSlice({
   name: 'weather',
   initialState: { locations: initialLocations },
   reducers: {
-    addLocation(state, action) {
-      state.locations.push(action.payload);
+    addLocation(state, action: PayloadAction<Geocode>) {
+      state.locations = state.locations.concat(action.payload);
     },
     removeLocation(state, action) {
       //remove location from array
