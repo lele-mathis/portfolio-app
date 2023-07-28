@@ -60,7 +60,7 @@ function NewLocation() {
   //   );
   let inputFields = (
     <>
-      <Grid item>Please enter a location:</Grid>
+      <Grid item>Enter a location to see the current weather there:</Grid>
       <Grid item>
         <TextField
           name='city'

@@ -18,9 +18,9 @@ function WeatherHomePage() {
   const [weatherList, setWeatherList] = useState(initialState);
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 150 },
+    { field: 'id', headerName: 'ID', width: 100 },
     { field: 'name', headerName: 'Location', width: 150 },
-    { field: 'weather', headerName: 'Weather', width: 150 },
+    { field: 'weather', headerName: 'Weather', width: 200 },
     { field: 'temp', headerName: 'Temperature (F)', width: 150 },
     { field: 'wind', headerName: 'Wind Speed (mph)', width: 150 },
     { field: 'clouds', headerName: 'Cloud Cover (%)', width: 150 },
@@ -32,7 +32,13 @@ function WeatherHomePage() {
     for (let location of locationsList) {
       fetchWeatherData(location)
         .then((value: Weather) => {
-          setWeatherList((list) => list.concat(value));
+          if (
+            weatherList.filter((element) => {
+              return element.id === value.id;
+            }).length === 0
+          ) {
+            setWeatherList((list) => list.concat(value));
+          }
         })
         .catch((reason: any) => {
           console.log(reason);
@@ -40,6 +46,7 @@ function WeatherHomePage() {
     }
   }, [locationsList]); //fetch the weather every time the list of locations changes
 
+  console.log(weatherList.map((weather) => weather.name));
   //turn weather objects into DataGrid rows
   rows = weatherList.map((value: Weather) => {
     return {

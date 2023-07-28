@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 function DataPage() {
   return (
-    <Typography component='h1' variant='h3'>
+    <Typography component='h1' variant='h3' color='primary'>
       Data projects will go here!
     </Typography>
   );
