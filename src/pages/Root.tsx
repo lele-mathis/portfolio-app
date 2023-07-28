@@ -10,6 +10,14 @@ import Header from '../components/Header';
 import type {} from '@mui/x-data-grid/themeAugmentation';
 
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#340442',
+    },
+    secondary: {
+      main: '#ffa200',
+    },
+  },
   components: {
     MuiDataGrid: {
       styleOverrides: {

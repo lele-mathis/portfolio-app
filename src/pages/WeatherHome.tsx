@@ -1,5 +1,6 @@
 import { useAppSelector } from '../hooks';
 
+import { Typography } from '@mui/material';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 
 import Geocode from '../models/geocode';
@@ -25,7 +26,9 @@ function WeatherHomePage() {
 
   return (
     <>
-      <h1>Weather info will go here</h1>
+      <Typography component='h1' variant='h3'>
+        Weather info will go here
+      </Typography>
       <NewLocation />
       <div style={{ height: 300, width: '100%' }}>
         <DataGrid rows={rows} columns={columns} />

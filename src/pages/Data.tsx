@@ -1,5 +1,10 @@
+import { Typography } from '@mui/material';
 function DataPage() {
-  return <h1>Data projects will go here!</h1>;
+  return (
+    <Typography component='h1' variant='h3'>
+      Data projects will go here!
+    </Typography>
+  );
 }
 
 export default DataPage;
