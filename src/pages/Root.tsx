@@ -17,6 +17,10 @@ const theme = createTheme({
     secondary: {
       main: '#ffa200',
     },
+    background: {
+      default: '#ccc',
+      paper: '#ccc',
+    },
   },
   components: {
     MuiDataGrid: {

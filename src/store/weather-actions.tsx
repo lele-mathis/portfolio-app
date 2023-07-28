@@ -1,9 +1,11 @@
+//import { Dispatch } from '@reduxjs/toolkit';
 import Geocode from '../models/geocode';
+import Weather from '../models/weather';
 
-const apiKey = 'eab41386ed58a65dbb29ff0e92e2757a';
-const limit = 1;
-//const weather_api = ('https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}');
+const apiKey = 'eab41386ed58a65dbb29ff0e92e2757a'; //from my Open Weather account
+const limit = 1; //number of Geocode entries to receive for each input location
 
+//later, make this into a Thunk - will need to dispatch error messages from here
 export async function geocodeCity(city: string, state = '', country = '') {
   let stateCode = '';
   let countryCode = '';
@@ -21,7 +23,7 @@ export async function geocodeCity(city: string, state = '', country = '') {
   }
   const data = await response.json();
   const geocodeData: Geocode = data[0];
-  console.log('lat:' + geocodeData.lat + ' lon:' + geocodeData.lon);
+  //console.log('lat:' + geocodeData.lat + ' lon:' + geocodeData.lon);
   return geocodeData;
 }
 
@@ -47,31 +49,15 @@ export async function geocodeZip(zip: string | number, country = '') {
   }
 }
 
-// export function fetchWeatherData(url: string) {
-//   return async (dispatch: any) => {
-//     const fetchData = async () => {
-//       const response = await fetch(url);
+//later, make this into a Thunk - will need to dispatch error messages from here to show with uiActions
+export async function fetchWeatherData(location: Geocode) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&appid=${apiKey}`;
+  const response = await fetch(url);
 
-//       if (!response.ok) {
-//         throw new Error('Could not fetch weather data!');
-//       }
+  if (!response.ok) {
+    throw new Error('Could not fetch weather data!');
+  }
 
-//       const data = await response.json();
-
-//       return data;
-//     };
-
-//     try {
-//       const weatherData = await fetchData();
-//       //save in the store
-//     } catch (error) {
-//       // dispatch(
-//       //   uiActions.showNotification({
-//       //     status: 'error',
-//       //     title: 'Error!',
-//       //     message: 'Fetching cart data failed!',
-//       //   })
-//       // );
-//     }
-//   };
-// }
+  const data: Weather = await response.json();
+  return data;
+}

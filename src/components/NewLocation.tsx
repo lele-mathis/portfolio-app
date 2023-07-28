@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAppDispatch } from '../hooks';
 
-import Card from '@mui/material/Card';
+//import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
@@ -90,21 +90,19 @@ function NewLocation() {
   }
 
   return (
-    <Card>
-      <Box component='form' noValidate onSubmit={submitHandler}>
-        <Grid container spacing={2}>
-          {inputFields}
-        </Grid>
-        <Button
-          type='submit'
-          fullWidth
-          variant='contained'
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? 'Finding location' : 'Add location'}
-        </Button>
-      </Box>
-    </Card>
+    <Box component='form' noValidate onSubmit={submitHandler}>
+      <Grid container spacing={2}>
+        {inputFields}
+      </Grid>
+      <Button
+        type='submit'
+        fullWidth
+        variant='contained'
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? 'Finding location' : 'Add location'}
+      </Button>
+    </Box>
   );
 }
 
