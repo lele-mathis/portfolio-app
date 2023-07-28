@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppSelector } from '../hooks';
 
 import { Typography } from '@mui/material';
@@ -9,33 +9,47 @@ import Weather from '../models/weather';
 import NewLocation from '../components/NewLocation';
 import { fetchWeatherData } from '../store/weather-actions';
 
-const rows: GridRowsProp = [
-  { id: 1, col1: 'Hello', col2: 'World' },
-  { id: 2, col1: 'DataGridPro', col2: 'is Awesome' },
-  { id: 3, col1: 'MUI', col2: 'is Amazing' },
-];
-
-const columns: GridColDef[] = [
-  { field: 'city', headerName: 'City', width: 150 },
-  { field: 'col2', headerName: 'Column 2', width: 150 },
-];
-
 function WeatherHomePage() {
   const locationsList: Geocode[] = useAppSelector(
     (state) => state.weather.locations
   );
 
-  let weather_test: Weather;
-  fetchWeatherData(locationsList[0])
-    .then((value: Weather) => {
-      weather_test = value;
-      console.log(weather_test.name, weather_test.weather);
-    })
-    .catch((reason: any) => {
-      console.log(reason);
-    });
+  const initialState: Weather[] = [];
+  const [weatherList, setWeatherList] = useState(initialState);
 
-  //request weather data and display it
+  const columns: GridColDef[] = [
+    { field: 'id', headerName: 'ID', width: 150 },
+    { field: 'name', headerName: 'Location', width: 150 },
+    { field: 'weather', headerName: 'Weather', width: 150 },
+    { field: 'temp', headerName: 'Temperature', width: 150 },
+    { field: 'wind', headerName: 'Wind Speed', width: 150 },
+  ];
+
+  let rows: GridRowsProp = [{ id: 'ID', main: 'Dummy data' }];
+
+  useEffect(() => {
+    console.log('Effect is running');
+    for (let location of locationsList) {
+      fetchWeatherData(location)
+        .then((value: Weather) => {
+          setWeatherList((list) => list.concat(value));
+        })
+        .catch((reason: any) => {
+          console.log(reason);
+        });
+    }
+  }, [locationsList]); //fetch the weather every time the list of locations changes
+
+  //turn weather objects into DataGrid rows
+  rows = weatherList.map((value: Weather) => {
+    return {
+      id: value.id,
+      name: value.name,
+      weather: value.weather[0].main + ': ' + value.weather[0].description,
+      temp: value.main.temp,
+      wind: value.wind.speed,
+    };
+  });
 
   return (
     <>
@@ -44,7 +58,7 @@ function WeatherHomePage() {
       </Typography>
       <NewLocation />
       <div style={{ height: 300, width: '100%' }}>
-        <DataGrid rows={rows} columns={columns} />
+        <DataGrid rows={rows} columns={columns} density='compact' />
       </div>
     </>
   );

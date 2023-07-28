@@ -9,6 +9,7 @@ export const weatherSlice = createSlice({
   reducers: {
     addLocation(state, action: PayloadAction<Geocode>) {
       state.locations = state.locations.concat(action.payload);
+      //console.log('Adding location to' + state.locations);
     },
     removeLocation(state, action) {
       //remove location from array

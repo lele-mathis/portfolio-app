@@ -33,7 +33,6 @@ function NewLocation() {
     setIsSubmitting(true);
     if (zipMode) {
     } else {
-      console.log('city: ' + cityInput);
       const geocodeData: Geocode = await geocodeCity(cityInput); //this returns a promise! Need to unwrap it
       dispatch(weatherActions.addLocation(geocodeData));
     } //send data to redux

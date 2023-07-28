@@ -1,26 +1,19 @@
-class Weather {
-  coord: Object;
-  weather: Object[];
-  main: Object;
+type Weather = {
+  coord: { lon: number; lat: number };
+  weather: { id: number; main: string; description: string; icon: string }[];
+  main: {
+    temp: number;
+    feels_like: number;
+    temp_min: number;
+    temp_max: number;
+    pressure: number;
+    humidity: number;
+  };
   visibility: number;
-  wind: Object;
+  wind: { speed: number; deg: number; gust: number };
+  rain: { '1h': number };
+  clouds: { all: number };
+  id: string;
   name: string;
-
-  constructor(
-    coord: Object,
-    weather: Object[],
-    main: Object,
-    visibility: number,
-    wind: Object,
-    cityName: string
-  ) {
-    this.coord = coord;
-    this.weather = weather;
-    this.main = main;
-    this.visibility = visibility;
-    this.wind = wind;
-    this.name = cityName;
-  }
-}
-
+};
 export default Weather;
