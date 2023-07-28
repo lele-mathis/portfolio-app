@@ -21,14 +21,14 @@ function WeatherHomePage() {
     { field: 'id', headerName: 'ID', width: 150 },
     { field: 'name', headerName: 'Location', width: 150 },
     { field: 'weather', headerName: 'Weather', width: 150 },
-    { field: 'temp', headerName: 'Temperature', width: 150 },
-    { field: 'wind', headerName: 'Wind Speed', width: 150 },
+    { field: 'temp', headerName: 'Temperature (F)', width: 150 },
+    { field: 'wind', headerName: 'Wind Speed (mph)', width: 150 },
+    { field: 'clouds', headerName: 'Cloud Cover (%)', width: 150 },
   ];
 
   let rows: GridRowsProp = [{ id: 'ID', main: 'Dummy data' }];
 
   useEffect(() => {
-    console.log('Effect is running');
     for (let location of locationsList) {
       fetchWeatherData(location)
         .then((value: Weather) => {
@@ -48,6 +48,7 @@ function WeatherHomePage() {
       weather: value.weather[0].main + ': ' + value.weather[0].description,
       temp: value.main.temp,
       wind: value.wind.speed,
+      clouds: value.clouds.all,
     };
   });
 
@@ -57,9 +58,15 @@ function WeatherHomePage() {
         My Weather App
       </Typography>
       <NewLocation />
-      <div style={{ height: 300, width: '100%' }}>
-        <DataGrid rows={rows} columns={columns} density='compact' />
-      </div>
+      {locationsList.length === 0 ? (
+        <p style={{ textAlign: 'center' }}>
+          No locations found - enter a location above!
+        </p>
+      ) : (
+        <div style={{ height: 500, width: '100%' }}>
+          <DataGrid rows={rows} columns={columns} density='compact' />
+        </div>
+      )}
     </>
   );
 }
