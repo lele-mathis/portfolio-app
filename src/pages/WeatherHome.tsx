@@ -21,6 +21,7 @@ function WeatherHomePage() {
   const locationsList: Geocode[] = useAppSelector(
     (state) => state.weather.locations
   );
+  console.log('locationsList: ' + locationsList.map((loc) => loc.name));
   const notification = useAppSelector((state) => state.ui.notification);
 
   const initialState: Weather[] = [];
@@ -40,16 +41,11 @@ function WeatherHomePage() {
   let rows: GridRowsProp = [{ id: 'ID', main: 'Dummy data' }];
 
   useEffect(() => {
+    setWeatherList([]); //reset the list before repopulating it
     for (let location of locationsList) {
       fetchWeatherData(location)
         .then((value: Weather) => {
-          if (
-            weatherList.filter((element) => {
-              return element.id === value.id;
-            }).length === 0
-          ) {
-            setWeatherList((list) => list.concat(value));
-          }
+          setWeatherList((list) => list.concat(value));
         })
         .catch((error: any) => {
           dispatch(
@@ -61,9 +57,9 @@ function WeatherHomePage() {
           );
         });
     }
-  }, [locationsList, weatherList]); //fetch the weather every time the list of locations changes
+  }, [locationsList]); //fetch the weather every time the list of locations changes - NOT WORKING ON REMOVAL
 
-  console.log(weatherList.map((weather) => weather.name));
+  console.log('weatherList: ' + weatherList.map((weather) => weather.name));
   //turn weather objects into DataGrid rows
   rows = weatherList.map((value: Weather) => {
     if (value.rain === undefined) {
