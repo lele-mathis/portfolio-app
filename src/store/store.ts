@@ -8,11 +8,23 @@ export const weatherSlice = createSlice({
   initialState: { locations: initialLocations },
   reducers: {
     addLocation(state, action: PayloadAction<Geocode>) {
-      state.locations = state.locations.concat(action.payload);
-      //console.log('Adding location to' + state.locations);
+      if (!state.locations.find((loc) => loc.name === action.payload.name)) {
+        //Geocode objs don't have IDs?
+        state.locations = state.locations.concat(action.payload);
+      }
+      console.log(
+        'Adding location ' +
+          action.payload.name +
+          ' to [' +
+          state.locations.map((loc) => loc.name) +
+          ']'
+      );
     },
-    removeLocation(state, action) {
-      //remove location from array
+    removeLocation(state, action: PayloadAction<string>) {
+      state.locations = state.locations.filter(
+        (loc) => loc.name !== action.payload
+      ); //remove location from array
+      console.log('Removed location ' + action.payload);
     },
   },
 });

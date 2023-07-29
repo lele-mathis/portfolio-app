@@ -47,7 +47,7 @@ function NewLocation() {
       );
 
       dispatch(weatherActions.addLocation(geocodeData)); //send data to redux
-      setInputValues({ city: '', state: '', country: '' });
+      setInputValues({ city: '', state: '', country: '' }); //not resetting state code to empty
     } catch (error: any) {
       dispatch(
         uiActions.showNotification({
@@ -82,7 +82,8 @@ function NewLocation() {
           id='state'
           label='State Code'
           onChange={inputChangeHandler}
-          error={inputValues.country.length > 2}
+          value={inputValues.state}
+          error={inputValues.state.length > 2}
           helperText='Enter a two-letter state code'
           autoFocus
         />

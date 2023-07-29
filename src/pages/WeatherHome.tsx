@@ -2,14 +2,19 @@ import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 
 import { Typography } from '@mui/material';
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridRowsProp,
+  GridColDef,
+  GridEventListener,
+} from '@mui/x-data-grid';
 
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
 import NewLocation from '../components/NewLocation';
 import Notification from '../components/Notification';
 import { fetchWeatherData } from '../store/weather-actions';
-import { uiActions } from '../store/store';
+import { weatherActions, uiActions } from '../store/store';
 
 function WeatherHomePage() {
   const dispatch = useAppDispatch();
@@ -76,6 +81,14 @@ function WeatherHomePage() {
     };
   });
 
+  const rowClickHandler: GridEventListener<'rowClick'> = (
+    params, // GridRowParams
+    event, // MuiEvent<React.MouseEvent<HTMLElement>>
+    details // GridCallbackDetails
+  ) => {
+    dispatch(weatherActions.removeLocation(params.row.name));
+  };
+
   return (
     <>
       <Typography component='h1' variant='h3' color='primary'>
@@ -91,7 +104,12 @@ function WeatherHomePage() {
         </p>
       ) : (
         <div style={{ height: 500, width: '100%' }}>
-          <DataGrid rows={rows} columns={columns} density='compact' />
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            onRowClick={rowClickHandler}
+            density='compact'
+          />
         </div>
       )}
     </>

@@ -1,6 +1,8 @@
-//import { Dispatch } from '@reduxjs/toolkit';
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
+import { uiActions } from './store';
+import { useAppDispatch } from '../hooks';
+import { AppDispatch } from './store';
 
 const apiKey = 'eab41386ed58a65dbb29ff0e92e2757a'; //from my Open Weather account
 const limit = 1; //number of Geocode entries to receive for each input location
@@ -39,6 +41,34 @@ export async function geocodeCity(city: string, state = '', country = '') {
   //console.log('lat:' + geocodeData.lat + ' lon:' + geocodeData.lon);
   return geocodeData;
 }
+
+//this is a Thunk I guess
+export const getWeatherList = async (
+  locationsList: Geocode[],
+  dispatch: AppDispatch
+) => {
+  let weatherData: Weather[] = [];
+  for (let location of locationsList) {
+    //console.log('Fetching weather for ' + location.name);
+    fetchWeatherData(location)
+      .then((value: Weather) => {
+        weatherData = weatherData.concat(value); //this is working
+        console.log(
+          'weatherData:' + weatherData.map((weather) => weather.name)
+        );
+      })
+      .catch((error: any) => {
+        dispatch(
+          uiActions.showNotification({
+            status: 'error',
+            title: 'Error Fetching Weather',
+            message: error.message,
+          })
+        );
+      });
+  }
+  return weatherData;
+};
 
 //later, make this into a Thunk - will need to dispatch error messages from here to show with uiActions
 export async function fetchWeatherData(location: Geocode) {
