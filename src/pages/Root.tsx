@@ -33,6 +33,8 @@ const theme = createTheme({
   },
 });
 
+theme.spacing(2);
+
 function RootLayout() {
   return (
     <ThemeProvider theme={theme}>

@@ -19,20 +19,21 @@ export const weatherSlice = createSlice({
 
 export const weatherActions = weatherSlice.actions;
 
-const initNotification = {
-  status: '',
-  message: '',
-};
+const noNotification = { status: '', title: '', message: '' };
 
 export const uiSlice = createSlice({
   name: 'ui',
-  initialState: { notification: initNotification },
+  initialState: { notification: noNotification },
   reducers: {
     showNotification(state, action) {
       state.notification = {
         status: action.payload.status,
+        title: action.payload.title,
         message: action.payload.message,
       };
+    },
+    closeNotification(state) {
+      state.notification = noNotification;
     },
   },
 });

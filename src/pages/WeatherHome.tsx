@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '../hooks';
+import { useAppSelector, useAppDispatch } from '../hooks';
 
 import { Typography } from '@mui/material';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
@@ -7,12 +7,16 @@ import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
 import NewLocation from '../components/NewLocation';
+import Notification from '../components/Notification';
 import { fetchWeatherData } from '../store/weather-actions';
+import { uiActions } from '../store/store';
 
 function WeatherHomePage() {
+  const dispatch = useAppDispatch();
   const locationsList: Geocode[] = useAppSelector(
     (state) => state.weather.locations
   );
+  const notification = useAppSelector((state) => state.ui.notification);
 
   const initialState: Weather[] = [];
   const [weatherList, setWeatherList] = useState(initialState);
@@ -42,8 +46,14 @@ function WeatherHomePage() {
             setWeatherList((list) => list.concat(value));
           }
         })
-        .catch((reason: any) => {
-          console.log(reason);
+        .catch((error: any) => {
+          dispatch(
+            uiActions.showNotification({
+              status: 'error',
+              title: 'Error Fetching Weather',
+              message: error.message,
+            })
+          );
         });
     }
   }, [locationsList, weatherList]); //fetch the weather every time the list of locations changes
@@ -71,6 +81,9 @@ function WeatherHomePage() {
       <Typography component='h1' variant='h3' color='primary'>
         My Weather App
       </Typography>
+      {notification.status !== '' && (
+        <Notification notification={notification} />
+      )}
       <NewLocation />
       {locationsList.length === 0 ? (
         <p style={{ textAlign: 'center' }}>

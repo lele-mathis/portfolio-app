@@ -9,8 +9,8 @@ import Box from '@mui/material/Box';
 
 import Geocode from '../models/geocode';
 import { weatherActions } from '../store/store';
-
 import { geocodeCity } from '../store/weather-actions';
+import { uiActions } from '../store/store';
 
 function NewLocation() {
   const dispatch = useAppDispatch();
@@ -36,14 +36,27 @@ function NewLocation() {
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    dispatch(uiActions.closeNotification());
     setIsSubmitting(true);
-    const geocodeData: Geocode = await geocodeCity(
-      inputValues.city,
-      inputValues.state,
-      inputValues.country
-    ); //this returns a promise! Need to unwrap it
-    dispatch(weatherActions.addLocation(geocodeData)); //send data to redux
-    setInputValues({ city: '', state: '', country: '' });
+
+    try {
+      const geocodeData: Geocode = await geocodeCity(
+        inputValues.city,
+        inputValues.state,
+        inputValues.country
+      );
+
+      dispatch(weatherActions.addLocation(geocodeData)); //send data to redux
+      setInputValues({ city: '', state: '', country: '' });
+    } catch (error: any) {
+      dispatch(
+        uiActions.showNotification({
+          status: 'error',
+          title: 'Geocoding Error',
+          message: error.message,
+        })
+      );
+    }
     setIsSubmitting(false);
   };
 

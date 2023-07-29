@@ -10,12 +10,16 @@ const units = 'imperial'; //for Weather
 export async function geocodeCity(city: string, state = '', country = '') {
   let stateCode = '';
   let countryCode = '';
-  if (state !== '') {
-    stateCode = ',' + state; //find state code from state name
-  }
+
   if (country !== '') {
     countryCode = ',' + country; //find country code from country name
   }
+
+  if (state !== '') {
+    stateCode = ',' + state; //find state code from state name
+    countryCode = ',US';
+  }
+
   const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}${stateCode}${countryCode}&limit=${limit}&appid=${apiKey}`;
 
   //console.log(url);
