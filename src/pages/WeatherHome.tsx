@@ -19,11 +19,13 @@ function WeatherHomePage() {
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'name', headerName: 'Location', width: 150 },
-    { field: 'weather', headerName: 'Weather', width: 200 },
-    { field: 'temp', headerName: 'Temperature (F)', width: 150 },
+    { field: 'name', headerName: 'Location', width: 100 },
+    { field: 'weather', headerName: 'Weather', width: 150 },
+    { field: 'temp', headerName: 'Temperature (\xB0F)', width: 150 },
+    { field: 'feelsLike', headerName: 'Feels Like (\xB0F)', width: 150 },
     { field: 'wind', headerName: 'Wind Speed (mph)', width: 150 },
     { field: 'clouds', headerName: 'Cloud Cover (%)', width: 150 },
+    { field: 'rain', headerName: 'Rain in last hour (in)', width: 150 },
   ];
 
   let rows: GridRowsProp = [{ id: 'ID', main: 'Dummy data' }];
@@ -44,18 +46,23 @@ function WeatherHomePage() {
           console.log(reason);
         });
     }
-  }, [locationsList]); //fetch the weather every time the list of locations changes
+  }, [locationsList, weatherList]); //fetch the weather every time the list of locations changes
 
   console.log(weatherList.map((weather) => weather.name));
   //turn weather objects into DataGrid rows
   rows = weatherList.map((value: Weather) => {
+    if (value.rain === undefined) {
+      value.rain = { '1h': 0 };
+    }
     return {
       id: value.id,
       name: value.name,
-      weather: value.weather[0].main + ': ' + value.weather[0].description,
+      weather: value.weather[0].description,
       temp: value.main.temp,
+      feelsLike: value.main['feels_like'],
       wind: value.wind.speed,
       clouds: value.clouds.all,
+      rain: value.rain['1h'],
     };
   });
 

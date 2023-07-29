@@ -11,12 +11,14 @@ export async function geocodeCity(city: string, state = '', country = '') {
   let stateCode = '';
   let countryCode = '';
   if (state !== '') {
-    stateCode = state + ','; //find state code from state name
+    stateCode = ',' + state; //find state code from state name
   }
   if (country !== '') {
-    countryCode = country + ','; //find country code from country name
+    countryCode = ',' + country; //find country code from country name
   }
   const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}${stateCode}${countryCode}&limit=${limit}&appid=${apiKey}`;
+
+  //console.log(url);
   const response = await fetch(url);
 
   if (!response.ok) {
@@ -29,9 +31,8 @@ export async function geocodeCity(city: string, state = '', country = '') {
     throw new Error(
       'Could not find location: ' + city + ', ' + state + ', ' + country
     );
-    //set isLoading to false
   }
-  console.log('lat:' + geocodeData.lat + ' lon:' + geocodeData.lon);
+  //console.log('lat:' + geocodeData.lat + ' lon:' + geocodeData.lon);
   return geocodeData;
 }
 

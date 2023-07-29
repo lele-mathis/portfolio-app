@@ -47,17 +47,6 @@ function NewLocation() {
     setIsSubmitting(false);
   };
 
-  //add this later with finding state and country codes
-  //   const stateAndCountry = (
-  //     <>
-  //       <Grid item>
-  //         <TextField name='state' id='state' label='State' autoFocus />
-  //       </Grid>
-  //       <Grid item>
-  //         <TextField name='country' id='country' label='Country' autoFocus />
-  //       </Grid>
-  //     </>
-  //   );
   let inputFields = (
     <>
       <Grid item>Enter a location to see the current weather there:</Grid>
@@ -68,6 +57,8 @@ function NewLocation() {
           label='City'
           onChange={inputChangeHandler}
           value={inputValues.city}
+          helperText='Enter a city name'
+          error={inputValues.city === ''}
           required
           autoFocus
         />
@@ -76,9 +67,10 @@ function NewLocation() {
         <TextField
           name='state'
           id='state'
-          label='State'
+          label='State Code'
           onChange={inputChangeHandler}
-          value={inputValues.state}
+          error={inputValues.country.length > 2}
+          helperText='Enter a two-letter state code'
           autoFocus
         />
       </Grid>
@@ -86,9 +78,11 @@ function NewLocation() {
         <TextField
           name='country'
           id='country'
-          label='Country'
+          label='Country Code'
           onChange={inputChangeHandler}
           value={inputValues.country}
+          error={inputValues.country.length > 2}
+          helperText='Enter a two-letter country code'
           autoFocus
         />
       </Grid>
@@ -121,7 +115,12 @@ function NewLocation() {
         type='submit'
         fullWidth
         variant='contained'
-        disabled={isSubmitting}
+        disabled={
+          isSubmitting ||
+          inputValues.city === '' ||
+          inputValues.country.length > 2 ||
+          inputValues.state.length > 2
+        }
       >
         {isSubmitting ? 'Finding location...' : 'Add location'}
       </Button>

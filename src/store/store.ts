@@ -19,8 +19,28 @@ export const weatherSlice = createSlice({
 
 export const weatherActions = weatherSlice.actions;
 
+const initNotification = {
+  status: '',
+  message: '',
+};
+
+export const uiSlice = createSlice({
+  name: 'ui',
+  initialState: { notification: initNotification },
+  reducers: {
+    showNotification(state, action) {
+      state.notification = {
+        status: action.payload.status,
+        message: action.payload.message,
+      };
+    },
+  },
+});
+
+export const uiActions = uiSlice.actions;
+
 const store = configureStore({
-  reducer: { weather: weatherSlice.reducer },
+  reducer: { weather: weatherSlice.reducer, ui: uiSlice.reducer },
 });
 
 export default store;
