@@ -19,10 +19,10 @@ function Header() {
               HOME
             </Link>
             <Link component={NavLink} color='secondary' to='/weather'>
-              WEATHER APP
+              REACT DEMO APP
             </Link>
             <Link component={NavLink} color='secondary' to='/data'>
-              DATA PROJECTS
+              DATA ANALYTICS PROJECTS
             </Link>
           </Toolbar>
         </Container>
