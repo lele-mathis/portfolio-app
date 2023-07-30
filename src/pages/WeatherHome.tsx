@@ -2,20 +2,14 @@ import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 
 import { Typography } from '@mui/material';
-import {
-  DataGrid,
-  GridRowsProp,
-  GridColDef,
-  GridEventListener,
-} from '@mui/x-data-grid';
 
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
 import NewLocation from '../components/NewLocation';
+import WeatherGrid from '../components/WeatherGrid';
 import Notification from '../ui/Notification';
-import ConfirmDialog from '../ui/ConfirmDialog';
 import { fetchWeatherData } from '../store/weather-actions';
-import { weatherActions, uiActions } from '../store/store';
+import { uiActions } from '../store/store';
 
 function WeatherHomePage() {
   const dispatch = useAppDispatch();
@@ -27,21 +21,6 @@ function WeatherHomePage() {
 
   const initialState: Weather[] = [];
   const [weatherList, setWeatherList] = useState(initialState);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [toRemove, setToRemove] = useState('');
-
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'name', headerName: 'Location', width: 100 },
-    { field: 'weather', headerName: 'Weather', width: 150 },
-    { field: 'temp', headerName: 'Temperature (\xB0F)', width: 150 },
-    { field: 'feelsLike', headerName: 'Feels Like (\xB0F)', width: 150 },
-    { field: 'wind', headerName: 'Wind Speed (mph)', width: 150 },
-    { field: 'clouds', headerName: 'Cloud Cover (%)', width: 150 },
-    { field: 'rain', headerName: 'Rain in last hour (in)', width: 150 },
-  ];
-
-  let rows: GridRowsProp = [{ id: 'ID', main: 'Dummy data' }];
 
   useEffect(() => {
     setWeatherList([]); //reset the list before refreshing it (this makes the DataGrid flash, maybe bad?)
@@ -60,50 +39,15 @@ function WeatherHomePage() {
           );
         });
     }
-  }, [locationsList]); //fetch the weather every time the list of locations changes - NOT WORKING ON REMOVAL
+  }, [locationsList]); //fetch the weather every time the list of locations changes
 
-  console.log('weatherList: ' + weatherList.map((weather) => weather.name));
-  //turn weather objects into DataGrid rows
-  rows = weatherList.map((value: Weather) => {
-    if (value.rain === undefined) {
-      value.rain = { '1h': 0 };
-    }
-    return {
-      id: value.id,
-      name: value.name,
-      weather: value.weather[0].description,
-      temp: value.main.temp,
-      feelsLike: value.main['feels_like'],
-      wind: value.wind.speed,
-      clouds: value.clouds.all,
-      rain: value.rain['1h'],
-    };
-  });
-
-  const rowClickHandler: GridEventListener<'rowClick'> = (
-    params, // GridRowParams
-    event, // MuiEvent<React.MouseEvent<HTMLElement>>
-    details // GridCallbackDetails
-  ) => {
-    setDialogOpen(true); //open dialog asking for confirmation
-    setToRemove(params.row.name);
-  };
-
-  const dialogCloseHandler = (confirm = false) => {
-    if (confirm) {
-      dispatch(weatherActions.removeLocation(toRemove));
-    }
-    setDialogOpen(false);
-  };
+  //console.log('weatherList: ' + weatherList.map((weather) => weather.name));
 
   return (
     <>
       <Typography component='h1' variant='h3' color='primary'>
         My Weather App
       </Typography>
-      {dialogOpen && (
-        <ConfirmDialog open={dialogOpen} onClose={dialogCloseHandler} />
-      )}
       {notification.status !== '' && (
         <Notification notification={notification} />
       )}
@@ -113,14 +57,7 @@ function WeatherHomePage() {
           No locations found - enter a location above!
         </p>
       ) : (
-        <div style={{ height: 500, width: '100%' }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            onRowClick={rowClickHandler}
-            density='compact'
-          />
-        </div>
+        <WeatherGrid weatherList={weatherList} />
       )}
     </>
   );
