@@ -58,6 +58,17 @@ export const uiSlice = createSlice({
 
 export const uiActions = uiSlice.actions;
 
+export const profileSlice = createSlice({
+  name: 'profile',
+  initialState: { username: '', isLoggedIn: false },
+  reducers: {
+    logIn(state, action: PayloadAction<string>) {
+      state.username = action.payload;
+      state.isLoggedIn = true;
+    },
+  },
+});
+
 const store = configureStore({
   reducer: { weather: weatherSlice.reducer, ui: uiSlice.reducer },
 });

@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 
-import { Typography, Paper } from '@mui/material';
+import { Typography, Paper, Link } from '@mui/material';
 
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
 import NewLocation from '../components/NewLocation';
 import WeatherGrid from '../components/WeatherGrid';
 import Notification from '../ui/Notification';
+import LoginForm from '../components/LoginForm';
 import { fetchWeatherData } from '../store/weather-actions';
 import { uiActions } from '../store/store';
 
@@ -21,6 +22,7 @@ function WeatherHomePage() {
 
   const initialState: Weather[] = [];
   const [weatherList, setWeatherList] = useState(initialState);
+  const [displayLogin, setDisplayLogin] = useState(false);
 
   useEffect(() => {
     setWeatherList([]); //reset the list before refreshing it (this makes the DataGrid flash, maybe bad?)
@@ -43,6 +45,9 @@ function WeatherHomePage() {
 
   //console.log('weatherList: ' + weatherList.map((weather) => weather.name));
 
+  const displayLoginHandler = () => {
+    setDisplayLogin(true);
+  };
   return (
     <Paper sx={{ m: 2, p: 2 }}>
       <Typography component='h1' variant='h3' color='primary'>
@@ -53,9 +58,7 @@ function WeatherHomePage() {
       )}
       <NewLocation />
       {locationsList.length === 0 ? (
-        <p style={{ textAlign: 'center' }}>
-          No locations found - enter a location above!
-        </p>
+        <LoginForm />
       ) : (
         <WeatherGrid weatherList={weatherList} />
       )}
