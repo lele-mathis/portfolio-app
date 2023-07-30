@@ -42,7 +42,7 @@ export async function geocodeCity(city: string, state = '', country = '') {
   return geocodeData;
 }
 
-//this is a Thunk I guess
+//this is not a thunk yet
 export const getWeatherList = async (
   locationsList: Geocode[],
   dispatch: AppDispatch
