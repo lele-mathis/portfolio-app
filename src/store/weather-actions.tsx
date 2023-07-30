@@ -1,7 +1,7 @@
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
 import { uiActions } from './store';
-import { useAppDispatch } from '../hooks';
+//import { useAppDispatch } from '../hooks';
 import { AppDispatch } from './store';
 
 const apiKey = 'eab41386ed58a65dbb29ff0e92e2757a'; //from my Open Weather account

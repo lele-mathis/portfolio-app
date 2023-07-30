@@ -6,6 +6,7 @@ import {
   GridColDef,
   GridEventListener,
 } from '@mui/x-data-grid';
+//import Card from '@mui/material/Card';
 import Weather from '../models/weather';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import { weatherActions } from '../store/store';
@@ -70,6 +71,7 @@ const WeatherGrid: React.FC<{ weatherList: Weather[] }> = (props) => {
           columns={columns}
           onRowClick={rowClickHandler}
           density='compact'
+          sx={{ m: 2 }}
         />
         ;
       </div>

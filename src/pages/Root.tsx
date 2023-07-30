@@ -15,18 +15,32 @@ const theme = createTheme({
       main: '#340442',
     },
     secondary: {
-      main: '#ffa200',
+      main: '#F59623',
+      light: '#F5C062',
     },
     background: {
       default: '#ccc',
-      paper: '#ccc',
     },
   },
   components: {
     MuiDataGrid: {
       styleOverrides: {
         root: {
-          backgroundColor: '#ce9d4797',
+          backgroundColor: 'white',
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'white',
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'white',
         },
       },
     },
@@ -40,7 +54,7 @@ function RootLayout() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
-      <Container maxWidth='lg'>
+      <Container maxWidth='xl' style={{ marginTop: 80 }}>
         <main>
           <Outlet />
         </main>

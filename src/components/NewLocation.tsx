@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
 
 import Geocode from '../models/geocode';
 import { weatherActions } from '../store/store';
@@ -128,24 +129,26 @@ function NewLocation() {
   //   }
 
   return (
-    <Box component='form' noValidate onSubmit={submitHandler}>
-      <Grid container spacing={2}>
-        {inputFields}
-      </Grid>
-      <Button
-        type='submit'
-        fullWidth
-        variant='contained'
-        disabled={
-          isSubmitting ||
-          inputValues.city === '' ||
-          inputValues.country.length > 2 ||
-          inputValues.state.length > 2
-        }
-      >
-        {isSubmitting ? 'Finding location...' : 'Add location'}
-      </Button>
-    </Box>
+    <Card sx={{ m: 2, p: 2 }} variant='outlined'>
+      <Box component='form' noValidate onSubmit={submitHandler}>
+        <Grid container spacing={2}>
+          {inputFields}
+        </Grid>
+        <Button
+          type='submit'
+          fullWidth
+          variant='contained'
+          disabled={
+            isSubmitting ||
+            inputValues.city === '' ||
+            inputValues.country.length > 2 ||
+            inputValues.state.length > 2
+          }
+        >
+          {isSubmitting ? 'Finding location...' : 'Add location'}
+        </Button>
+      </Box>
+    </Card>
   );
 }
 
