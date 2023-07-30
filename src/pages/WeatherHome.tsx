@@ -12,7 +12,8 @@ import {
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
 import NewLocation from '../components/NewLocation';
-import Notification from '../components/Notification';
+import Notification from '../ui/Notification';
+import ConfirmDialog from '../ui/ConfirmDialog';
 import { fetchWeatherData } from '../store/weather-actions';
 import { weatherActions, uiActions } from '../store/store';
 
@@ -26,6 +27,8 @@ function WeatherHomePage() {
 
   const initialState: Weather[] = [];
   const [weatherList, setWeatherList] = useState(initialState);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [toRemove, setToRemove] = useState('');
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 100 },
@@ -82,8 +85,15 @@ function WeatherHomePage() {
     event, // MuiEvent<React.MouseEvent<HTMLElement>>
     details // GridCallbackDetails
   ) => {
-    //add a dialog asking for confirmation?
-    dispatch(weatherActions.removeLocation(params.row.name));
+    setDialogOpen(true); //open dialog asking for confirmation
+    setToRemove(params.row.name);
+  };
+
+  const dialogCloseHandler = (confirm = false) => {
+    if (confirm) {
+      dispatch(weatherActions.removeLocation(toRemove));
+    }
+    setDialogOpen(false);
   };
 
   return (
@@ -91,6 +101,9 @@ function WeatherHomePage() {
       <Typography component='h1' variant='h3' color='primary'>
         My Weather App
       </Typography>
+      {dialogOpen && (
+        <ConfirmDialog open={dialogOpen} onClose={dialogCloseHandler} />
+      )}
       {notification.status !== '' && (
         <Notification notification={notification} />
       )}

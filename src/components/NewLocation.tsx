@@ -15,6 +15,7 @@ import { uiActions } from '../store/store';
 function NewLocation() {
   const dispatch = useAppDispatch();
   //const [zipMode, setZipMode] = useState(false);
+  const [cityTouched, setCityTouched] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [inputValues, setInputValues] = useState({
@@ -32,6 +33,12 @@ function NewLocation() {
       ...values,
       [event.target.name]: event.target.value,
     }));
+  };
+
+  const inputBlurHandler = (event: any) => {
+    if (event.target.name === 'city') {
+      setCityTouched(true);
+    }
   };
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -58,6 +65,7 @@ function NewLocation() {
       );
     }
     setIsSubmitting(false);
+    setCityTouched(false);
   };
 
   let inputFields = (
@@ -71,7 +79,8 @@ function NewLocation() {
           onChange={inputChangeHandler}
           value={inputValues.city}
           helperText='Enter a city name'
-          error={inputValues.city === ''}
+          error={cityTouched && inputValues.city === ''}
+          onBlur={inputBlurHandler}
           required
           autoFocus
         />
@@ -85,7 +94,6 @@ function NewLocation() {
           value={inputValues.state}
           error={inputValues.state.length > 2}
           helperText='Enter a two-letter state code'
-          autoFocus
         />
       </Grid>
       <Grid item>
@@ -97,7 +105,6 @@ function NewLocation() {
           value={inputValues.country}
           error={inputValues.country.length > 2}
           helperText='Enter a two-letter country code'
-          autoFocus
         />
       </Grid>
     </>
