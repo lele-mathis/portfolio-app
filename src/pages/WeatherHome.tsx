@@ -12,6 +12,7 @@ import LoginForm from '../components/LoginForm';
 import { fetchWeatherData } from '../store/weather-actions';
 import { uiActions } from '../store/store';
 import CreateProfile from '../components/CreateProfile';
+import CurrentUser from '../components/CurrentUser';
 
 function WeatherHomePage() {
   const dispatch = useAppDispatch();
@@ -21,7 +22,6 @@ function WeatherHomePage() {
   //console.log('locationsList: ' + locationsList.map((loc) => loc.name));
   const notification = useAppSelector((state) => state.ui.notification);
   const username = useAppSelector((state) => state.profile.username);
-  const isLoggedIn = username !== '';
 
   const initialState: Weather[] = [];
   const [weatherList, setWeatherList] = useState(initialState);
@@ -47,13 +47,21 @@ function WeatherHomePage() {
 
   //console.log('weatherList: ' + weatherList.map((weather) => weather.name));
 
-  let pageContent = <LoginForm />;
+  let pageContent = (
+    <p style={{ textAlign: 'center' }}>
+      No locations to display - enter one above!
+    </p>
+  );
+
+  if (username === '') {
+    pageContent = <LoginForm />;
+  }
 
   if (locationsList.length !== 0) {
     pageContent = (
       <>
         <WeatherGrid weatherList={weatherList} />
-        {!isLoggedIn && <CreateProfile />}
+        {username === '' && <CreateProfile />}
       </>
     );
   }
@@ -66,6 +74,7 @@ function WeatherHomePage() {
       {notification.status !== '' && (
         <Notification notification={notification} />
       )}
+      {username !== '' && <CurrentUser />}
       <NewLocation />
       {pageContent}
     </Paper>

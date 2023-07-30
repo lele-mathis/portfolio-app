@@ -1,15 +1,39 @@
 import { useState } from 'react';
+import { useAppSelector, useAppDispatch } from '../hooks';
 import { TextField, Box, Button, Typography, Card } from '@mui/material';
 
+import { profileActions, uiActions } from '../store/store';
+
 function CreateProfile() {
-  const [username, setUsername] = useState('');
+  const dispatch = useAppDispatch();
+  const usersList = useAppSelector((state) => state.profile.usernamesList);
+  const [newUsername, setUsername] = useState('');
+  const [helperText, setHelperText] = useState('');
+
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (username.trim.length === 0) {
+    setHelperText('');
+    dispatch(uiActions.closeNotification());
+    const newUser = newUsername.trim();
+    if (newUser.length === 0) {
+      setHelperText('Enter a non-empty string');
       return;
-    } //don't send data
-    //check if username is taken! Make helper text dynamic
+    } //don't send data, show error?
+    if (usersList.find((user) => user === newUser)) {
+      setHelperText('Username ' + newUser + ' is taken'); //check if username is taken!
+      return;
+    }
+    dispatch(profileActions.addProfile(newUser)); //add to profile list
     //save locations to backend
+    dispatch(
+      uiActions.showNotification({
+        status: 'success',
+        title: 'Profile Created Successfully',
+        message: 'Your locations will now be saved',
+      })
+    );
+    setUsername(''); //reset input
+    //display a message that the profile was successfully created
   };
 
   const usernameChangeHandler = (
@@ -32,7 +56,9 @@ function CreateProfile() {
           id='username'
           label='Username'
           onChange={usernameChangeHandler}
-          value={username}
+          value={newUsername}
+          helperText={helperText}
+          error={helperText !== ''}
           variant='outlined'
           size='small'
           color='secondary'

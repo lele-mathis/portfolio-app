@@ -23,14 +23,17 @@ export const weatherSlice = createSlice({
     removeLocation(state, action: PayloadAction<string>) {
       state.locations = state.locations.filter(
         (loc) => loc.name !== action.payload
-      ); //this isn't working....
-      console.log(
-        'Removed ' +
-          action.payload +
-          ' from [' +
-          state.locations.map((loc) => loc.name) +
-          ']'
       );
+      // console.log(
+      //   'Removed ' +
+      //     action.payload +
+      //     ' from [' +
+      //     state.locations.map((loc) => loc.name) +
+      //     ']'
+      // );
+    },
+    clearLocations(state) {
+      state.locations = initialLocations;
     },
   },
 });
@@ -58,15 +61,26 @@ export const uiSlice = createSlice({
 
 export const uiActions = uiSlice.actions;
 
+const initUsernamesList: string[] = [];
+
 export const profileSlice = createSlice({
   name: 'profile',
-  initialState: { username: '' },
+  initialState: { username: '', usernamesList: initUsernamesList },
   reducers: {
     logIn(state, action: PayloadAction<string>) {
       state.username = action.payload;
     },
+    logOut(state) {
+      state.username = '';
+    },
+    addProfile(state, action: PayloadAction<string>) {
+      state.username = action.payload;
+      state.usernamesList.push(action.payload);
+    },
   },
 });
+
+export const profileActions = profileSlice.actions;
 
 const store = configureStore({
   reducer: {
