@@ -5,6 +5,9 @@ function LoginForm() {
   const [username, setUsername] = useState('');
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (username.trim.length === 0) {
+      return;
+    } //don't retrieve locations if no username entered
     //send username to profile location fetcher
   };
 
@@ -30,12 +33,13 @@ function LoginForm() {
         label='Username'
         onChange={usernameChangeHandler}
         value={username}
-        variant='standard'
+        variant='outlined'
         size='small'
         color='secondary'
+        sx={{ m: 1 }}
       />
-      <Button type='submit' variant='contained' color='secondary'>
-        Submit
+      <Button type='submit' variant='contained' color='secondary' sx={{ m: 1 }}>
+        LOG IN
       </Button>
     </Box>
   );

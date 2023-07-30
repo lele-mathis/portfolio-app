@@ -83,6 +83,7 @@ function NewLocation() {
           helperText='Enter a city name'
           error={cityTouched && inputValues.city === ''}
           onBlur={inputBlurHandler}
+          size='small'
           required
           autoFocus
         />
@@ -96,6 +97,7 @@ function NewLocation() {
           value={inputValues.state}
           error={inputValues.state.length > 2}
           helperText='Enter a two-letter state code'
+          size='small'
         />
       </Grid>
       <Grid item>
@@ -107,6 +109,7 @@ function NewLocation() {
           value={inputValues.country}
           error={inputValues.country.length > 2}
           helperText='Enter a two-letter country code'
+          size='small'
         />
       </Grid>
     </>

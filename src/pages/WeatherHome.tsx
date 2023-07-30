@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 
-import { Typography, Paper, Link } from '@mui/material';
+import { Typography, Paper, Link, Grid } from '@mui/material';
 
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
@@ -11,6 +11,7 @@ import Notification from '../ui/Notification';
 import LoginForm from '../components/LoginForm';
 import { fetchWeatherData } from '../store/weather-actions';
 import { uiActions } from '../store/store';
+import CreateProfile from '../components/CreateProfile';
 
 function WeatherHomePage() {
   const dispatch = useAppDispatch();
@@ -19,10 +20,11 @@ function WeatherHomePage() {
   );
   //console.log('locationsList: ' + locationsList.map((loc) => loc.name));
   const notification = useAppSelector((state) => state.ui.notification);
+  const username = useAppSelector((state) => state.profile.username);
+  const isLoggedIn = username !== '';
 
   const initialState: Weather[] = [];
   const [weatherList, setWeatherList] = useState(initialState);
-  const [displayLogin, setDisplayLogin] = useState(false);
 
   useEffect(() => {
     setWeatherList([]); //reset the list before refreshing it (this makes the DataGrid flash, maybe bad?)
@@ -45,9 +47,17 @@ function WeatherHomePage() {
 
   //console.log('weatherList: ' + weatherList.map((weather) => weather.name));
 
-  const displayLoginHandler = () => {
-    setDisplayLogin(true);
-  };
+  let pageContent = <LoginForm />;
+
+  if (locationsList.length !== 0) {
+    pageContent = (
+      <>
+        <WeatherGrid weatherList={weatherList} />
+        {!isLoggedIn && <CreateProfile />}
+      </>
+    );
+  }
+
   return (
     <Paper sx={{ m: 2, p: 2 }}>
       <Typography component='h1' variant='h3' color='primary'>
@@ -57,11 +67,7 @@ function WeatherHomePage() {
         <Notification notification={notification} />
       )}
       <NewLocation />
-      {locationsList.length === 0 ? (
-        <LoginForm />
-      ) : (
-        <WeatherGrid weatherList={weatherList} />
-      )}
+      {pageContent}
     </Paper>
   );
 }

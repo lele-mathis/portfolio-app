@@ -23,7 +23,7 @@ const WeatherGrid: React.FC<{ weatherList: Weather[] }> = (props) => {
     { field: 'feelsLike', headerName: 'Feels Like (\xB0F)', width: 150 },
     { field: 'wind', headerName: 'Wind Speed (mph)', width: 150 },
     { field: 'clouds', headerName: 'Cloud Cover (%)', width: 150 },
-    { field: 'rain', headerName: 'Rain in last hour (in)', width: 150 },
+    { field: 'rain', headerName: 'Rain in Last Hour (in)', width: 150 },
   ];
 
   let rows: GridRowsProp = [{ id: 'ID', main: 'Dummy data' }];

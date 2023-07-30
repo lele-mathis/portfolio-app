@@ -5,7 +5,7 @@ const Notification: React.FC<{
 }> = (props) => {
   const alert = props.notification;
   return (
-    <Alert severity={alert.status === 'error' ? 'error' : 'info'}>
+    <Alert severity={alert.status === 'error' ? 'error' : 'info'} sx={{ m: 2 }}>
       <AlertTitle>{alert.title}</AlertTitle>
       {alert.message}
     </Alert>
