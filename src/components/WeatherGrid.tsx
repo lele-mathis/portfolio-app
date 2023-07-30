@@ -70,7 +70,6 @@ const WeatherGrid: React.FC<{ weatherList: Weather[] }> = (props) => {
           rows={rows}
           columns={columns}
           onRowClick={rowClickHandler}
-          density='compact'
           sx={{ m: 2 }}
         />
         ;

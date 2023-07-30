@@ -23,7 +23,7 @@ const ConfirmDialog: React.FC<{
       </DialogTitle>
       <DialogActions>
         <Button onClick={handleCancel}>Cancel</Button>
-        <Button onClick={handleConfirm} autoFocus>
+        <Button onClick={handleConfirm} variant='contained' autoFocus>
           Confirm
         </Button>
       </DialogActions>

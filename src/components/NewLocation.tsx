@@ -12,6 +12,7 @@ import Geocode from '../models/geocode';
 import { weatherActions } from '../store/store';
 import { geocodeCity } from '../store/weather-actions';
 import { uiActions } from '../store/store';
+import { Typography } from '@mui/material';
 
 function NewLocation() {
   const dispatch = useAppDispatch();
@@ -145,7 +146,9 @@ function NewLocation() {
             inputValues.state.length > 2
           }
         >
-          {isSubmitting ? 'Finding location...' : 'Add location'}
+          <Typography color='secondaryLight'>
+            {isSubmitting ? 'Finding location...' : 'Add location'}
+          </Typography>
         </Button>
       </Box>
     </Card>

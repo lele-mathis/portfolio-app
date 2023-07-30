@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
 import Container from '@mui/material/Container';
-//import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography';
 
 function Header() {
   return (
@@ -16,13 +16,13 @@ function Header() {
             sx={{ justifyContent: 'space-around', overflowX: 'auto' }}
           >
             <Link component={NavLink} color='secondary' to='/'>
-              Home
+              HOME
             </Link>
             <Link component={NavLink} color='secondary' to='/weather'>
-              Weather App
+              WEATHER APP
             </Link>
             <Link component={NavLink} color='secondary' to='/data'>
-              Data Projects
+              DATA PROJECTS
             </Link>
           </Toolbar>
         </Container>
