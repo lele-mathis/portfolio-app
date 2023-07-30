@@ -21,7 +21,7 @@ function WeatherHomePage() {
   const locationsList: Geocode[] = useAppSelector(
     (state) => state.weather.locations
   );
-  console.log('locationsList: ' + locationsList.map((loc) => loc.name));
+  //console.log('locationsList: ' + locationsList.map((loc) => loc.name));
   const notification = useAppSelector((state) => state.ui.notification);
 
   const initialState: Weather[] = [];
@@ -41,7 +41,7 @@ function WeatherHomePage() {
   let rows: GridRowsProp = [{ id: 'ID', main: 'Dummy data' }];
 
   useEffect(() => {
-    setWeatherList([]); //reset the list before repopulating it
+    setWeatherList([]); //reset the list before refreshing it (this makes the DataGrid flash, maybe bad?)
     for (let location of locationsList) {
       fetchWeatherData(location)
         .then((value: Weather) => {
@@ -82,6 +82,7 @@ function WeatherHomePage() {
     event, // MuiEvent<React.MouseEvent<HTMLElement>>
     details // GridCallbackDetails
   ) => {
+    //add a dialog asking for confirmation?
     dispatch(weatherActions.removeLocation(params.row.name));
   };
 
