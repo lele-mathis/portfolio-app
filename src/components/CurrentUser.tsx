@@ -4,8 +4,9 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
-import { profileActions, weatherActions, uiActions } from '../store/store';
-import { Typography } from '@mui/material';
+import { profileActions, uiActions } from '../store/store';
+import { locationActions } from '../store/location-slice';
+//import { Typography } from '@mui/material';
 
 function CurrentUser() {
   const dispatch = useAppDispatch();
@@ -13,7 +14,7 @@ function CurrentUser() {
 
   const logOutHandler = () => {
     dispatch(uiActions.closeNotification());
-    dispatch(weatherActions.clearLocations());
+    dispatch(locationActions.clearLocations());
     dispatch(profileActions.logOut());
   };
 

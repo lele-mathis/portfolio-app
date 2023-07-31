@@ -17,7 +17,7 @@ import CurrentUser from '../components/CurrentUser';
 function WeatherHomePage() {
   const dispatch = useAppDispatch();
   const locationsList: Geocode[] = useAppSelector(
-    (state) => state.weather.locations
+    (state) => state.location.locations
   );
   //console.log('locationsList: ' + locationsList.map((loc) => loc.name));
   const notification = useAppSelector((state) => state.ui.notification);

@@ -8,7 +8,6 @@ const apiKey = 'eab41386ed58a65dbb29ff0e92e2757a'; //from my Open Weather accoun
 const limit = 1; //number of Geocode entries to receive for each input location
 const units = 'imperial'; //for Weather
 
-//later, make this into a Thunk - will need to dispatch error messages from here
 export async function geocodeCity(city: string, state = '', country = '') {
   let stateCode = '';
   let countryCode = '';

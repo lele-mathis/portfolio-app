@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 
 import Geocode from '../models/geocode';
-import { weatherActions } from '../store/store';
+import { locationActions } from '../store/location-slice';
 import { geocodeCity } from '../store/weather-actions';
 import { uiActions } from '../store/store';
 import { Typography } from '@mui/material';
@@ -55,7 +55,7 @@ function NewLocation() {
         inputValues.country
       );
 
-      dispatch(weatherActions.addLocation(geocodeData)); //send data to redux
+      dispatch(locationActions.addLocation(geocodeData)); //send data to redux
       setInputValues({ city: '', state: '', country: '' }); //not resetting state code to empty
     } catch (error: any) {
       dispatch(

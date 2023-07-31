@@ -9,7 +9,7 @@ import {
 //import Card from '@mui/material/Card';
 import Weather from '../models/weather';
 import ConfirmDialog from '../ui/ConfirmDialog';
-import { weatherActions } from '../store/store';
+import { locationActions } from '../store/location-slice';
 
 const WeatherGrid: React.FC<{ weatherList: Weather[] }> = (props) => {
   const dispatch = useAppDispatch();
@@ -56,7 +56,7 @@ const WeatherGrid: React.FC<{ weatherList: Weather[] }> = (props) => {
 
   const dialogCloseHandler = (confirm = false) => {
     if (confirm) {
-      dispatch(weatherActions.removeLocation(toRemove));
+      dispatch(locationActions.removeLocation(toRemove));
     }
     setDialogOpen(false);
   };
