@@ -4,26 +4,16 @@ import { TextField, Box, Button, Typography, Card } from '@mui/material';
 
 import { uiActions } from '../store/store';
 import { profileActions } from '../store/profile-slice';
-import useHttp from '../hooks/use-http';
+import useSendData from '../hooks/useSendData';
 
 function CreateProfile() {
   const dispatch = useAppDispatch();
   const usersList = useAppSelector((state) => state.profile.usernamesList);
   const locationsList = useAppSelector((state) => state.location.locations);
+  const alert = useAppSelector((state) => state.ui.notification);
   const [newUsername, setUsername] = useState('');
   const [helperText, setHelperText] = useState('');
-  const { isLoading, error, sendRequest: saveData } = useHttp();
-
-  //should rerun every time error changes without useEffect because error is a state?
-  if (error !== '') {
-    dispatch(
-      uiActions.showNotification({
-        status: 'error',
-        title: 'Error in CreateProfile',
-        message: error,
-      })
-    );
-  }
+  const { isLoading, sendData: saveData } = useSendData();
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -39,28 +29,22 @@ function CreateProfile() {
       return;
     }
 
-    console.log('Adding new user to userList');
     dispatch(profileActions.addProfile(newUser)); //add to profile list
 
-    saveData(
-      {
-        url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${newUser}.json`,
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ locations: locationsList }),
-      },
-      saveLocationSuccess
-    ); //save locations to backend
-  };
-
-  const saveLocationSuccess = () => {
-    dispatch(
-      uiActions.showNotification({
-        status: 'success',
-        title: 'Profile Created Successfully',
-        message: 'Your locations will now be saved',
-      })
-    ); //display a message that the profile was successfully created
+    saveData({
+      url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${newUser}.json`,
+      method: 'PUT',
+      body: { locations: locationsList },
+    }); //save locations to backend
+    if (alert.status === '') {
+      dispatch(
+        uiActions.showNotification({
+          status: 'success',
+          title: 'Profile Created Successfully',
+          message: 'Your locations will now be saved',
+        })
+      ); //display a message that the profile was successfully created
+    }
     setUsername(''); //reset input
   };
 

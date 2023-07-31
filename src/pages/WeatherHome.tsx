@@ -3,33 +3,22 @@ import { useAppSelector, useAppDispatch } from '../hooks';
 
 import { Typography, Paper } from '@mui/material';
 
-import useHttp from '../hooks/use-http';
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
 import WeatherLoc from '../models/weatherLoc';
 import NewLocation from '../components/NewLocation';
 import WeatherGrid from '../components/WeatherGrid';
 import Notification from '../ui/Notification';
-import LoginForm from '../components/LoginForm';
 import { fetchWeatherData } from '../store/weather-actions';
 import { uiActions } from '../store/store';
 
-import { profileActions } from '../store/profile-slice';
 import ProfileManager from '../components/ProfileManager';
+import useSendData from '../hooks/useSendData';
 
 const initialState: WeatherLoc[] = [];
 
 function WeatherHomePage() {
-  const {
-    isLoading: usersLoading,
-    error: usersError,
-    sendRequest: fetchUsers,
-  } = useHttp();
-  const {
-    isLoading: locationsLoading,
-    error: locationsError,
-    sendRequest: saveLocations,
-  } = useHttp();
+  const { isLoading: usersLoading, sendData: saveLocations } = useSendData();
   const dispatch = useAppDispatch();
   const locationsList: Geocode[] = useAppSelector(
     (state) => state.location.locations
@@ -38,27 +27,16 @@ function WeatherHomePage() {
   const username = useAppSelector((state) => state.profile.username);
   const [weatherList, setWeatherList] = useState(initialState);
 
-  //only run when the page renders for the first time
-  useEffect(() => {
-    fetchUsers(
-      {
-        url: 'https://react-http-3724a-default-rtdb.firebaseio.com/weather/users.json',
-        method: 'GET',
-      },
-      (data: any) => {
-        const { users: loadedUsers } = data;
-        dispatch(profileActions.setUsersList(loadedUsers));
-      }
-    );
-  }, [dispatch, fetchUsers]);
-
   //remake the weather list and send the locationsList to the backend when the locationsList changes
   useEffect(() => {
     setWeatherList([]); //reset the list before refreshing it (this makes the DataGrid flash, maybe bad?)
     for (let location of locationsList) {
       fetchWeatherData(location)
         .then((value: Weather) => {
-          const newValue:WeatherLoc = {...value,locationName:location.name} //adding name from Geocode for removal
+          const newValue: WeatherLoc = {
+            ...value,
+            locationName: location.name,
+          }; //adding name from Geocode for removal
           setWeatherList((list) => list.concat(newValue));
         })
         .catch((error: any) => {
@@ -72,21 +50,13 @@ function WeatherHomePage() {
         });
     }
     if (username !== '') {
-      saveLocations(
-        {
-          url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${username}.json`,
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ locations: locationsList }),
-        },
-        (data: any) => {
-          console.log('Location data saved to Firebase');
-        }
-      );
+      saveLocations({
+        url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${username}.json`,
+        method: 'PUT',
+        body: { locations: locationsList },
+      });
     }
-  }, [locationsList, dispatch, saveLocations, username]); //fetch the weather every time the list of locations changes
-
-  //console.log('weatherList: ' + weatherList.map((weather) => weather.name));
+  }, [locationsList, saveLocations, username]); //fetch the weather every time the list of locations changes
 
   let pageContent = (
     <p style={{ textAlign: 'center' }}>
@@ -95,9 +65,7 @@ function WeatherHomePage() {
   );
 
   if (locationsList.length !== 0) {
-    pageContent = (
-        <WeatherGrid weatherList={weatherList} />
-    );
+    pageContent = <WeatherGrid weatherList={weatherList} />;
   }
 
   return (
@@ -110,7 +78,7 @@ function WeatherHomePage() {
       )}
       <NewLocation />
       {pageContent}
-        <ProfileManager /> 
+      <ProfileManager />
     </Paper>
   );
 }

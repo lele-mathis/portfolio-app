@@ -18,7 +18,7 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 100 },
     { field: 'name', headerName: 'Location', width: 150 },
-    { field: 'locationName', headerName: 'City',width:150},
+    { field: 'locationName', headerName: 'City', width: 150 },
     { field: 'weather', headerName: 'Weather', width: 150 },
     { field: 'temp', headerName: 'Temperature (\xB0F)', width: 150 },
     { field: 'wind', headerName: 'Wind Speed (mph)', width: 150 },
@@ -35,7 +35,7 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
     }
     return {
       id: value.id,
-      name:value.name,
+      name: value.name,
       locationName: value.locationName,
       weather: value.weather[0].description,
       temp: value.main.temp,
@@ -65,7 +65,7 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
       {dialogOpen && (
         <ConfirmDialog open={dialogOpen} onClose={dialogCloseHandler} />
       )}
-      <div style={{ height: 500, width: '100%' }}>
+      <div style={{ height: 300, width: '100%' }}>
         <DataGrid
           rows={rows}
           columns={columns}

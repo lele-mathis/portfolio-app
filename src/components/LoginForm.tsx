@@ -5,7 +5,6 @@ import { TextField, Box, Button, Typography } from '@mui/material';
 import { uiActions } from '../store/store';
 import { profileActions } from '../store/profile-slice';
 
-//import useHttp from '../hooks/use-http';
 import { locationActions } from '../store/location-slice';
 
 function LoginForm() {
@@ -14,7 +13,6 @@ function LoginForm() {
   const username = useAppSelector((state) => state.profile.username);
   const [enteredUsername, setEnteredUsername] = useState('');
   const [helperText, setHelperText] = useState('');
-  //const { isLoading, error, sendRequest: fetchLocations } = useHttp();
   const [isLoading, setIsLoading] = useState(false);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
@@ -90,8 +88,7 @@ function LoginForm() {
       sx={{ mx: 'auto', textAlign: 'center' }}
     >
       <Typography>
-        No locations to display - enter a location above, or login to your
-        profile below to display saved locations.
+        Log in to your profile below to display saved locations:
       </Typography>
       <TextField
         name='username'
