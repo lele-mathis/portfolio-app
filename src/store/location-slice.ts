@@ -36,6 +36,9 @@ export const locationSlice = createSlice({
     clearLocations(state) {
       state.locations = initialLocations;
     },
+    setLocations(state, action: PayloadAction<Geocode[]>) {
+      state.locations = action.payload;
+    },
   },
 });
 

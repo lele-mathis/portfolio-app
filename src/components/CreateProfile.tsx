@@ -14,6 +14,24 @@ function CreateProfile() {
 
   const { isLoading, error, sendRequest: saveData } = useHttp();
 
+  //running before new user is added? Fix this!
+  useEffect(() => {
+    //don't override with nothing!
+    if (usersList.length !== 0) {
+      saveData(
+        {
+          url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/users.json`,
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ users: usersList }),
+        },
+        () => {
+          console.log('usersList ' + usersList + ' saved to Firebase');
+        }
+      );
+    }
+  }, [usersList]);
+
   useEffect(() => {
     if (error !== '') {
       dispatch(
@@ -27,18 +45,6 @@ function CreateProfile() {
   }, [error]);
 
   //send usersList to backend whenever it changes - not working properly?
-  useEffect(() => {
-    console.log('Saving usersList: ' + usersList);
-    saveData(
-      {
-        url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather.json`,
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ users: usersList }),
-      },
-      () => null
-    );
-  }, [usersList, saveData]);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -53,7 +59,9 @@ function CreateProfile() {
       setHelperText('Username ' + newUser + ' is taken'); //check if username is taken!
       return;
     }
+
     dispatch(profileActions.addProfile(newUser)); //add to profile list
+
     saveData(
       {
         url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${newUser}.json`,

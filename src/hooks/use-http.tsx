@@ -21,6 +21,7 @@ const useHttp = () => {
         }
 
         const data = await response.json();
+        //console.log('Data received ' + JSON.stringify(data));
         applyData(data);
       } catch (err: any) {
         setError(err.message || 'Something went wrong!');

@@ -5,6 +5,8 @@ import { TextField, Box, Button, Typography } from '@mui/material';
 import { profileActions, uiActions } from '../store/store';
 
 import useHttp from '../hooks/use-http';
+import Geocode from '../models/geocode';
+import { locationActions } from '../store/location-slice';
 
 function LoginForm() {
   const dispatch = useAppDispatch();
@@ -33,16 +35,16 @@ function LoginForm() {
       setHelperText('Enter your username');
       return;
     } //don't retrieve locations if no username entered
-    if (!usersList.find((user) => user === enteredUser)) {
-      dispatch(
-        uiActions.showNotification({
-          status: 'error',
-          title: 'Error: Profile Not Found',
-          message: 'Could not find profile for username ' + enteredUser,
-        })
-      );
-      return;
-    }
+    // if (!usersList.find((user) => user === enteredUser)) {
+    //   dispatch(
+    //     uiActions.showNotification({
+    //       status: 'error',
+    //       title: 'Error: Profile Not Found',
+    //       message: 'Could not find profile for username ' + enteredUser,
+    //     })
+    //   );
+    //   return;
+    // }
 
     dispatch(profileActions.logIn(enteredUser));
     console.log('Fetching locations for user ' + enteredUser);
@@ -51,6 +53,7 @@ function LoginForm() {
     fetchLocations(
       {
         url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${enteredUser}.json`,
+        method: 'GET',
       },
       transformLocations
     ); //send HTTP request
@@ -63,11 +66,11 @@ function LoginForm() {
     );
   };
 
-  //not working
+  //runs after fetching locations on login
   const transformLocations = (data: any) => {
-    const dataObj = JSON.parse(data);
-    console.log('fetched object' + dataObj);
-    console.log('keys of fetched data: ' + dataObj.keys);
+    //console.log('Fetched data: ' + JSON.stringify(data));
+    const { locations: loadedLocations } = data;
+    dispatch(locationActions.setLocations(loadedLocations));
   };
 
   const usernameChangeHandler = (
