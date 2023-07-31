@@ -44,9 +44,9 @@ function ProfileManager() {
       }
     };
     fetchUsers();
-  }, []);
+  }, [dispatch]);
 
-  //send usersList to backend whenever it changes - not working properly, running before new user is added
+  //send usersList to backend whenever it changes
   useEffect(() => {
     if (usersList.length !== 0) {
       saveData({
@@ -62,13 +62,15 @@ function ProfileManager() {
     <Card variant='outlined' sx={{ m: 2, p: 2 }}>
       {user === '' ? (
         <>
-          <LoginForm />
           {locationsList.length !== 0 && <CreateProfile />}
+          <LoginForm />
         </>
       ) : (
         <CurrentUser />
       )}
-      {isLoading && <p>Saving data to server...</p>}
+      {isLoading && (
+        <p style={{ textAlign: 'center' }}>Saving data to server...</p>
+      )}
     </Card>
   );
 }

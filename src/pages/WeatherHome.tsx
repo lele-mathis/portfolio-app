@@ -18,7 +18,7 @@ import useSendData from '../hooks/useSendData';
 const initialState: WeatherLoc[] = [];
 
 function WeatherHomePage() {
-  const { isLoading: usersLoading, sendData: saveLocations } = useSendData();
+  const { isLoading: locationsSaving, sendData: saveLocations } = useSendData();
   const dispatch = useAppDispatch();
   const locationsList: Geocode[] = useAppSelector(
     (state) => state.location.locations
@@ -56,7 +56,7 @@ function WeatherHomePage() {
         body: { locations: locationsList },
       });
     }
-  }, [locationsList, saveLocations, username]); //fetch the weather every time the list of locations changes
+  }, [locationsList, saveLocations, username, dispatch]); //fetch the weather every time the list of locations changes
 
   let pageContent = (
     <p style={{ textAlign: 'center' }}>
@@ -78,6 +78,7 @@ function WeatherHomePage() {
       )}
       <NewLocation />
       {pageContent}
+      {locationsSaving && <p>Locations saving...</p>}
       <ProfileManager />
     </Paper>
   );

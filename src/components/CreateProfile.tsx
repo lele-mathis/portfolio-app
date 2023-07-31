@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
-import { TextField, Box, Button, Typography, Card } from '@mui/material';
+import { TextField, Box, Button, Typography } from '@mui/material';
 
 import { uiActions } from '../store/store';
 import { profileActions } from '../store/profile-slice';
@@ -61,7 +61,7 @@ function CreateProfile() {
       onSubmit={submitHandler}
       sx={{ mx: 'auto', my: 1, p: 1, textAlign: 'center' }}
     >
-      <Typography>Or save your locations by creating a profile:</Typography>
+      <Typography>Save your locations by creating a profile:</Typography>
       <TextField
         name='username'
         id='username'

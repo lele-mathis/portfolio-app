@@ -6,8 +6,6 @@ import HomePage from './pages/Home';
 import WeatherHomePage from './pages/WeatherHome';
 import DataPage from './pages/Data';
 
-import './App.css';
-
 const router = createBrowserRouter([
   {
     path: '/',

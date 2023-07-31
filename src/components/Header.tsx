@@ -1,9 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Link from '@mui/material/Link';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+//import Typography from '@mui/material/Typography';
 
 function Header() {
   return (
@@ -12,18 +11,40 @@ function Header() {
         <Container maxWidth='xl'>
           <Toolbar
             component='nav'
+            id='toolbar'
             disableGutters
             sx={{ justifyContent: 'space-around', overflowX: 'auto' }}
           >
-            <Link component={NavLink} color='secondary' to='/'>
+            <NavLink
+              to='/'
+              style={({ isActive }) =>
+                isActive
+                  ? { color: '#F59623' }
+                  : { textDecoration: 'none', color: '#F5C062' }
+              }
+            >
               HOME
-            </Link>
-            <Link component={NavLink} color='secondary' to='/weather'>
+            </NavLink>
+            <NavLink
+              to='/weather'
+              style={({ isActive }) =>
+                isActive
+                  ? { color: '#F59623' }
+                  : { textDecoration: 'none', color: '#F5C062' }
+              }
+            >
               REACT DEMO APP
-            </Link>
-            <Link component={NavLink} color='secondary' to='/data'>
+            </NavLink>
+            <NavLink
+              to='/data'
+              style={({ isActive }) =>
+                isActive
+                  ? { color: '#F59623' }
+                  : { textDecoration: 'none', color: '#F5C062' }
+              }
+            >
               DATA ANALYTICS PROJECTS
-            </Link>
+            </NavLink>
           </Toolbar>
         </Container>
       </AppBar>

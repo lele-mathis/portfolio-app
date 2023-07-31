@@ -85,7 +85,6 @@ function NewLocation() {
           onBlur={inputBlurHandler}
           size='small'
           required
-          autoFocus
         />
       </Grid>
       <Grid item>
