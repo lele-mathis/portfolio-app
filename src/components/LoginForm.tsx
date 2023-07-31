@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 
 import { TextField, Box, Button, Typography } from '@mui/material';
-import { profileActions, uiActions } from '../store/store';
+import { uiActions } from '../store/store';
+import { profileActions } from '../store/profile-slice';
 
 import useHttp from '../hooks/use-http';
 import Geocode from '../models/geocode';
@@ -35,16 +36,16 @@ function LoginForm() {
       setHelperText('Enter your username');
       return;
     } //don't retrieve locations if no username entered
-    // if (!usersList.find((user) => user === enteredUser)) {
-    //   dispatch(
-    //     uiActions.showNotification({
-    //       status: 'error',
-    //       title: 'Error: Profile Not Found',
-    //       message: 'Could not find profile for username ' + enteredUser,
-    //     })
-    //   );
-    //   return;
-    // }
+    if (!usersList.find((user) => user === enteredUser)) {
+      dispatch(
+        uiActions.showNotification({
+          status: 'error',
+          title: 'Error: Profile Not Found',
+          message: 'Could not find profile for username ' + enteredUser,
+        })
+      );
+      return;
+    }
 
     dispatch(profileActions.logIn(enteredUser));
     console.log('Fetching locations for user ' + enteredUser);

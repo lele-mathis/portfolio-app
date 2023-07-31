@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import { TextField, Box, Button, Typography, Card } from '@mui/material';
 
-import { profileActions, uiActions } from '../store/store';
+import { uiActions } from '../store/store';
+import { profileActions } from '../store/profile-slice';
 import useHttp from '../hooks/use-http';
 
 function CreateProfile() {

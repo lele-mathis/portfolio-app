@@ -1,6 +1,6 @@
-import { createSlice, configureStore, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, configureStore } from '@reduxjs/toolkit';
 import { locationSlice } from './location-slice';
-
+import { profileSlice } from './profile-slice';
 const noNotification = { status: '', title: '', message: '' };
 
 export const uiSlice = createSlice({
@@ -21,30 +21,6 @@ export const uiSlice = createSlice({
 });
 
 export const uiActions = uiSlice.actions;
-
-const initUsernamesList: string[] = [];
-
-export const profileSlice = createSlice({
-  name: 'profile',
-  initialState: { username: '', usernamesList: initUsernamesList },
-  reducers: {
-    logIn(state, action: PayloadAction<string>) {
-      state.username = action.payload;
-    },
-    logOut(state) {
-      state.username = '';
-    },
-    addProfile(state, action: PayloadAction<string>) {
-      state.username = action.payload;
-      state.usernamesList.push(action.payload);
-      console.log(
-        'Added user ' + action.payload + ' to usersList: ' + state.usernamesList
-      );
-    },
-  },
-});
-
-export const profileActions = profileSlice.actions;
 
 const store = configureStore({
   reducer: {

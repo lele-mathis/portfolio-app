@@ -5,8 +5,9 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
-import { profileActions, uiActions } from '../store/store';
+import { uiActions } from '../store/store';
 import { locationActions } from '../store/location-slice';
+import { profileActions } from '../store/profile-slice';
 //import { Typography } from '@mui/material';
 
 function CurrentUser() {
