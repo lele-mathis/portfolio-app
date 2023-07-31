@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 
 import { TextField, Box, Button, Typography } from '@mui/material';
 import { uiActions } from '../store/store';
 import { profileActions } from '../store/profile-slice';
 
-import useHttp from '../hooks/use-http';
+//import useHttp from '../hooks/use-http';
 import { locationActions } from '../store/location-slice';
 
 function LoginForm() {
@@ -14,17 +14,8 @@ function LoginForm() {
   const username = useAppSelector((state) => state.profile.username);
   const [enteredUsername, setEnteredUsername] = useState('');
   const [helperText, setHelperText] = useState('');
-  const { isLoading, error, sendRequest: fetchLocations } = useHttp();
-
-  if (error !== '') {
-    dispatch(
-      uiActions.showNotification({
-        status: 'error',
-        title: 'Error Fetching Locations',
-        message: error,
-      })
-    );
-  }
+  //const { isLoading, error, sendRequest: fetchLocations } = useHttp();
+  const [isLoading, setIsLoading] = useState(false);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,32 +35,45 @@ function LoginForm() {
       return;
     }
 
-    dispatch(profileActions.logIn(enteredUser));
     console.log('Fetching locations for user ' + enteredUser);
 
-    fetchLocations(
-      {
-        url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${enteredUser}.js`,
-        method: 'GET',
-      },
-      transformLocations
-    ); //send HTTP request
-    if (error === '') {
-      dispatch(
-        uiActions.showNotification({
-          status: 'success',
-          title: 'Logged in successfully!',
-          message: 'User ' + username + ' is now logged in',
-        })
-      );
-    }
-  };
+    const fetchLocations = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${enteredUser}.json`,
+          {
+            method: 'GET',
+          }
+        );
 
-  //runs after fetching locations on login
-  const transformLocations = (data: any) => {
-    //console.log('Fetched data: ' + JSON.stringify(data));
-    const { locations: loadedLocations } = data;
-    dispatch(locationActions.setLocations(loadedLocations));
+        if (!response.ok) {
+          throw new Error('Request failed! Status: ' + response.status);
+        }
+
+        const data = await response.json();
+        const { locations: loadedLocations } = data;
+        dispatch(locationActions.setLocations(loadedLocations));
+        dispatch(profileActions.logIn(enteredUser));
+        dispatch(
+          uiActions.showNotification({
+            status: 'success',
+            title: 'Logged in successfully!',
+            message: 'User ' + username + ' is now logged in',
+          })
+        );
+      } catch (err: any) {
+        dispatch(
+          uiActions.showNotification({
+            status: 'error',
+            title: 'Error Fetching Locations',
+            message: 'Could not find locations for user ' + enteredUser,
+          })
+        );
+      }
+      setIsLoading(false);
+    };
+    fetchLocations();
   };
 
   const usernameChangeHandler = (

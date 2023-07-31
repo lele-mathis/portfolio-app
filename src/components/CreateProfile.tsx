@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import { TextField, Box, Button, Typography, Card } from '@mui/material';
 
@@ -14,7 +14,7 @@ function CreateProfile() {
   const [helperText, setHelperText] = useState('');
   const { isLoading, error, sendRequest: saveData } = useHttp();
 
-  //should rerun every time error changes without useEffect because error is a state
+  //should rerun every time error changes without useEffect because error is a state?
   if (error !== '') {
     dispatch(
       uiActions.showNotification({
@@ -24,24 +24,6 @@ function CreateProfile() {
       })
     );
   }
-
- //send usersList to backend whenever it changes - not working properly, running before new user is added
-  useEffect(() => {
-    //don't override with nothing
-    if (usersList.length !== 0) {
-      saveData(
-        {
-          url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/users.json`,
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ users: usersList }),
-        },
-        () => {
-          console.log('usersList ' + usersList + ' saved to Firebase');
-        }
-      );
-    }
-  }, [usersList, saveData]);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -89,35 +71,36 @@ function CreateProfile() {
   };
 
   return (
-      <Box
-        component='form'
-        noValidate
-        onSubmit={submitHandler} sx={{ mx: 'auto', my: 1, p: 1, textAlign: 'center'  }}
+    <Box
+      component='form'
+      noValidate
+      onSubmit={submitHandler}
+      sx={{ mx: 'auto', my: 1, p: 1, textAlign: 'center' }}
+    >
+      <Typography>Or save your locations by creating a profile:</Typography>
+      <TextField
+        name='username'
+        id='username'
+        label='New Username'
+        onChange={usernameChangeHandler}
+        value={newUsername}
+        helperText={helperText}
+        error={helperText !== ''}
+        variant='outlined'
+        size='small'
+        color='secondary'
+        sx={{ m: 1 }}
+      />
+      <Button
+        type='submit'
+        variant='contained'
+        color='secondary'
+        sx={{ m: 1 }}
+        disabled={isLoading}
       >
-        <Typography>Or save your locations by creating a profile:</Typography>
-        <TextField
-          name='username'
-          id='username'
-          label='New Username'
-          onChange={usernameChangeHandler}
-          value={newUsername}
-          helperText={helperText}
-          error={helperText !== ''}
-          variant='outlined'
-          size='small'
-          color='secondary'
-          sx={{ m: 1 }}
-        />
-        <Button
-          type='submit'
-          variant='contained'
-          color='secondary'
-          sx={{ m: 1 }}
-          disabled={isLoading}
-        >
-          CREATE PROFILE
-        </Button>
-      </Box>
+        CREATE PROFILE
+      </Button>
+    </Box>
   );
 }
 
