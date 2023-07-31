@@ -21,7 +21,7 @@ export async function geocodeCity(city: string, state = '', country = '') {
     countryCode = ',US';
   }
 
-  const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}${stateCode}${countryCode}&limit=${limit}&appid=${apiKey}`;
+  const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}${stateCode}${countryCode}&limit=${limit}&appid=${apiKey}`;
 
   //console.log(url);
   const response = await fetch(url);
