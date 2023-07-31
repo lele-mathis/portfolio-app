@@ -7,20 +7,20 @@ import {
   GridEventListener,
 } from '@mui/x-data-grid';
 //import Card from '@mui/material/Card';
-import Weather from '../models/weather';
+import WeatherLoc from '../models/weatherLoc';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import { locationActions } from '../store/location-slice';
 
-const WeatherGrid: React.FC<{ weatherList: Weather[] }> = (props) => {
+const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
   const dispatch = useAppDispatch();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [toRemove, setToRemove] = useState('');
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'name', headerName: 'Location', width: 100 },
+    { field: 'name', headerName: 'Location', width: 150 },
+    { field: 'locationName', headerName: 'City',width:150},
     { field: 'weather', headerName: 'Weather', width: 150 },
     { field: 'temp', headerName: 'Temperature (\xB0F)', width: 150 },
-    { field: 'feelsLike', headerName: 'Feels Like (\xB0F)', width: 150 },
     { field: 'wind', headerName: 'Wind Speed (mph)', width: 150 },
     { field: 'clouds', headerName: 'Cloud Cover (%)', width: 150 },
     { field: 'rain', headerName: 'Rain in Last Hour (in)', width: 150 },
@@ -29,16 +29,16 @@ const WeatherGrid: React.FC<{ weatherList: Weather[] }> = (props) => {
   let rows: GridRowsProp = [{ id: 'ID', main: 'Dummy data' }];
 
   //turn weather objects into DataGrid rows
-  rows = props.weatherList.map((value: Weather) => {
+  rows = props.weatherList.map((value: WeatherLoc) => {
     if (value.rain === undefined) {
       value.rain = { '1h': 0 };
     }
     return {
       id: value.id,
-      name: value.name,
+      name:value.name,
+      locationName: value.locationName,
       weather: value.weather[0].description,
       temp: value.main.temp,
-      feelsLike: value.main['feels_like'],
       wind: value.wind.speed,
       clouds: value.clouds.all,
       rain: value.rain['1h'],

@@ -6,6 +6,7 @@ import { Typography, Paper } from '@mui/material';
 import useHttp from '../hooks/use-http';
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
+import WeatherLoc from '../models/weatherLoc';
 import NewLocation from '../components/NewLocation';
 import WeatherGrid from '../components/WeatherGrid';
 import Notification from '../ui/Notification';
@@ -16,7 +17,7 @@ import CreateProfile from '../components/CreateProfile';
 import CurrentUser from '../components/CurrentUser';
 import { profileActions } from '../store/profile-slice';
 
-const initialState: Weather[] = [];
+const initialState: WeatherLoc[] = [];
 
 function WeatherHomePage() {
   const {
@@ -57,7 +58,8 @@ function WeatherHomePage() {
     for (let location of locationsList) {
       fetchWeatherData(location)
         .then((value: Weather) => {
-          setWeatherList((list) => list.concat(value));
+          const newValue:WeatherLoc = {...value,locationName:location.name} //adding name from Geocode for removal
+          setWeatherList((list) => list.concat(newValue));
         })
         .catch((error: any) => {
           dispatch(
@@ -78,7 +80,7 @@ function WeatherHomePage() {
           body: JSON.stringify({ locations: locationsList }),
         },
         (data: any) => {
-          console.log('Location Data saved to Firebase');
+          console.log('Location data saved to Firebase');
         }
       );
     }

@@ -25,13 +25,13 @@ export const locationSlice = createSlice({
       state.locations = state.locations.filter(
         (loc) => loc.name !== action.payload
       );
-      // console.log(
-      //   'Removed ' +
-      //     action.payload +
-      //     ' from [' +
-      //     state.locations.map((loc) => loc.name) +
-      //     ']'
-      // );
+      console.log(
+        'Removed ' +
+          action.payload +
+          ' from [' +
+          state.locations.map((loc) => loc.name) +
+          ']'
+      );
     },
     clearLocations(state) {
       state.locations = initialLocations;
