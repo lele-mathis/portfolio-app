@@ -96,10 +96,7 @@ function WeatherHomePage() {
 
   if (username === '') {
     pageContent = (
-      <>
         <LoginForm />
-        <CreateProfile />
-      </>
     );
   }
 
@@ -120,9 +117,9 @@ function WeatherHomePage() {
       {notification.status !== '' && (
         <Notification notification={notification} />
       )}
-      {username !== '' && <CurrentUser />}
       <NewLocation />
       {pageContent}
+      {username !== '' && <CurrentUser />}
     </Paper>
   );
 }

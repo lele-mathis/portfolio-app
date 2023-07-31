@@ -23,7 +23,7 @@ function CurrentUser() {
       Current user is <span style={{ fontWeight: 'bold' }}>{user}</span>
       <Button
         onClick={logOutHandler}
-        variant='outlined'
+        variant='contained'
         color='secondary'
         sx={{ mx: 1 }}
       >
