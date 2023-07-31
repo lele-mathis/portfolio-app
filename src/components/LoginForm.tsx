@@ -16,18 +16,15 @@ function LoginForm() {
   const [helperText, setHelperText] = useState('');
   const { isLoading, error, sendRequest: fetchLocations } = useHttp();
 
-  useEffect(() => {
-    console.log('useEffect for error running: ' + error);
-    if (error !== '') {
-      dispatch(
-        uiActions.showNotification({
-          status: 'error',
-          title: 'Error Fetching Locations',
-          message: error,
-        })
-      );
-    }
-  }, [error, dispatch]);
+  if (error !== '') {
+    dispatch(
+      uiActions.showNotification({
+        status: 'error',
+        title: 'Error Fetching Locations',
+        message: error,
+      })
+    );
+  }
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,7 +49,7 @@ function LoginForm() {
 
     fetchLocations(
       {
-        url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${enteredUser}.json`,
+        url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${enteredUser}.js`,
         method: 'GET',
       },
       transformLocations
@@ -80,6 +77,7 @@ function LoginForm() {
   ) => {
     setEnteredUsername(event.target.value);
   };
+
   return (
     <Box
       component='form'

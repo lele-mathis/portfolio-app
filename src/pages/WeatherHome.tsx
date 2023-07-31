@@ -13,9 +13,9 @@ import Notification from '../ui/Notification';
 import LoginForm from '../components/LoginForm';
 import { fetchWeatherData } from '../store/weather-actions';
 import { uiActions } from '../store/store';
-import CreateProfile from '../components/CreateProfile';
-import CurrentUser from '../components/CurrentUser';
+
 import { profileActions } from '../store/profile-slice';
+import ProfileManager from '../components/ProfileManager';
 
 const initialState: WeatherLoc[] = [];
 
@@ -94,18 +94,9 @@ function WeatherHomePage() {
     </p>
   );
 
-  if (username === '') {
-    pageContent = (
-        <LoginForm />
-    );
-  }
-
   if (locationsList.length !== 0) {
     pageContent = (
-      <>
         <WeatherGrid weatherList={weatherList} />
-        {username === '' && <CreateProfile />}
-      </>
     );
   }
 
@@ -119,7 +110,7 @@ function WeatherHomePage() {
       )}
       <NewLocation />
       {pageContent}
-      {username !== '' && <CurrentUser />}
+        <ProfileManager /> 
     </Paper>
   );
 }

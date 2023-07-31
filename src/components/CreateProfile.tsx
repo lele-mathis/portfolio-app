@@ -12,12 +12,22 @@ function CreateProfile() {
   const locationsList = useAppSelector((state) => state.location.locations);
   const [newUsername, setUsername] = useState('');
   const [helperText, setHelperText] = useState('');
-
   const { isLoading, error, sendRequest: saveData } = useHttp();
 
-  //running before new user is added? Fix this!
+  //should rerun every time error changes without useEffect because error is a state
+  if (error !== '') {
+    dispatch(
+      uiActions.showNotification({
+        status: 'error',
+        title: 'Error in CreateProfile',
+        message: error,
+      })
+    );
+  }
+
+ //send usersList to backend whenever it changes - not working properly, running before new user is added
   useEffect(() => {
-    //don't override with nothing!
+    //don't override with nothing
     if (usersList.length !== 0) {
       saveData(
         {
@@ -33,20 +43,6 @@ function CreateProfile() {
     }
   }, [usersList, saveData]);
 
-  useEffect(() => {
-    if (error !== '') {
-      dispatch(
-        uiActions.showNotification({
-          status: 'error',
-          title: 'Error in CreateProfile',
-          message: error,
-        })
-      );
-    }
-  }, [error, dispatch]);
-
-  //send usersList to backend whenever it changes - not working properly?
-
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setHelperText('');
@@ -61,6 +57,7 @@ function CreateProfile() {
       return;
     }
 
+    console.log('Adding new user to userList');
     dispatch(profileActions.addProfile(newUser)); //add to profile list
 
     saveData(
@@ -92,18 +89,16 @@ function CreateProfile() {
   };
 
   return (
-    <Card variant='outlined' sx={{ mx: 'auto', my: 1, p: 1, maxWidth: 450 }}>
       <Box
         component='form'
         noValidate
-        onSubmit={submitHandler}
-        sx={{ mx: 'auto', textAlign: 'center' }}
+        onSubmit={submitHandler} sx={{ mx: 'auto', my: 1, p: 1, textAlign: 'center'  }}
       >
-        <Typography>Save your locations by creating a profile:</Typography>
+        <Typography>Or save your locations by creating a profile:</Typography>
         <TextField
           name='username'
           id='username'
-          label='Username'
+          label='New Username'
           onChange={usernameChangeHandler}
           value={newUsername}
           helperText={helperText}
@@ -123,7 +118,6 @@ function CreateProfile() {
           CREATE PROFILE
         </Button>
       </Box>
-    </Card>
   );
 }
 

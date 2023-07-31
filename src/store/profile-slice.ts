@@ -16,9 +16,6 @@ export const profileSlice = createSlice({
     addProfile(state, action: PayloadAction<string>) {
       state.username = action.payload;
       state.usernamesList.push(action.payload);
-      console.log(
-        'Added user ' + action.payload + ' to usersList: ' + state.usernamesList
-      );
     },
     setUsersList(state, action: PayloadAction<string[]>) {
       state.usernamesList = action.payload;

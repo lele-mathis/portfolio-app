@@ -13,24 +13,10 @@ export const locationSlice = createSlice({
         //Geocode objs don't have IDs?
         state.locations = state.locations.concat(action.payload);
       }
-      // console.log(
-      //   'Adding location ' +
-      //     action.payload.name +
-      //     ' to [' +
-      //     state.locations.map((loc) => loc.name) +
-      //     ']'
-      // );
     },
     removeLocation(state, action: PayloadAction<string>) {
       state.locations = state.locations.filter(
         (loc) => loc.name !== action.payload
-      );
-      console.log(
-        'Removed ' +
-          action.payload +
-          ' from [' +
-          state.locations.map((loc) => loc.name) +
-          ']'
       );
     },
     clearLocations(state) {
