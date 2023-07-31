@@ -1,14 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import { TextField, Box, Button, Typography, Card } from '@mui/material';
 
 import { profileActions, uiActions } from '../store/store';
+import useHttp from '../hooks/use-http';
 
 function CreateProfile() {
   const dispatch = useAppDispatch();
   const usersList = useAppSelector((state) => state.profile.usernamesList);
+  const locationsList = useAppSelector((state) => state.location.locations);
   const [newUsername, setUsername] = useState('');
   const [helperText, setHelperText] = useState('');
+
+  const { isLoading, error, sendRequest: saveData } = useHttp();
+
+  useEffect(() => {
+    if (error !== '') {
+      dispatch(
+        uiActions.showNotification({
+          status: 'error',
+          title: 'Error in CreateProfile',
+          message: error,
+        })
+      );
+    }
+  }, [error]);
+
+  //send usersList to backend whenever it changes - not working properly?
+  useEffect(() => {
+    console.log('Saving usersList: ' + usersList);
+    saveData(
+      {
+        url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather.json`,
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ users: usersList }),
+      },
+      () => null
+    );
+  }, [usersList, saveData]);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -24,16 +54,26 @@ function CreateProfile() {
       return;
     }
     dispatch(profileActions.addProfile(newUser)); //add to profile list
-    //save locations to backend
+    saveData(
+      {
+        url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${newUser}.json`,
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ locations: locationsList }),
+      },
+      saveLocationSuccess
+    ); //save locations to backend
+  };
+
+  const saveLocationSuccess = () => {
     dispatch(
       uiActions.showNotification({
         status: 'success',
         title: 'Profile Created Successfully',
         message: 'Your locations will now be saved',
       })
-    );
+    ); //display a message that the profile was successfully created
     setUsername(''); //reset input
-    //display a message that the profile was successfully created
   };
 
   const usernameChangeHandler = (

@@ -1,5 +1,4 @@
 import { createSlice, configureStore, PayloadAction } from '@reduxjs/toolkit';
-import Geocode from '../models/geocode';
 import { locationSlice } from './location-slice';
 
 const noNotification = { status: '', title: '', message: '' };
@@ -37,7 +36,10 @@ export const profileSlice = createSlice({
     },
     addProfile(state, action: PayloadAction<string>) {
       state.username = action.payload;
-      state.usernamesList.push(action.payload);
+      state.usernamesList = state.usernamesList.concat(action.payload);
+      console.log(
+        'Added user' + action.payload + ' to usersList: ' + state.usernamesList
+      );
     },
   },
 });

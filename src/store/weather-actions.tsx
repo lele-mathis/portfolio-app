@@ -41,7 +41,7 @@ export async function geocodeCity(city: string, state = '', country = '') {
   return geocodeData;
 }
 
-//this is not a thunk yet
+//not being used
 export const getWeatherList = async (
   locationsList: Geocode[],
   dispatch: AppDispatch
@@ -51,10 +51,10 @@ export const getWeatherList = async (
     //console.log('Fetching weather for ' + location.name);
     fetchWeatherData(location)
       .then((value: Weather) => {
-        weatherData = weatherData.concat(value); //this is working
-        console.log(
-          'weatherData:' + weatherData.map((weather) => weather.name)
-        );
+        weatherData.push(value); //this is working
+        // console.log(
+        //   'weatherData:' + weatherData.map((weather) => weather.name)
+        // );
       })
       .catch((error: any) => {
         dispatch(
@@ -79,7 +79,7 @@ export async function fetchWeatherData(location: Geocode) {
   }
 
   const data: Weather = await response.json();
-  return data;
+  return data; //add country and optionally state info to this object!
 }
 
 //export async function geocodeZip(zip: string | number, country = '') {

@@ -54,7 +54,12 @@ function WeatherHomePage() {
   );
 
   if (username === '') {
-    pageContent = <LoginForm />;
+    pageContent = (
+      <>
+        <LoginForm />
+        <CreateProfile />
+      </>
+    );
   }
 
   if (locationsList.length !== 0) {
