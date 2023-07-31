@@ -6,7 +6,6 @@ import { uiActions } from '../store/store';
 import { profileActions } from '../store/profile-slice';
 
 import useHttp from '../hooks/use-http';
-import Geocode from '../models/geocode';
 import { locationActions } from '../store/location-slice';
 
 function LoginForm() {
@@ -18,6 +17,7 @@ function LoginForm() {
   const { isLoading, error, sendRequest: fetchLocations } = useHttp();
 
   useEffect(() => {
+    console.log('useEffect for error running: ' + error);
     if (error !== '') {
       dispatch(
         uiActions.showNotification({
@@ -27,7 +27,7 @@ function LoginForm() {
         })
       );
     }
-  });
+  }, [error, dispatch]);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -50,7 +50,6 @@ function LoginForm() {
     dispatch(profileActions.logIn(enteredUser));
     console.log('Fetching locations for user ' + enteredUser);
 
-    //probably not working
     fetchLocations(
       {
         url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${enteredUser}.json`,
@@ -58,13 +57,15 @@ function LoginForm() {
       },
       transformLocations
     ); //send HTTP request
-    dispatch(
-      uiActions.showNotification({
-        status: 'success',
-        title: 'Logged in successfully!',
-        message: 'User ' + enteredUser + ' is now logged in',
-      })
-    );
+    if (error === '') {
+      dispatch(
+        uiActions.showNotification({
+          status: 'success',
+          title: 'Logged in successfully!',
+          message: 'User ' + username + ' is now logged in',
+        })
+      );
+    }
   };
 
   //runs after fetching locations on login
@@ -103,8 +104,14 @@ function LoginForm() {
         color='secondary'
         sx={{ m: 1 }}
       />
-      <Button type='submit' variant='contained' color='secondary' sx={{ m: 1 }}>
-        LOG IN
+      <Button
+        type='submit'
+        disabled={isLoading}
+        variant='contained'
+        color='secondary'
+        sx={{ m: 1 }}
+      >
+        {isLoading ? 'Logging in...' : 'Log In'}
       </Button>
     </Box>
   );

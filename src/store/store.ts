@@ -1,6 +1,7 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
 import { locationSlice } from './location-slice';
 import { profileSlice } from './profile-slice';
+
 const noNotification = { status: '', title: '', message: '' };
 
 export const uiSlice = createSlice({

@@ -8,7 +8,6 @@ const useHttp = () => {
     async (requestConfig: any, applyData: (data: any) => void) => {
       setIsLoading(true);
       setError('');
-      //console.log('Using useHttp');
       try {
         const response = await fetch(requestConfig.url, {
           method: requestConfig.method ? requestConfig.method : 'GET',
@@ -17,14 +16,14 @@ const useHttp = () => {
         });
 
         if (!response.ok) {
-          throw new Error('HTTP request failed!');
+          throw new Error('Request failed! Status: ' + response.status);
         }
 
         const data = await response.json();
-        //console.log('Data received ' + JSON.stringify(data));
         applyData(data);
       } catch (err: any) {
-        setError(err.message || 'Something went wrong!');
+        console.log('There was an error');
+        setError(err.message || 'Something went wrong!'); //this isn't working!
       }
       setIsLoading(false);
     },

@@ -72,7 +72,6 @@ const WeatherGrid: React.FC<{ weatherList: Weather[] }> = (props) => {
           onRowClick={rowClickHandler}
           sx={{ m: 2 }}
         />
-        ;
       </div>
     </>
   );

@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 
 import { uiActions } from '../store/store';
 import { locationActions } from '../store/location-slice';

@@ -31,7 +31,7 @@ function CreateProfile() {
         }
       );
     }
-  }, [usersList]);
+  }, [usersList, saveData]);
 
   useEffect(() => {
     if (error !== '') {
@@ -43,7 +43,7 @@ function CreateProfile() {
         })
       );
     }
-  }, [error]);
+  }, [error, dispatch]);
 
   //send usersList to backend whenever it changes - not working properly?
 
@@ -118,6 +118,7 @@ function CreateProfile() {
           variant='contained'
           color='secondary'
           sx={{ m: 1 }}
+          disabled={isLoading}
         >
           CREATE PROFILE
         </Button>

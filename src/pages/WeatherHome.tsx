@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 
-import { Typography, Paper, Link, Grid } from '@mui/material';
+import { Typography, Paper } from '@mui/material';
 
 import useHttp from '../hooks/use-http';
 import Geocode from '../models/geocode';
@@ -19,14 +19,22 @@ import { profileActions } from '../store/profile-slice';
 const initialState: Weather[] = [];
 
 function WeatherHomePage() {
-  const { isLoading, error, sendRequest: fetchUsers } = useHttp();
+  const {
+    isLoading: usersLoading,
+    error: usersError,
+    sendRequest: fetchUsers,
+  } = useHttp();
+  const {
+    isLoading: locationsLoading,
+    error: locationsError,
+    sendRequest: saveLocations,
+  } = useHttp();
   const dispatch = useAppDispatch();
   const locationsList: Geocode[] = useAppSelector(
     (state) => state.location.locations
   );
   const notification = useAppSelector((state) => state.ui.notification);
   const username = useAppSelector((state) => state.profile.username);
-  const usersList = useAppSelector((state) => state.profile.usernamesList);
   const [weatherList, setWeatherList] = useState(initialState);
 
   //only run when the page renders for the first time
@@ -41,8 +49,9 @@ function WeatherHomePage() {
         dispatch(profileActions.setUsersList(loadedUsers));
       }
     );
-  }, []);
+  }, [dispatch, fetchUsers]);
 
+  //remake the weather list and send the locationsList to the backend when the locationsList changes
   useEffect(() => {
     setWeatherList([]); //reset the list before refreshing it (this makes the DataGrid flash, maybe bad?)
     for (let location of locationsList) {
@@ -60,7 +69,20 @@ function WeatherHomePage() {
           );
         });
     }
-  }, [locationsList]); //fetch the weather every time the list of locations changes
+    if (username !== '') {
+      saveLocations(
+        {
+          url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${username}.json`,
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ locations: locationsList }),
+        },
+        (data: any) => {
+          console.log('Location Data saved to Firebase');
+        }
+      );
+    }
+  }, [locationsList, dispatch, saveLocations, username]); //fetch the weather every time the list of locations changes
 
   //console.log('weatherList: ' + weatherList.map((weather) => weather.name));
 
