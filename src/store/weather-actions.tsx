@@ -5,7 +5,6 @@ import { uiActions } from './store';
 import { AppDispatch } from './store';
 
 const apiKey = 'eab41386ed58a65dbb29ff0e92e2757a'; //from my Open Weather account
-const limit = 1; //number of Geocode entries to receive for each input location
 const units = 'imperial'; //for Weather
 
 export async function geocodeCity(city: string, state = '', country = '') {
@@ -21,57 +20,58 @@ export async function geocodeCity(city: string, state = '', country = '') {
     countryCode = ',US';
   }
 
-  const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}${stateCode}${countryCode}&limit=${limit}&appid=${apiKey}`;
+  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1&language=en&format=json`;
 
-  //console.log(url);
   const response = await fetch(url);
 
   if (!response.ok) {
     throw new Error('Could not fetch geocode data for url: ' + url);
   }
   const data = await response.json();
-  const geocodeData: Geocode = data[0];
+  const {
+    results: [geocodeData],
+  }: { results: Geocode[] } = data;
 
   if (geocodeData === undefined) {
     throw new Error(
       'Could not find location: ' + city + ', ' + state + ', ' + country
     );
   }
-  //console.log('lat:' + geocodeData.lat + ' lon:' + geocodeData.lon);
+  //console.log('lat:' + geocodeData.latitude + ' lon:' + geocodeData.longitude);
   return geocodeData;
 }
 
-//not being used
-export const getWeatherList = async (
-  locationsList: Geocode[],
-  dispatch: AppDispatch
-) => {
-  let weatherData: Weather[] = [];
-  for (let location of locationsList) {
-    //console.log('Fetching weather for ' + location.name);
-    fetchWeatherData(location)
-      .then((value: Weather) => {
-        weatherData.push(value); //this is working
-        // console.log(
-        //   'weatherData:' + weatherData.map((weather) => weather.name)
-        // );
-      })
-      .catch((error: any) => {
-        dispatch(
-          uiActions.showNotification({
-            status: 'error',
-            title: 'Error Fetching Weather',
-            message: error.message,
-          })
-        );
-      });
-  }
-  return weatherData;
-};
+//not being used - currently logic is in WeatherHome
+// export const getWeatherList = async (
+//   locationsList: Geocode[],
+//   dispatch: AppDispatch
+// ) => {
+//   let weatherData: Weather[] = [];
+//   for (let location of locationsList) {
+//     //console.log('Fetching weather for ' + location.name);
+//     fetchWeatherData(location)
+//       .then((value: Weather) => {
+//         weatherData.push(value); //this is working
+//         // console.log(
+//         //   'weatherData:' + weatherData.map((weather) => weather.name)
+//         // );
+//       })
+//       .catch((error: any) => {
+//         dispatch(
+//           uiActions.showNotification({
+//             status: 'error',
+//             title: 'Error Fetching Weather',
+//             message: error.message,
+//           })
+//         );
+//       });
+//   }
+//   return weatherData;
+// };
 
 //later, make this into a Thunk - will need to dispatch error messages from here to show with uiActions
 export async function fetchWeatherData(location: Geocode) {
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&appid=${apiKey}&units=${units}`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${apiKey}&units=${units}`;
   const response = await fetch(url);
 
   if (!response.ok) {

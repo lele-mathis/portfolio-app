@@ -6,7 +6,7 @@ import { Typography, Paper } from '@mui/material';
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
 import WeatherLoc from '../models/weatherLoc';
-import NewLocation from '../components/NewLocation';
+import NewLocation from '../components/NewLocationForm';
 import WeatherGrid from '../components/WeatherGrid';
 import Notification from '../ui/Notification';
 import { fetchWeatherData } from '../store/weather-actions';
@@ -35,7 +35,10 @@ function WeatherHomePage() {
         .then((value: Weather) => {
           const newValue: WeatherLoc = {
             ...value,
+            locationId: location.id,
             locationName: location.name,
+            state: location.admin1,
+            country: location.country,
           }; //adding name from Geocode for removal
           setWeatherList((list) => list.concat(newValue));
         })
