@@ -32,7 +32,7 @@ export async function geocodeCity(city: string, state = '', country = '') {
       'Could not find location: ' + city + ', ' + state + ', ' + country
     );
   }
-  console.log(geocodeList.map((loc) => loc.name + ', ' + loc.admin1));
+  //console.log(geocodeList.map((loc) => loc.name + ', ' + loc.admin1));
   return geocodeList;
 
   //console.log('lat:' + geocodeData.latitude + ' lon:' + geocodeData.longitude);
@@ -66,7 +66,6 @@ export async function geocodeCity(city: string, state = '', country = '') {
 //   return weatherData;
 // };
 
-//later, make this into a Thunk - will need to dispatch error messages from here to show with uiActions
 export async function fetchWeatherData(location: Geocode) {
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${apiKey}&units=${units}`;
   const response = await fetch(url);

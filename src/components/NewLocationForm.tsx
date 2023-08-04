@@ -1,29 +1,31 @@
 import { useState } from 'react';
 import { useAppDispatch } from '../hooks';
 
-//import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
+import { Typography } from '@mui/material';
 
 import Geocode from '../models/geocode';
+import LocationMenu from './LocationMenu';
 import { locationActions } from '../store/location-slice';
 import { geocodeCity } from '../store/weather-actions';
 import { uiActions } from '../store/store';
-import { Typography } from '@mui/material';
 
 function NewLocation() {
   const dispatch = useAppDispatch();
   const [cityTouched, setCityTouched] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [enteredValues, setEnteredValues] = useState({
     city: '',
     state: '',
     country: '',
   });
+  const [menuItems, setMenuItems] = useState<Geocode[] | null>(null);
+  const menuOpen = menuItems !== null;
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEnteredValues((prevState) => ({
@@ -49,9 +51,12 @@ function NewLocation() {
         enteredValues.state,
         enteredValues.country
       );
-      for (let location of geocodeList) {
-        console.log('Adding ' + location.name + ', ' + location.admin1);
-        dispatch(locationActions.addLocation(location)); //send data to redux store
+
+      if (geocodeList.length === 1) {
+        dispatch(locationActions.addLocation(geocodeList[0])); //send data to redux store
+      } else {
+        setAnchorEl(document.getElementById('city')); //find a better way to do this
+        setMenuItems(geocodeList); //should open menu
       }
       setEnteredValues({ city: '', state: '', country: '' });
     } catch (error: any) {
@@ -109,6 +114,42 @@ function NewLocation() {
     </>
   );
 
+  const closeMenuHandler = (id: string) => {
+    if (menuItems === null) {
+      dispatch(
+        uiActions.showNotification({
+          status: 'error',
+          title: 'Internal Error',
+          message: 'Possible locations not found',
+        })
+      );
+      return;
+    }
+    // console.log(menuItems.map((item) => item.id));
+    // console.log(id);
+    if (id === 'all') {
+      for (let location of menuItems) {
+        dispatch(locationActions.addLocation(location)); //send data to redux store
+      }
+    } else {
+      const chosenItem = menuItems.find((loc) => loc.id == id);
+
+      if (chosenItem === undefined) {
+        dispatch(
+          uiActions.showNotification({
+            status: 'error',
+            title: 'Internal Error',
+            message: 'Selected location from menu not found',
+          })
+        );
+      } else {
+        dispatch(locationActions.addLocation(chosenItem));
+      }
+    }
+    setMenuItems(null);
+    setCityTouched(false);
+  };
+
   return (
     <Card sx={{ m: 2, p: 2 }} variant='outlined'>
       <Box component='form' noValidate onSubmit={submitHandler}>
@@ -117,6 +158,7 @@ function NewLocation() {
         </Grid>
         <Button
           type='submit'
+          id='submit-location-button'
           fullWidth
           variant='contained'
           disabled={isSubmitting || enteredValues.city === ''}
@@ -126,6 +168,14 @@ function NewLocation() {
             {isSubmitting ? 'Finding location...' : 'Add location'}
           </Typography>
         </Button>
+        {menuItems && (
+          <LocationMenu
+            open={menuOpen}
+            items={menuItems}
+            anchorEl={anchorEl}
+            onClose={closeMenuHandler}
+          />
+        )}
       </Box>
     </Card>
   );
