@@ -16,18 +16,20 @@ import { Typography } from '@mui/material';
 
 function NewLocation() {
   const dispatch = useAppDispatch();
-  //const [zipMode, setZipMode] = useState(false);
   const [cityTouched, setCityTouched] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [enteredCity, setEnteredCity] = useState('');
-
-  //   const toggleZipMode = () => {
-  //     setZipMode((prevState) => !prevState);
-  //   };
+  const [enteredValues, setEnteredValues] = useState({
+    city: '',
+    state: '',
+    country: '',
+  });
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEnteredCity(event.target.value);
+    setEnteredValues((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   const inputBlurHandler = (event: any) => {
@@ -42,9 +44,16 @@ function NewLocation() {
     setIsSubmitting(true);
 
     try {
-      const geocodeData: Geocode = await geocodeCity(enteredCity);
-      dispatch(locationActions.addLocation(geocodeData)); //send data to redux store
-      setEnteredCity('');
+      const geocodeList: Geocode[] = await geocodeCity(
+        enteredValues.city,
+        enteredValues.state,
+        enteredValues.country
+      );
+      for (let location of geocodeList) {
+        console.log('Adding ' + location.name + ', ' + location.admin1);
+        dispatch(locationActions.addLocation(location)); //send data to redux store
+      }
+      setEnteredValues({ city: '', state: '', country: '' });
     } catch (error: any) {
       dispatch(
         uiActions.showNotification({
@@ -67,33 +76,38 @@ function NewLocation() {
           id='city'
           label='City'
           onChange={inputChangeHandler}
-          value={enteredCity}
-          helperText='Enter a city name'
-          error={cityTouched && enteredCity === ''}
+          value={enteredValues.city}
+          helperText={
+            cityTouched && enteredValues.city === '' && 'Enter a city name'
+          }
+          error={cityTouched && enteredValues.city === ''}
           onBlur={inputBlurHandler}
           size='small'
           required
         />
       </Grid>
+      <Grid item>
+        <TextField
+          name='state'
+          id='state'
+          label='State/Region'
+          onChange={inputChangeHandler}
+          value={enteredValues.state}
+          size='small'
+        />
+      </Grid>
+      <Grid item>
+        <TextField
+          name='country'
+          id='country'
+          label='Country'
+          onChange={inputChangeHandler}
+          value={enteredValues.country}
+          size='small'
+        />
+      </Grid>
     </>
   );
-
-  //   if (zipMode) {
-  //     inputFields = (
-  //       <>
-  //         <Grid item>
-  //           Please enter a ZIP code or{' '}
-  //           <Link onClick={toggleZipMode}>input a city instead</Link>
-  //         </Grid>
-  //         <Grid item>
-  //           <TextField name='zip' id='zip' label='ZIP Code' autoFocus />
-  //         </Grid>
-  //         <Grid item>
-  //           <TextField name='country' id='country' label='Country' autoFocus />
-  //         </Grid>
-  //       </>
-  //     );
-  //   }
 
   return (
     <Card sx={{ m: 2, p: 2 }} variant='outlined'>
@@ -105,7 +119,8 @@ function NewLocation() {
           type='submit'
           fullWidth
           variant='contained'
-          disabled={isSubmitting || enteredCity === ''}
+          disabled={isSubmitting || enteredValues.city === ''}
+          sx={{ my: 2 }}
         >
           <Typography color='secondaryLight'>
             {isSubmitting ? 'Finding location...' : 'Add location'}
