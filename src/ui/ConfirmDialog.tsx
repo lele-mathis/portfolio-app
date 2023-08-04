@@ -1,6 +1,7 @@
 import { Dialog, DialogTitle, DialogActions, Button } from '@mui/material';
 
 const ConfirmDialog: React.FC<{
+  message: string;
   open: boolean;
   onClose: (confirm: boolean) => void;
 }> = (props) => {

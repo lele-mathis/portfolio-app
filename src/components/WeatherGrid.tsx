@@ -6,17 +6,20 @@ import {
   GridColDef,
   GridEventListener,
 } from '@mui/x-data-grid';
-//import Card from '@mui/material/Card';
+import { Button } from '@mui/material';
+
 import WeatherLoc from '../models/weatherLoc';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import { locationActions } from '../store/location-slice';
 
 const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
   const dispatch = useAppDispatch();
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState('');
   const [toRemove, setToRemove] = useState('');
+  const dialogOpen = dialogMessage !== '';
+
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 100 },
+    { field: 'id', headerName: 'ID', width: 100 }, //this is the location ID not the weather ID
     { field: 'locationName', headerName: 'Location', width: 120 },
     { field: 'state', headerName: 'State/Region', width: 120 },
     { field: 'country', headerName: 'Country', width: 120 },
@@ -52,20 +55,32 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
     event, // MuiEvent<React.MouseEvent<HTMLElement>>
     details // GridCallbackDetails
   ) => {
-    setDialogOpen(true); //open dialog asking for confirmation
-    setToRemove(params.row.name);
+    setDialogMessage('Would you like to remove this location?'); //open dialog asking for confirmation
+    setToRemove(params.row.locationId);
+  };
+
+  const removeAllLocationsHandler = () => {
+    setDialogMessage('Would you like to remove all locations?');
   };
 
   const dialogCloseHandler = (confirm = false) => {
     if (confirm) {
-      dispatch(locationActions.removeLocation(toRemove));
+      if (dialogMessage === 'Would you like to remove this location?') {
+        dispatch(locationActions.removeLocation(toRemove));
+      } else if (dialogMessage === 'Would you like to remove all locations?') {
+        dispatch(locationActions.clearLocations());
+      }
     }
-    setDialogOpen(false);
+    setDialogMessage('');
   };
   return (
     <>
       {dialogOpen && (
-        <ConfirmDialog open={dialogOpen} onClose={dialogCloseHandler} />
+        <ConfirmDialog
+          message={dialogMessage}
+          open={dialogOpen}
+          onClose={dialogCloseHandler}
+        />
       )}
       <div style={{ height: 300, width: '100%' }}>
         <DataGrid
@@ -75,6 +90,9 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
           sx={{ m: 2 }}
         />
       </div>
+      <Button onClick={removeAllLocationsHandler} sx={{ m: 2 }}>
+        Clear all locations
+      </Button>
     </>
   );
 };

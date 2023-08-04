@@ -36,8 +36,8 @@ function ProfileManager() {
       } catch (err: any) {
         dispatch(
           uiActions.showNotification({
-            status: 'error',
-            title: 'Error Fetching Users',
+            status: 'warning',
+            title: 'Issue Fetching Users',
             message: 'Could not find users',
           })
         );
