@@ -55,7 +55,7 @@ function RootLayout() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
-      <Container maxWidth='xl' style={{ marginTop: 80 }}>
+      <Container maxWidth='xl'>
         <main>
           <Outlet />
         </main>
