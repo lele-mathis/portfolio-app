@@ -30,6 +30,7 @@ function WeatherHomePage() {
   //remake the weather list and send the locationsList to the backend when the locationsList changes
   useEffect(() => {
     setWeatherList([]); //reset the list before refreshing it (this makes the DataGrid flash, maybe bad?)
+    console.log(locationsList.map((loc) => loc.name + ', ' + loc.admin1));
     for (let location of locationsList) {
       fetchWeatherData(location)
         .then((value: Weather) => {
@@ -39,7 +40,7 @@ function WeatherHomePage() {
             locationName: location.name,
             state: location.admin1,
             country: location.country,
-          }; //adding name from Geocode for removal
+          };
           setWeatherList((list) => list.concat(newValue));
         })
         .catch((error: any) => {
@@ -72,18 +73,20 @@ function WeatherHomePage() {
   }
 
   return (
-    <Paper sx={{ m: 2, p: 2 }}>
-      <Typography component='h1' variant='h3' color='primary'>
-        My Weather App
-      </Typography>
-      {notification.status !== '' && (
-        <Notification notification={notification} />
-      )}
-      <NewLocation />
-      {pageContent}
-      {locationsSaving && <p>Locations saving...</p>}
+    <>
+      <Paper sx={{ m: 2, p: 2 }}>
+        <Typography component='h1' variant='h3' color='primary'>
+          My Weather App
+        </Typography>
+        {notification.status !== '' && (
+          <Notification notification={notification} />
+        )}
+        <NewLocation />
+        {pageContent}
+        {locationsSaving && <p>Locations saving...</p>}
+      </Paper>
       <ProfileManager />
-    </Paper>
+    </>
   );
 }
 

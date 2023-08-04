@@ -5,6 +5,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 // When using TypeScript 4.x and above
 import type {} from '@mui/x-data-grid/themeAugmentation';
@@ -59,6 +60,7 @@ function RootLayout() {
         <main>
           <Outlet />
         </main>
+        <Footer />
       </Container>
     </ThemeProvider>
   );

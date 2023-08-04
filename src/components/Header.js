@@ -1,29 +1,32 @@
 import { NavLink } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 function Header() {
   const PAGES = [
-    { name: 'HOME', path: '/' },
-    { name: 'DEMO REACT APP', path: '/weather' },
-    { name: 'DATA ANALYTICS PROJECTS', path: '/data' },
+    { name: 'Home', path: '/' },
+    { name: 'Demo React App', path: '/weather' },
+    { name: 'Data Analytics Projects', path: '/data' },
   ];
 
   const navContent = PAGES.map((page) => (
-    <Box sx={{ mx: 2 }}>
-      <NavLink
+    <Box sx={{ mx: 2 }} key={page.path}>
+      <Button
+        component={NavLink}
         to={page.path}
+        size='large'
         style={({ isActive }) =>
           isActive
-            ? { color: '#F59623', textDecoration: 'underline' }
-            : { color: '#F5C062', textDecoration: 'none' }
+            ? { color: '#F59623', fontWeight: 'bold' }
+            : { color: '#F5C062', fontWeight: 'bold' }
         }
       >
         {page.name}
-      </NavLink>
+      </Button>
     </Box>
   ));
   return (

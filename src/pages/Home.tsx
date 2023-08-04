@@ -21,11 +21,11 @@ function HomePage() {
       <Typography component='h1' variant='h3' color='primary'>
         Welcome to my website!
       </Typography>
-      <Typography variant='body1'>
+      <Typography variant='body1' sx={{ m: 2 }}>
         I'm Lele Mathis, a frontend software developer and data analyst. This is
         my portfolio website.
       </Typography>
-      <Grid container sx={{ m: 2, p: 2 }}>
+      <Grid container sx={{ m: 2 }}>
         <Grid item sx={{ m: 2 }}>
           <Button
             onClick={clickWeatherHandler}
