@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useAppDispatch } from '../hooks';
 import {
   DataGrid,
   GridRowsProp,
   GridColDef,
-  GridEventListener,
+  GridRowParams,
+  GridActionsCellItem,
 } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
+import { FaTrash as TrashIcon } from 'react-icons/fa';
 
 import WeatherLoc from '../models/weatherLoc';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -18,27 +20,50 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
   const [toRemove, setToRemove] = useState('');
   const dialogOpen = dialogMessage !== '';
 
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 100 }, //this is the location ID not the weather ID
-    { field: 'locationName', headerName: 'Location', width: 120 },
-    { field: 'state', headerName: 'State/Region', width: 120 },
-    { field: 'country', headerName: 'Country', width: 120 },
-    { field: 'weather', headerName: 'Weather', width: 150 },
-    { field: 'temp', headerName: 'Temperature (\xB0F)', width: 150 },
-    { field: 'wind', headerName: 'Wind Speed (mph)', width: 150 },
-    { field: 'clouds', headerName: 'Cloud Cover (%)', width: 150 },
-    { field: 'rain', headerName: 'Rain in Last Hour (in)', width: 150 },
-  ];
+  const removeLocationHandler = useCallback((rowId: number | string) => {
+    setDialogMessage('Would you like to remove this location?'); //open dialog asking for confirmation
+    setToRemove(rowId.toString());
+  }, []);
 
-  let rows: GridRowsProp = [{ id: 'ID', main: 'Dummy data' }];
+  const removeAllLocationsHandler = () => {
+    setDialogMessage('Would you like to remove all locations?');
+  };
+
+  //useMemo to save this since it never changes
+  const columns = useMemo<GridColDef[]>(
+    () => [
+      { field: 'id', headerName: 'ID', width: 100 }, //this is the location ID not the weather ID
+      { field: 'locationName', headerName: 'Location', width: 120 },
+      { field: 'state', headerName: 'State/Region', width: 120 },
+      { field: 'country', headerName: 'Country', width: 120 },
+      { field: 'weather', headerName: 'Weather', width: 150 },
+      { field: 'temp', headerName: 'Temperature (\xB0F)', width: 150 },
+      { field: 'wind', headerName: 'Wind Speed (mph)', width: 150 },
+      { field: 'clouds', headerName: 'Cloud Cover (%)', width: 150 },
+      { field: 'rain', headerName: 'Rain in Last Hour (in)', width: 150 },
+      {
+        field: 'actions',
+        type: 'actions',
+        width: 50,
+        getActions: (params: GridRowParams) => [
+          <GridActionsCellItem
+            icon={<TrashIcon />}
+            label='Delete'
+            onClick={() => removeLocationHandler(params.id)}
+          />,
+        ],
+      },
+    ],
+    [removeLocationHandler]
+  );
 
   //turn weather objects into DataGrid rows
-  rows = props.weatherList.map((value: WeatherLoc) => {
+  const rows = props.weatherList.map((value: WeatherLoc) => {
     if (value.rain === undefined) {
       value.rain = { '1h': 0 };
     }
     return {
-      id: value.id,
+      id: value.locationId,
       locationName: value.locationName,
       state: value.state,
       country: value.country,
@@ -49,19 +74,6 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
       rain: value.rain['1h'],
     };
   });
-
-  const rowClickHandler: GridEventListener<'rowClick'> = (
-    params, // GridRowParams
-    event, // MuiEvent<React.MouseEvent<HTMLElement>>
-    details // GridCallbackDetails
-  ) => {
-    setDialogMessage('Would you like to remove this location?'); //open dialog asking for confirmation
-    setToRemove(params.row.locationId);
-  };
-
-  const removeAllLocationsHandler = () => {
-    setDialogMessage('Would you like to remove all locations?');
-  };
 
   const dialogCloseHandler = (confirm = false) => {
     if (confirm) {
@@ -83,15 +95,10 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
         />
       )}
       <div style={{ height: 300, width: '100%' }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          onRowClick={rowClickHandler}
-          sx={{ m: 2 }}
-        />
+        <DataGrid rows={rows} columns={columns} sx={{ m: 2 }} />
       </div>
       <Button onClick={removeAllLocationsHandler} sx={{ m: 2 }}>
-        Clear all locations
+        <TrashIcon /> &nbsp;Delete all locations
       </Button>
     </>
   );

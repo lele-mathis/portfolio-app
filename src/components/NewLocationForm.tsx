@@ -83,9 +83,6 @@ function NewLocation() {
           label='City'
           onChange={inputChangeHandler}
           value={enteredValues.city}
-          helperText={
-            cityTouched && enteredValues.city === '' && 'Enter a city name'
-          }
           error={cityTouched && enteredValues.city === ''}
           onBlur={inputBlurHandler}
           size='small'

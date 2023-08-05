@@ -5,7 +5,7 @@ const apiKey = 'eab41386ed58a65dbb29ff0e92e2757a'; //from my Open Weather accoun
 const units = 'imperial'; //for Weather
 
 export async function geocodeCity(city: string, state = '', country = '') {
-  const count = 5;
+  const count = 3;
 
   const url = `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=${count}&language=en&format=json`;
 
