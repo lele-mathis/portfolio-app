@@ -79,7 +79,7 @@ function WeatherHomePage() {
   return (
     <>
       <Paper sx={{ m: 2, p: 2 }}>
-        <Typography component='h1' variant='h4' color='primary' sx={{ m: 2 }}>
+        <Typography component='h1' variant='h4' color='primary'>
           Weather App
         </Typography>
         {notification.status !== '' && (

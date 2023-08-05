@@ -38,10 +38,13 @@ function Header() {
               variant='h3'
               color='#dcfcfc'
               style={{
-                flexGrow: 1,
                 fontFamily: 'Brush Script MT',
                 textShadow: 2,
+                textDecoration: 'none',
+                flexGrow: 1,
               }}
+              component={NavLink}
+              to='/'
             >
               Lele Mathis
             </Typography>
