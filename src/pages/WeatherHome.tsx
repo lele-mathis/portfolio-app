@@ -63,7 +63,6 @@ function WeatherHomePage() {
       });
     }
   }, [locationsList, saveLocations, username, dispatch]); //fetch the weather every time the list of locations changes
-  //memoize these dependencies
 
   let pageContent = (
     <p style={{ textAlign: 'center' }}>

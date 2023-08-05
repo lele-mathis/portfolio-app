@@ -1,4 +1,4 @@
-import { createSlice, configureStore } from '@reduxjs/toolkit';
+import { createSlice, configureStore, PayloadAction } from '@reduxjs/toolkit';
 import { locationSlice } from './location-slice';
 import { profileSlice } from './profile-slice';
 
@@ -6,7 +6,7 @@ const noNotification = { status: '', title: '', message: '' };
 
 export const uiSlice = createSlice({
   name: 'ui',
-  initialState: { notification: noNotification },
+  initialState: { notification: noNotification, showIcons: true },
   reducers: {
     showNotification(state, action) {
       state.notification = {
@@ -17,6 +17,9 @@ export const uiSlice = createSlice({
     },
     closeNotification(state) {
       state.notification = noNotification;
+    },
+    setShowIcons(state, action: PayloadAction<boolean>) {
+      state.showIcons = action.payload;
     },
   },
 });

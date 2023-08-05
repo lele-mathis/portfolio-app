@@ -2,7 +2,6 @@ import { Outlet } from 'react-router-dom';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Container from '@mui/material/Container';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -28,7 +27,7 @@ const theme = createTheme({
     MuiDataGrid: {
       styleOverrides: {
         root: {
-          backgroundColor: 'white',
+          backgroundColor: '#ddd',
         },
       },
     },

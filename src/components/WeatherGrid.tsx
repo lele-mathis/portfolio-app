@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { useNavigate } from 'react-router-dom';
 import {
   DataGrid,
@@ -7,8 +7,9 @@ import {
   GridRowParams,
   GridActionsCellItem,
   GridEventListener,
+  GridRenderCellParams,
 } from '@mui/x-data-grid';
-import { Button } from '@mui/material';
+import { Button, Switch, FormControlLabel, Toolbar } from '@mui/material';
 import { FaTrash as TrashIcon } from 'react-icons/fa';
 
 import WeatherLoc from '../models/weatherLoc';
@@ -19,6 +20,7 @@ import { uiActions } from '../store/store';
 const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const showIcons = useAppSelector((state) => state.ui.showIcons);
   const [dialogMessage, setDialogMessage] = useState('');
   const [toRemove, setToRemove] = useState('');
   const dialogOpen = dialogMessage !== '';
@@ -41,18 +43,54 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
     setDialogMessage('Would you like to delete all locations?');
   };
 
-  //useMemo to save this since it never changes
-  const columns = useMemo<GridColDef[]>(
+  const columnsWithIcons = useMemo<GridColDef[]>(
     () => [
-      { field: 'id', headerName: 'ID', width: 100 }, //this is the location ID not the weather ID
+      { field: 'id', headerName: 'ID', width: 80 }, //this is the location ID not the weather ID
       { field: 'locationName', headerName: 'Location', width: 120 },
       { field: 'state', headerName: 'State/Region', width: 120 },
       { field: 'country', headerName: 'Country', width: 120 },
-      { field: 'weather', headerName: 'Weather', width: 150 },
-      { field: 'temp', headerName: 'Temperature (\xB0F)', width: 150 },
-      { field: 'wind', headerName: 'Wind Speed (mph)', width: 150 },
-      { field: 'clouds', headerName: 'Cloud Cover (%)', width: 150 },
-      { field: 'rain', headerName: 'Rain in Last Hour (in)', width: 150 },
+      {
+        field: 'icon',
+        headerName: '',
+        renderCell: (params: GridRenderCellParams<{ icon: string }>) => (
+          <img
+            src={`https://openweathermap.org/img/wn/${params.row.icon}.png`}
+          />
+        ),
+        width: 50,
+      },
+      { field: 'weather', headerName: 'Weather', width: 140 },
+      { field: 'temp', headerName: 'Temperature (\xB0F)', width: 130 },
+      { field: 'wind', headerName: 'Wind Speed (mph)', width: 130 },
+      { field: 'clouds', headerName: 'Cloud Cover (%)', width: 120 },
+      { field: 'rain', headerName: 'Rain in Last Hour (mm)', width: 170 },
+      {
+        field: 'actions',
+        type: 'actions',
+        width: 50,
+        getActions: (params: GridRowParams) => [
+          <GridActionsCellItem
+            icon={<TrashIcon />}
+            label='Delete'
+            onClick={() => removeLocationHandler(params.id)}
+          />,
+        ],
+      },
+    ],
+    [removeLocationHandler]
+  );
+
+  const columnsNoIcons = useMemo<GridColDef[]>(
+    () => [
+      { field: 'id', headerName: 'ID', width: 80 }, //this is the location ID not the weather ID
+      { field: 'locationName', headerName: 'Location', width: 120 },
+      { field: 'state', headerName: 'State/Region', width: 120 },
+      { field: 'country', headerName: 'Country', width: 120 },
+      { field: 'weather', headerName: 'Weather', width: 140 },
+      { field: 'temp', headerName: 'Temperature (\xB0F)', width: 130 },
+      { field: 'wind', headerName: 'Wind Speed (mph)', width: 130 },
+      { field: 'clouds', headerName: 'Cloud Cover (%)', width: 120 },
+      { field: 'rain', headerName: 'Rain in Last Hour (mm)', width: 170 },
       {
         field: 'actions',
         type: 'actions',
@@ -79,6 +117,7 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
       locationName: value.locationName,
       state: value.state,
       country: value.country,
+      icon: value.weather[0].icon,
       weather: value.weather[0].description,
       temp: value.main.temp,
       wind: value.wind.speed,
@@ -97,6 +136,11 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
     }
     setDialogMessage('');
   };
+
+  const switchChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(uiActions.setShowIcons(event.target.checked));
+  };
+
   return (
     <>
       {dialogOpen && (
@@ -109,14 +153,33 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
       <div style={{ height: 300, width: '100%' }}>
         <DataGrid
           rows={rows}
-          columns={columns}
+          columns={showIcons ? columnsWithIcons : columnsNoIcons}
           onRowClick={rowClickHandler}
           sx={{ m: 2 }}
         />
       </div>
-      <Button onClick={removeAllLocationsHandler} sx={{ m: 2 }}>
-        <TrashIcon className='icon' /> &nbsp;Delete all locations
-      </Button>
+      <Toolbar
+        id='DataGrid-actions'
+        sx={{ display: 'flex', justifyContent: 'space-between' }}
+      >
+        <FormControlLabel
+          control={
+            <Switch
+              onChange={switchChangeHandler}
+              checked={showIcons}
+              defaultChecked
+            />
+          }
+          label='Show/Hide weather icons'
+        />
+        <Button
+          onClick={removeAllLocationsHandler}
+          size='large'
+          sx={{ color: 'primary' }}
+        >
+          <TrashIcon className='icon' /> &nbsp;Delete all locations
+        </Button>
+      </Toolbar>
     </>
   );
 };
