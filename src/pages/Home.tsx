@@ -18,12 +18,11 @@ function HomePage() {
 
   return (
     <Paper sx={{ m: 2, p: 2 }}>
-      <Typography component='h1' variant='h3' color='primary'>
-        Welcome to my website!
+      <Typography component='h1' variant='h4' color='primary'>
+        Portfolio Website Home
       </Typography>
       <Typography variant='body1' sx={{ m: 2 }}>
-        I'm Lele Mathis, a frontend software developer and data analyst. This is
-        my portfolio website.
+        Hi, I'm Lele Mathis, a frontend software developer and data analyst.
       </Typography>
       <Grid container sx={{ m: 2 }}>
         <Grid item sx={{ m: 2 }}>

@@ -2,6 +2,7 @@ import { Alert, AlertTitle } from '@mui/material';
 
 const Notification: React.FC<{
   notification: { status: string; title: string; message: string };
+  onClose: () => void;
 }> = (props) => {
   const alert = props.notification;
 
@@ -14,14 +15,14 @@ const Notification: React.FC<{
 
   if (alert.status === 'error') {
     alertElement = (
-      <Alert severity={'error'} sx={{ m: 2 }}>
+      <Alert severity={'error'} sx={{ m: 2 }} onClose={props.onClose}>
         <AlertTitle>{alert.title}</AlertTitle>
         {alert.message}
       </Alert>
     );
   } else if (alert.status === 'success') {
     alertElement = (
-      <Alert severity={'success'} sx={{ m: 2 }}>
+      <Alert severity={'success'} sx={{ m: 2 }} onClose={props.onClose}>
         <AlertTitle>{alert.title}</AlertTitle>
         {alert.message}
       </Alert>

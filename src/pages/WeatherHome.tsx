@@ -27,10 +27,14 @@ function WeatherHomePage() {
   const username = useAppSelector((state) => state.profile.username);
   const [weatherList, setWeatherList] = useState(initialState);
 
+  const notificationCloseHandler = () => {
+    dispatch(uiActions.closeNotification());
+  };
+
   //remake the weather list and send the locationsList to the backend when the locationsList changes
   useEffect(() => {
     setWeatherList([]); //reset the list before refreshing it (this makes the DataGrid flash, maybe bad?)
-    console.log(locationsList.map((loc) => loc.name + ', ' + loc.admin1));
+    //console.log(locationsList.map((loc) => loc.name + ', ' + loc.admin1));
     for (let location of locationsList) {
       fetchWeatherData(location)
         .then((value: Weather) => {
@@ -75,17 +79,20 @@ function WeatherHomePage() {
   return (
     <>
       <Paper sx={{ m: 2, p: 2 }}>
-        <Typography component='h1' variant='h3' color='primary'>
-          My Weather App
+        <Typography component='h1' variant='h4' color='primary' sx={{ m: 2 }}>
+          Weather App
         </Typography>
         {notification.status !== '' && (
-          <Notification notification={notification} />
+          <Notification
+            notification={notification}
+            onClose={notificationCloseHandler}
+          />
         )}
         <NewLocation />
         {pageContent}
         {locationsSaving && <p>Locations saving...</p>}
+        <ProfileManager />
       </Paper>
-      <ProfileManager />
     </>
   );
 }
