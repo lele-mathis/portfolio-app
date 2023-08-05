@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 function Header() {
   const PAGES = [
     { name: 'Home', path: '/' },
-    { name: 'Demo React App', path: '/weather' },
+    { name: 'Weather App', path: '/weather' },
     { name: 'Data Analytics Projects', path: '/data' },
   ];
 
@@ -34,7 +34,15 @@ function Header() {
       <AppBar color='primary' position='static'>
         <Container maxWidth='xl'>
           <Toolbar component='nav' id='toolbar' disableGutters>
-            <Typography variant='h4' style={{ flexGrow: 1 }}>
+            <Typography
+              variant='h3'
+              color='#dcfcfc'
+              style={{
+                flexGrow: 1,
+                fontFamily: 'Brush Script MT',
+                textShadow: 2,
+              }}
+            >
               Lele Mathis
             </Typography>
             {navContent}

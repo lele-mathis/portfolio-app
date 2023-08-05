@@ -57,7 +57,7 @@ function LoginForm() {
           uiActions.showNotification({
             status: 'success',
             title: 'Logged in successfully!',
-            message: 'User ' + username + ' is now logged in',
+            message: '',
           })
         );
       } catch (err: any) {

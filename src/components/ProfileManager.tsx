@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 
-import Paper from '@mui/material/Paper';
+import Card from '@mui/material/Card';
 
 import CreateProfile from './CreateProfile';
 import CurrentUser from './CurrentUser';
@@ -59,7 +59,7 @@ function ProfileManager() {
   const user = useAppSelector((state) => state.profile.username);
 
   return (
-    <Paper sx={{ m: 2, p: 2 }}>
+    <Card sx={{ m: 2, p: 2 }} variant='outlined'>
       {user === '' ? (
         <>
           {locationsList.length !== 0 && <CreateProfile />}
@@ -71,7 +71,7 @@ function ProfileManager() {
       {isLoading && (
         <p style={{ textAlign: 'center' }}>Saving data to server...</p>
       )}
-    </Paper>
+    </Card>
   );
 }
 

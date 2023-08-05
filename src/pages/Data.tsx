@@ -2,7 +2,7 @@ import { Typography, Paper, Card, Link } from '@mui/material';
 function DataPage() {
   return (
     <Paper sx={{ m: 2, p: 2 }}>
-      <Typography component='h1' variant='h3' color='primary'>
+      <Typography component='h1' variant='h4' color='primary'>
         Data Analytics Projects
       </Typography>
       <Card variant='outlined' sx={{ m: 2, p: 2 }}>
