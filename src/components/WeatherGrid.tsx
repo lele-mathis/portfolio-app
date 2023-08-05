@@ -14,6 +14,7 @@ import { FaTrash as TrashIcon } from 'react-icons/fa';
 import WeatherLoc from '../models/weatherLoc';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import { locationActions } from '../store/location-slice';
+import { uiActions } from '../store/store';
 
 const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
   const dispatch = useAppDispatch();
@@ -27,6 +28,7 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
     event,
     details
   ) => {
+    dispatch(uiActions.closeNotification());
     navigate('/weather/' + params.row.id); //route to new detail page
   };
 
