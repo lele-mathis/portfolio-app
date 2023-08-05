@@ -80,7 +80,7 @@ function NewLocation() {
         <TextField
           name='city'
           id='city'
-          label='City'
+          label='City or Postal Code'
           onChange={inputChangeHandler}
           value={enteredValues.city}
           error={cityTouched && enteredValues.city === ''}
@@ -93,7 +93,7 @@ function NewLocation() {
         <TextField
           name='state'
           id='state'
-          label='State/Region'
+          label='State/Region (optional)'
           onChange={inputChangeHandler}
           value={enteredValues.state}
           size='small'
@@ -103,7 +103,7 @@ function NewLocation() {
         <TextField
           name='country'
           id='country'
-          label='Country'
+          label='Country (optional)'
           onChange={inputChangeHandler}
           value={enteredValues.country}
           size='small'
