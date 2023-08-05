@@ -12,8 +12,7 @@
 /build
 /.firebase
 
-# apiKeys
-/src/store/api-keys.js
+/src/store/info.js
 
 # misc
 .DS_Store

@@ -9,6 +9,7 @@ import LoginForm from './LoginForm';
 import useSendData from '../hooks/useSendData';
 import { uiActions } from '../store/store';
 import { profileActions } from '../store/profile-slice';
+import { firebaseUrl } from '../store/info';
 
 function ProfileManager() {
   const dispatch = useAppDispatch();
@@ -19,12 +20,9 @@ function ProfileManager() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch(
-          'https://react-http-3724a-default-rtdb.firebaseio.com/weather/users.json',
-          {
-            method: 'GET',
-          }
-        );
+        const response = await fetch(firebaseUrl + '/weather/users.json', {
+          method: 'GET',
+        });
 
         if (!response.ok) {
           throw new Error('Request failed! Status: ' + response.status);
@@ -50,7 +48,7 @@ function ProfileManager() {
   useEffect(() => {
     if (usersList.length !== 0) {
       saveData({
-        url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/users.json`,
+        url: firebaseUrl + '/weather/users.json',
         method: 'PUT',
         body: { users: usersList },
       });

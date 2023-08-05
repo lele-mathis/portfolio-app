@@ -11,9 +11,9 @@ import WeatherGrid from '../components/WeatherGrid';
 import Notification from '../ui/Notification';
 import { fetchWeatherData } from '../store/weather-actions';
 import { uiActions } from '../store/store';
-
 import ProfileManager from '../components/ProfileManager';
 import useSendData from '../hooks/useSendData';
+import { firebaseUrl } from '../store/info';
 
 const initialState: WeatherLoc[] = [];
 
@@ -59,7 +59,7 @@ function WeatherHomePage() {
     }
     if (username !== '') {
       saveLocations({
-        url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${username}.json`,
+        url: `${firebaseUrl}/weather/${username}.json`,
         method: 'PUT',
         body: { locations: locationsList },
       });

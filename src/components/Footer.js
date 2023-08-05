@@ -1,8 +1,6 @@
 import { Link, IconButton } from '@mui/material';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
-import GithubLogo from '../graphics/GH_logo.png';
-
 function Footer() {
   return (
     <footer style={{ textAlign: 'center', maxWidth: 'xl', margin: 2 }}>

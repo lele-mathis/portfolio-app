@@ -1,6 +1,6 @@
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
-import { openWeatherApiKey as apiKey } from './api-keys';
+import { openWeatherApiKey as apiKey } from './info';
 const units = 'imperial'; //for Weather
 
 export async function geocodeCity(city: string, state = '', country = '') {
