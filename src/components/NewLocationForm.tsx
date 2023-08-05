@@ -58,6 +58,7 @@ function NewLocation() {
         setAnchorEl(document.getElementById('city')); //find a better way to do this
         setMenuItems(geocodeList); //should open menu
       }
+      setCityTouched(false);
       setEnteredValues({ city: '', state: '', country: '' });
     } catch (error: any) {
       dispatch(
@@ -114,7 +115,16 @@ function NewLocation() {
     </>
   );
 
-  const closeMenuHandler = (id: string) => {
+  //close without choosing
+  const closeMenuHandler = () => {
+    setMenuItems(null);
+    setCityTouched(false);
+  };
+
+  const chooseMenuHandler = (id: string) => {
+    if (id === '') {
+      return;
+    }
     if (menuItems === null) {
       dispatch(
         uiActions.showNotification({
@@ -146,8 +156,7 @@ function NewLocation() {
         dispatch(locationActions.addLocation(chosenItem));
       }
     }
-    setMenuItems(null);
-    setCityTouched(false);
+    closeMenuHandler();
   };
 
   return (
@@ -174,6 +183,7 @@ function NewLocation() {
             items={menuItems}
             anchorEl={anchorEl}
             onClose={closeMenuHandler}
+            onChoose={chooseMenuHandler}
           />
         )}
       </Box>

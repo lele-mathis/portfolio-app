@@ -5,12 +5,13 @@ const LocationMenu: React.FC<{
   open: boolean;
   items: Geocode[];
   anchorEl: HTMLElement | null;
-  onClose: (id: string) => void;
+  onChoose: (id: string) => void;
+  onClose: () => void;
 }> = (props) => {
   //figure out what type this is
   const itemClickHandler = (event: any) => {
     //console.log(event.target.id);
-    props.onClose(event.target.id);
+    props.onChoose(event.target.id);
   };
   const menuItems = props.items.map((loc) => (
     <MenuItem onClick={itemClickHandler} key={loc.id} id={loc.id}>
