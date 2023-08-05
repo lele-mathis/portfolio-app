@@ -19,9 +19,7 @@ const ConfirmDialog: React.FC<{
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
-      <DialogTitle id='alert-dialog-title'>
-        {'Would you like to remove this location?'}
-      </DialogTitle>
+      <DialogTitle id='alert-dialog-title'>{props.message}</DialogTitle>
       <DialogActions>
         <Button onClick={handleCancel}>Cancel</Button>
         <Button onClick={handleConfirm} variant='contained' autoFocus>

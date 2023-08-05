@@ -1,6 +1,6 @@
 import { useAppSelector, useAppDispatch } from '../hooks';
 
-import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 import { uiActions } from '../store/store';
@@ -19,7 +19,7 @@ function CurrentUser() {
   };
 
   return (
-    <Card variant='outlined' sx={{ m: 2, px: 2, py: 1, textAlign: 'center' }}>
+    <Box sx={{ px: 2, py: 1, textAlign: 'center' }}>
       Current user is <span style={{ fontWeight: 'bold' }}>{user}</span>
       <Button
         onClick={logOutHandler}
@@ -29,7 +29,7 @@ function CurrentUser() {
       >
         Log out
       </Button>
-    </Card>
+    </Box>
   );
 }
 

@@ -107,6 +107,7 @@ function NewLocation() {
           value={enteredValues.city}
           error={cityTouched && enteredValues.city === ''}
           onBlur={inputBlurHandler}
+          disabled={isSubmitting}
           size='small'
           sx={{ width: 150 }}
           required
@@ -122,7 +123,7 @@ function NewLocation() {
           onChange={(e, data) => autocompleteChangeHandler(data)}
           onInputChange={(e, data) => autocompleteStateChangeHandler(data)}
           value={enteredValues.state}
-          loading={isSubmitting}
+          disabled={isSubmitting}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -145,7 +146,7 @@ function NewLocation() {
           onChange={(e, data) => autocompleteChangeHandler(data)}
           onInputChange={(e, data) => autocompleteCountryChangeHandler(data)}
           value={enteredValues.country}
-          loading={isSubmitting}
+          disabled={isSubmitting}
           renderInput={(params) => (
             <TextField
               {...params}
