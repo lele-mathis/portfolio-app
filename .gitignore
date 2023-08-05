@@ -10,7 +10,7 @@
 
 # production
 /build
-/.firebase
+.firebase/hosting.YnVpbGQ.cache
 
 /src/store/info.js
 
@@ -24,3 +24,4 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
