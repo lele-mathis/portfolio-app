@@ -2,7 +2,6 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { useAppDispatch } from '../hooks';
 import {
   DataGrid,
-  GridRowsProp,
   GridColDef,
   GridRowParams,
   GridActionsCellItem,
