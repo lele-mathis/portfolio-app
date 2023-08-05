@@ -10,6 +10,7 @@
 
 # production
 /build
+/.firebase
 
 # apiKeys
 /src/store/api-keys.js
