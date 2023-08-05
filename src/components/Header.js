@@ -14,7 +14,7 @@ function Header() {
   ];
 
   const navContent = PAGES.map((page) => (
-    <Box sx={{ mx: 2 }} key={page.path}>
+    <Box sx={{ mx: 1, flexShrink: 1 }} key={page.path}>
       <Button
         component={NavLink}
         to={page.path}
@@ -42,6 +42,7 @@ function Header() {
                 textShadow: 2,
                 textDecoration: 'none',
                 flexGrow: 1,
+                flexShrink: 1,
               }}
               component={NavLink}
               to='/'

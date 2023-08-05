@@ -24,7 +24,7 @@ function HomePage() {
       <Typography variant='body1' sx={{ m: 2 }}>
         Hi, I'm Lele Mathis, a frontend software developer and data analyst.
       </Typography>
-      <Grid container sx={{ m: 2 }}>
+      <Grid container>
         <Grid item sx={{ m: 2 }}>
           <Button
             onClick={clickWeatherHandler}

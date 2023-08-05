@@ -56,12 +56,10 @@ function RootLayout() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
-      <Container maxWidth='xl'>
-        <main>
-          <Outlet />
-        </main>
-        <Footer />
-      </Container>
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
     </ThemeProvider>
   );
 }
