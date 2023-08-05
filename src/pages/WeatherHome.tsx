@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 
-import { Typography, Paper } from '@mui/material';
+import { Typography, Paper, Link } from '@mui/material';
 
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
@@ -93,6 +93,11 @@ function WeatherHomePage() {
         {locationsSaving && <p>Locations saving...</p>}
         <ProfileManager />
       </Paper>
+      <div style={{ textAlign: 'center' }}>
+        <Link href='https://github.com/lele-mathis/portfolio-app'>
+          See the source code
+        </Link>
+      </div>
     </>
   );
 }
