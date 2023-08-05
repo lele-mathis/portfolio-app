@@ -1,18 +1,22 @@
 import { useState } from 'react';
 import { useAppDispatch } from '../hooks';
 
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import { Typography } from '@mui/material';
+import {
+  Button,
+  Box,
+  Card,
+  Grid,
+  TextField,
+  Typography,
+  Autocomplete,
+} from '@mui/material';
 
 import Geocode from '../models/geocode';
 import LocationMenu from './LocationMenu';
 import { locationActions } from '../store/location-slice';
 import { geocodeCity } from '../store/weather-actions';
 import { uiActions } from '../store/store';
+import { statesList, countriesList } from '../store/info';
 
 function NewLocation() {
   const dispatch = useAppDispatch();
@@ -27,7 +31,7 @@ function NewLocation() {
   const menuOpen = menuItems !== null;
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const cityChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEnteredValues((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
@@ -38,6 +42,24 @@ function NewLocation() {
     if (event.target.name === 'city') {
       setCityTouched(true);
     }
+  };
+
+  const autocompleteStateChangeHandler = (data: string) => {
+    setEnteredValues((prevState) => ({
+      ...prevState,
+      state: data,
+    }));
+  };
+
+  const autocompleteCountryChangeHandler = (data: string) => {
+    setEnteredValues((prevState) => ({
+      ...prevState,
+      country: data,
+    }));
+  };
+
+  const autocompleteChangeHandler = (data: string | null) => {
+    return data;
   };
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -81,32 +103,59 @@ function NewLocation() {
           name='city'
           id='city'
           label='City or Postal Code'
-          onChange={inputChangeHandler}
+          onChange={cityChangeHandler}
           value={enteredValues.city}
           error={cityTouched && enteredValues.city === ''}
           onBlur={inputBlurHandler}
           size='small'
+          sx={{ width: 150 }}
           required
         />
       </Grid>
       <Grid item>
-        <TextField
-          name='state'
-          id='state'
-          label='State/Region (optional)'
-          onChange={inputChangeHandler}
+        <Autocomplete
+          freeSolo
+          autoComplete
+          autoSelect
+          id='state-autocomplete'
+          options={statesList}
+          onChange={(e, data) => autocompleteChangeHandler(data)}
+          onInputChange={(e, data) => autocompleteStateChangeHandler(data)}
           value={enteredValues.state}
-          size='small'
+          loading={isSubmitting}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              name='state'
+              id='state'
+              label='State or Region'
+              size='small'
+              sx={{ width: 150 }}
+            />
+          )}
         />
       </Grid>
       <Grid item>
-        <TextField
-          name='country'
-          id='country'
-          label='Country (optional)'
-          onChange={inputChangeHandler}
+        <Autocomplete
+          freeSolo
+          autoComplete
+          autoSelect
+          id='country-autocomplete'
+          options={countriesList}
+          onChange={(e, data) => autocompleteChangeHandler(data)}
+          onInputChange={(e, data) => autocompleteCountryChangeHandler(data)}
           value={enteredValues.country}
-          size='small'
+          loading={isSubmitting}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              name='country'
+              id='country'
+              label='Country'
+              size='small'
+              sx={{ width: 150 }}
+            />
+          )}
         />
       </Grid>
     </>
