@@ -93,11 +93,6 @@ function WeatherHomePage() {
         {locationsSaving && <p>Locations saving...</p>}
         <ProfileManager />
       </Paper>
-      <div style={{ textAlign: 'center' }}>
-        <Link href='https://github.com/lele-mathis/portfolio-app'>
-          See the source code
-        </Link>
-      </div>
     </>
   );
 }

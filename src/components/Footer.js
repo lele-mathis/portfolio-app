@@ -1,29 +1,26 @@
 import { Link, IconButton } from '@mui/material';
+import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
-import LinkedInLogo from '../graphics/LI_logo.png';
 import GithubLogo from '../graphics/GH_logo.png';
 
 function Footer() {
   return (
     <footer style={{ textAlign: 'center', maxWidth: 'xl', margin: 2 }}>
-      Follow me:
-      <IconButton
-        component={Link}
-        to='https://www.linkedin.com/in/lele-mathis/'
-      >
-        <img
-          style={{ height: 30, width: 30 }}
-          src={LinkedInLogo}
-          alt='LinkedIn Logo'
-        />
-      </IconButton>
-      <IconButton component={Link} to='https://github.com/lele-mathis'>
-        <img
-          style={{ height: 30, width: 30 }}
-          src={GithubLogo}
-          alt='Github Logo'
-        />
-      </IconButton>
+      <p>
+        © 2023 Lele Mathis{' '}
+        <IconButton
+          component={Link}
+          to='https://www.linkedin.com/in/lele-mathis/'
+        >
+          <FaLinkedin />
+        </IconButton>
+        <IconButton component={Link} to='https://github.com/lele-mathis'>
+          <FaGithub />
+        </IconButton>
+      </p>
+      <Link href='https://github.com/lele-mathis/portfolio-app'>
+        View source code
+      </Link>
     </footer>
   );
 }
