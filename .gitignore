@@ -11,9 +11,8 @@
 # production
 /build
 
-#firebase
-.firebaserc
-firebase.json
+# apiKeys
+/src/store/api-keys.js
 
 # misc
 .DS_Store
