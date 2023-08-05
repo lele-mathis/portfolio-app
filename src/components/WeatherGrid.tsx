@@ -1,10 +1,12 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { useAppDispatch } from '../hooks';
+import { useNavigate } from 'react-router-dom';
 import {
   DataGrid,
   GridColDef,
   GridRowParams,
   GridActionsCellItem,
+  GridEventListener,
 } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import { FaTrash as TrashIcon } from 'react-icons/fa';
@@ -15,17 +17,26 @@ import { locationActions } from '../store/location-slice';
 
 const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [dialogMessage, setDialogMessage] = useState('');
   const [toRemove, setToRemove] = useState('');
   const dialogOpen = dialogMessage !== '';
 
+  const rowClickHandler: GridEventListener<'rowClick'> = (
+    params,
+    event,
+    details
+  ) => {
+    navigate('/weather/' + params.row.id); //route to new detail page
+  };
+
   const removeLocationHandler = useCallback((rowId: number | string) => {
-    setDialogMessage('Would you like to remove this location?'); //open dialog asking for confirmation
+    setDialogMessage('Would you like to delete this location?'); //open dialog asking for confirmation
     setToRemove(rowId.toString());
   }, []);
 
   const removeAllLocationsHandler = () => {
-    setDialogMessage('Would you like to remove all locations?');
+    setDialogMessage('Would you like to delete all locations?');
   };
 
   //useMemo to save this since it never changes
@@ -76,9 +87,9 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
 
   const dialogCloseHandler = (confirm = false) => {
     if (confirm) {
-      if (dialogMessage === 'Would you like to remove this location?') {
+      if (dialogMessage === 'Would you like to delete this location?') {
         dispatch(locationActions.removeLocation(toRemove));
-      } else if (dialogMessage === 'Would you like to remove all locations?') {
+      } else if (dialogMessage === 'Would you like to delete all locations?') {
         dispatch(locationActions.clearLocations());
       }
     }
@@ -94,10 +105,15 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
         />
       )}
       <div style={{ height: 300, width: '100%' }}>
-        <DataGrid rows={rows} columns={columns} sx={{ m: 2 }} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          onRowClick={rowClickHandler}
+          sx={{ m: 2 }}
+        />
       </div>
       <Button onClick={removeAllLocationsHandler} sx={{ m: 2 }}>
-        <TrashIcon /> &nbsp;Delete all locations
+        <TrashIcon className='icon' /> &nbsp;Delete all locations
       </Button>
     </>
   );

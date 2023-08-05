@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 
-import { Typography, Paper, Link } from '@mui/material';
-
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
 import WeatherLoc from '../models/weatherLoc';
@@ -65,6 +63,7 @@ function WeatherHomePage() {
       });
     }
   }, [locationsList, saveLocations, username, dispatch]); //fetch the weather every time the list of locations changes
+  //memoize these dependencies
 
   let pageContent = (
     <p style={{ textAlign: 'center' }}>
@@ -78,21 +77,16 @@ function WeatherHomePage() {
 
   return (
     <>
-      <Paper sx={{ m: 2, p: 2 }}>
-        <Typography component='h1' variant='h4' color='primary'>
-          Weather App
-        </Typography>
-        {notification.status !== '' && (
-          <Notification
-            notification={notification}
-            onClose={notificationCloseHandler}
-          />
-        )}
-        <NewLocation />
-        {pageContent}
-        {locationsSaving && <p>Locations saving...</p>}
-        <ProfileManager />
-      </Paper>
+      {notification.status !== '' && (
+        <Notification
+          notification={notification}
+          onClose={notificationCloseHandler}
+        />
+      )}
+      <NewLocation />
+      {pageContent}
+      {locationsSaving && <p>Locations saving...</p>}
+      <ProfileManager />
     </>
   );
 }
