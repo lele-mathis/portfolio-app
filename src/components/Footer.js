@@ -10,10 +10,10 @@ function Footer() {
           component={Link}
           to='https://www.linkedin.com/in/lele-mathis/'
         >
-          <FaLinkedin />
+          <FaLinkedin className='icon' />
         </IconButton>
         <IconButton component={Link} to='https://github.com/lele-mathis'>
-          <FaGithub />
+          <FaGithub className='icon' />
         </IconButton>
       </p>
       <Link href='https://github.com/lele-mathis/portfolio-app'>
