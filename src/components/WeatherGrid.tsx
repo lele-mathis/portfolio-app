@@ -75,7 +75,7 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
       },
       {
         field: 'clouds',
-        headerName: 'Cloud Cover (%)',
+        headerName: 'Cloudiness (%)',
         align: 'right',
         width: 120,
       },
@@ -122,7 +122,7 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
       },
       {
         field: 'clouds',
-        headerName: 'Cloud Cover (%)',
+        headerName: 'Cloudiness (%)',
         align: 'right',
         width: 120,
       },
