@@ -6,7 +6,6 @@ import Weather from '../models/weather';
 import WeatherLoc from '../models/weatherLoc';
 import NewLocation from '../components/NewLocationForm';
 import WeatherGrid from '../components/WeatherGrid';
-import Notification from '../ui/Notification';
 import { fetchWeatherData } from '../store/weather-actions';
 import { uiActions } from '../store/store';
 import ProfileManager from '../components/ProfileManager';
@@ -21,13 +20,9 @@ function WeatherHomePage() {
   const locationsList: Geocode[] = useAppSelector(
     (state) => state.location.locations
   );
-  const notification = useAppSelector((state) => state.ui.notification);
+
   const username = useAppSelector((state) => state.profile.username);
   const [weatherList, setWeatherList] = useState(initialState);
-
-  const notificationCloseHandler = () => {
-    dispatch(uiActions.closeNotification());
-  };
 
   //remake the weather list and send the locationsList to the backend when the locationsList changes
   useEffect(() => {
@@ -76,12 +71,6 @@ function WeatherHomePage() {
 
   return (
     <>
-      {notification.status !== '' && (
-        <Notification
-          notification={notification}
-          onClose={notificationCloseHandler}
-        />
-      )}
       <NewLocation />
       {pageContent}
       {locationsSaving && <p>Locations saving...</p>}
