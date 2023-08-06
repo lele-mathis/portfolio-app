@@ -80,8 +80,6 @@ function NewLocation() {
         setAnchorEl(document.getElementById('city')); //find a better way to do this
         setMenuItems(geocodeList); //should open menu
       }
-      setCityTouched(false);
-      setEnteredValues({ city: '', state: '', country: '' });
     } catch (error: any) {
       dispatch(
         uiActions.showNotification({
@@ -93,6 +91,7 @@ function NewLocation() {
     }
     setIsSubmitting(false);
     setCityTouched(false);
+    setEnteredValues({ city: '', state: '', country: '' });
   };
 
   let inputFields = (
