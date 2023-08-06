@@ -1,5 +1,6 @@
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
+import WeatherForecast from '../models/weatherForecast';
 import { openWeatherApiKey as apiKey } from './info';
 const units = 'imperial'; //for Weather
 
@@ -65,8 +66,9 @@ export async function geocodeCity(city: string, state = '', country = '') {
 //   return weatherData;
 // };
 
-export async function fetchWeatherData(location: Geocode) {
+export async function fetchCurrentWeather(location: Geocode) {
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${apiKey}&units=${units}`;
+
   const response = await fetch(url);
 
   if (!response.ok) {
@@ -74,6 +76,19 @@ export async function fetchWeatherData(location: Geocode) {
   }
 
   const data: Weather = await response.json();
+  return data; //add country and optionally state info to this object!
+}
+
+export async function fetchWeatherForecast(location: Geocode) {
+  const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${location.latitude}&lon=${location.longitude}&appid=${apiKey}&units=${units}`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error('Could not fetch weather forecast data for url: ' + url);
+  }
+
+  const data: WeatherForecast = await response.json();
   return data; //add country and optionally state info to this object!
 }
 

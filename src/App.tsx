@@ -6,7 +6,7 @@ import WeatherRootLayout from './pages/WeatherRoot';
 import HomePage from './pages/Home';
 import WeatherHomePage from './pages/WeatherHome';
 import DataPage from './pages/Data';
-import LocationDetailPage from './pages/LocationDetail';
+import LocationForecastPage from './pages/LocationForecast';
 
 const router = createBrowserRouter([
   {
@@ -21,8 +21,8 @@ const router = createBrowserRouter([
           { index: true, element: <WeatherHomePage /> },
           {
             path: ':locId',
-            id: 'location-detail',
-            element: <LocationDetailPage />,
+            id: 'location-forecast',
+            element: <LocationForecastPage />,
           },
         ],
       },

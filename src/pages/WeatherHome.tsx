@@ -6,7 +6,7 @@ import Weather from '../models/weather';
 import WeatherLoc from '../models/weatherLoc';
 import NewLocation from '../components/NewLocationForm';
 import WeatherGrid from '../components/WeatherGrid';
-import { fetchWeatherData } from '../store/weather-actions';
+import { fetchCurrentWeather } from '../store/weather-actions';
 import { uiActions } from '../store/store';
 import ProfileManager from '../components/ProfileManager';
 import useSendData from '../hooks/useSendData';
@@ -29,7 +29,7 @@ function WeatherHomePage() {
     setWeatherList([]); //reset the list before refreshing it (this makes the DataGrid flash, maybe bad?)
     //console.log(locationsList.map((loc) => loc.name + ', ' + loc.admin1));
     for (let location of locationsList) {
-      fetchWeatherData(location)
+      fetchCurrentWeather(location)
         .then((value: Weather) => {
           const newValue: WeatherLoc = {
             ...value,
