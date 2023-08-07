@@ -9,7 +9,7 @@ type WeatherPoint = {
     humidity: number;
   };
   weather: [{ id: string; main: string; description: string; icon: string }];
-  clouds: { all: string };
+  clouds: { all: number };
   wind: { speed: number; deg: number; gust: number };
   visibility: number; //Average visibility in meters
   pop: number; //probability of precipitation (between 0 and 1)
