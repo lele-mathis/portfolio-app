@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 
 import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
 
 import CreateProfile from './CreateProfile';
 import CurrentUser from './CurrentUser';
@@ -59,10 +60,14 @@ function ProfileManager() {
   return (
     <Card sx={{ m: 2, p: 2 }} variant='outlined'>
       {user === '' ? (
-        <>
-          {locationsList.length !== 0 && <CreateProfile />}
-          <LoginForm />
-        </>
+        <Grid container direction='column'>
+          <Grid item xs={5}>
+            <CreateProfile />
+          </Grid>
+          <Grid item xs={5}>
+            <LoginForm />
+          </Grid>
+        </Grid>
       ) : (
         <CurrentUser />
       )}

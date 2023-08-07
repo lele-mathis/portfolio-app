@@ -11,14 +11,14 @@ function Footer() {
           alt='Linkedin icon'
           to='https://www.linkedin.com/in/lele-mathis/'
         >
-          <FaLinkedin className='icon' />
+          <FaLinkedin className='icon' color='#340442' />
         </IconButton>
         <IconButton
           component={Link}
           alt='Github icon'
           to='https://github.com/lele-mathis'
         >
-          <FaGithub className='icon' />
+          <FaGithub className='icon' color='#340442' />
         </IconButton>
       </p>
       <Link href='https://github.com/lele-mathis/portfolio-app'>

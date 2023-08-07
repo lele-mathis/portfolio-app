@@ -12,6 +12,7 @@ import {
 import { Button, Switch, FormControlLabel, Toolbar } from '@mui/material';
 import { FaTrash as TrashIcon } from 'react-icons/fa';
 
+import DataGridFooter from './DataGridFooter';
 import WeatherLoc from '../models/weatherLoc';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import { locationActions } from '../store/location-slice';
@@ -197,6 +198,7 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
           columns={showIcons ? columnsWithIcons : columnsNoIcons}
           onRowClick={rowClickHandler}
           sx={{ m: 2 }}
+          slots={{ pagination: DataGridFooter }}
         />
       </div>
       <Toolbar

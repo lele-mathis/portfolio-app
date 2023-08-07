@@ -7,7 +7,7 @@ const Notification: React.FC<{
   const alert = props.notification;
 
   let alertElement = (
-    <Alert severity={'warning'} sx={{ m: 2 }}>
+    <Alert severity={'warning'} sx={{ m: 2 }} onClose={props.onClose}>
       <AlertTitle>{alert.title}</AlertTitle>
       {alert.message}
     </Alert>
@@ -29,7 +29,7 @@ const Notification: React.FC<{
     );
   } else if (alert.status === 'info') {
     alertElement = (
-      <Alert severity={'info'} sx={{ m: 2 }}>
+      <Alert severity={'info'} sx={{ m: 2 }} onClose={props.onClose}>
         <AlertTitle>{alert.title}</AlertTitle>
         {alert.message}
       </Alert>
