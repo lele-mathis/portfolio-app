@@ -27,6 +27,20 @@ function WeatherRootLayout() {
         />
       )}
       <Outlet />
+      <footer>
+        <Typography
+          component='p'
+          variant='caption'
+          sx={{ textAlign: 'center' }}
+        >
+          Weather data from{' '}
+          <Link to='https://openweathermap.org/'>OpenWeather</Link>, geocoding
+          using{' '}
+          <Link to='https://open-meteo.com/en/docs/geocoding-api'>
+            Open-Meteo
+          </Link>
+        </Typography>
+      </footer>
     </Paper>
   );
 }
