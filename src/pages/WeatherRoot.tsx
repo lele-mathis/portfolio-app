@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -15,9 +15,11 @@ function WeatherRootLayout() {
   return (
     <Paper sx={{ m: 2, p: 2 }}>
       {' '}
-      <Typography component='h1' variant='h4' color='primary'>
-        Weather App
-      </Typography>
+      <Link to='/weather' style={{ textDecoration: 'none' }}>
+        <Typography component='h1' variant='h4' color='primary'>
+          Weather App
+        </Typography>
+      </Link>
       {notification.status !== '' && (
         <Notification
           notification={notification}
