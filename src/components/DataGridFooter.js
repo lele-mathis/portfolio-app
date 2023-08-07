@@ -3,7 +3,7 @@ import { VscGraphLine } from 'react-icons/vsc';
 const DataGridFooter = () => {
   return (
     <>
-      <Typography color='secondary'>
+      <Typography color='primary'>
         Click on a row above to see forecast data for the next 5 days &nbsp;
         <VscGraphLine style={{ position: 'relative', top: 3 }} />
       </Typography>
