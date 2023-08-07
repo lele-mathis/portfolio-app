@@ -5,8 +5,10 @@ import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material';
 
 function Header() {
+  const theme = useTheme();
   const PAGES = [
     { name: 'Home', path: '/' },
     { name: 'Weather App', path: '/weather' },
@@ -21,8 +23,8 @@ function Header() {
         size='large'
         style={({ isActive }) =>
           isActive
-            ? { color: '#F59623', fontWeight: 'bold' }
-            : { color: '#F5C062', fontWeight: 'bold' }
+            ? { color: theme.palette.secondary.light, fontWeight: 'bold' }
+            : { color: '#FFF', fontWeight: 'bold' }
         }
       >
         {page.name}

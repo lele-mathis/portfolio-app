@@ -12,12 +12,14 @@ import type {} from '@mui/x-data-grid/themeAugmentation';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#340442',
+      main: '#450054',
+      light: '#850062',
+      dark: '#340034',
     },
     secondary: {
-      main: '#762F3D',
-      light: '#F5C062',
-      dark: '#CE6716',
+      main: '#810000',
+      light: '#cb3030',
+      dark: '#550015',
     },
     background: {
       default: '#ccc',
@@ -28,6 +30,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: '#ddd',
+          '&.MuiDataGrid-columnHeaderTitle': { color: 'white' },
         },
       },
     },
@@ -42,6 +45,22 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: 'white',
+        },
+      },
+    },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          color: '#000',
+          borderColor: '#ccc',
+          '&.Mui-selected': {
+            backgroundColor: '#450054',
+            color: '#FFF',
+          },
+          '&.Mui-selected:hover': {
+            backgroundColor: '#340034',
+            color: '#FFF',
+          },
         },
       },
     },
