@@ -59,12 +59,22 @@ function LocationForecastPage() {
   return (
     <>
       {forecast && (
-        <Card variant='outlined' sx={{ m: 2, p: 2 }}>
-          <Typography component='h2' variant='h5' sx={{ m: 1 }}>
+        <Card variant='outlined' sx={{ m: 1, p: 1 }}>
+          <Typography
+            component='h2'
+            variant='h5'
+            color='secondary'
+            sx={{ m: 1 }}
+          >
             {forecast.city.name}, {location.admin1}, {location.country}
           </Typography>
+          {forecast.city.name !== location.name && (
+            <Typography sx={{ mx: 2 }}>
+              (Closest location found to {location.name})
+            </Typography>
+          )}
           <Typography component='h3' variant='h6' sx={{ m: 1 }}>
-            Weather forecast for the next 5 days
+            Weather forecast for the next 5 days:
           </Typography>
           <ForecastPlots data={data} />
         </Card>

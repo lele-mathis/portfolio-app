@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import Plot from 'react-plotly.js';
-import { ToggleButtonGroup, ToggleButton, Container } from '@mui/material';
+import { Slider, Container, Grid } from '@mui/material';
 
 import WeatherPoint from '../models/weatherPoint';
+import ChoosePlotButtons from './ChoosePlotButtons';
 
 const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
   const [chosenPlots, setChosenPlots] = useState<string[]>(['temp']);
+  const [plotHeight, setPlotHeight] = useState<number>(300); //in pixels
+  const [plotWidth, setPlotWidth] = useState<number>(1000);
+
   const choosePlotHandler = (
     event: React.MouseEvent<HTMLElement>,
     newPlots: string[]
@@ -14,196 +18,133 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
     setChosenPlots(newPlots);
   };
 
-  type PlotVariant = {
-    [key: string]: JSX.Element;
+  const widthChangeHandler = (event: Event, newWidth: number | number[]) => {
+    setPlotWidth(newWidth as number);
   };
 
-  const plotWidth = 1000;
-  const plotHeight = 300;
+  const heightChangeHandler = (event: Event, newHeight: number | number[]) => {
+    setPlotHeight(newHeight as number);
+  };
+
+  type PlotData = { x: Date[]; y: number[]; title: string };
+  type PlotDataObj = {
+    [key: string]: PlotData;
+  };
 
   //make all the plot elements and then render the selected ones - memoize?
-  const plotElements: PlotVariant = {
+  const plotData: PlotDataObj = {
     //add traces for min and max temp
-    temp: (
-      <Plot
-        data={[
-          {
-            x: props.data.map((value) => value.dt_txt),
-            y: props.data.map((value) => value.main.temp),
-            type: 'scatter',
-            mode: 'lines+markers',
-          },
-        ]}
-        layout={{
-          width: plotWidth,
-          height: plotHeight,
-          title: 'Temperature',
-        }}
-      />
-    ),
-    pop: (
-      <Plot
-        data={[
-          {
-            x: props.data.map((value) => value.dt_txt),
-            y: props.data.map((value) => value.pop),
-            type: 'scatter',
-            mode: 'lines+markers',
-          },
-        ]}
-        layout={{
-          width: plotWidth,
-          height: plotHeight,
-          title: 'Probability of Precipitation',
-        }}
-      />
-    ),
-    rain: (
-      <Plot
-        data={[
-          {
-            x: props.data.map((value) => value.dt_txt),
-            y: props.data.map((value) => (value.rain ? value.rain['3h'] : 0)),
-            type: 'scatter',
-            mode: 'lines+markers',
-          },
-        ]}
-        layout={{
-          width: plotWidth,
-          height: plotHeight,
-          title: 'Rain per 3 hours (mm)',
-        }}
-      />
-    ),
-    snow: (
-      <Plot
-        data={[
-          {
-            x: props.data.map((value) => value.dt_txt),
-            y: props.data.map((value) => (value.snow ? value.snow['3h'] : 0)),
-            type: 'scatter',
-            mode: 'lines+markers',
-          },
-        ]}
-        layout={{
-          width: plotWidth,
-          height: plotHeight,
-          title: 'Snow per 3 hours (mm)',
-        }}
-      />
-    ),
-    clouds: (
-      <Plot
-        data={[
-          {
-            x: props.data.map((value) => value.dt_txt),
-            y: props.data.map((value) => value.clouds.all),
-            type: 'scatter',
-            mode: 'lines+markers',
-          },
-        ]}
-        layout={{
-          width: plotWidth,
-          height: plotHeight,
-          title: 'Cloud Cover (%)',
-        }}
-      />
-    ),
-    wind: (
-      <Plot
-        data={[
-          {
-            x: props.data.map((value) => value.dt_txt),
-            y: props.data.map((value) => value.wind.speed),
-            type: 'scatter',
-            mode: 'lines+markers',
-          },
-        ]}
-        layout={{
-          width: plotWidth,
-          height: plotHeight,
-          title: 'Wind Speed (mph)',
-        }}
-      />
-    ),
-    vis: (
-      <Plot
-        data={[
-          {
-            x: props.data.map((value) => value.dt_txt),
-            y: props.data.map((value) => value.visibility),
-            type: 'scatter',
-            mode: 'lines+markers',
-          },
-        ]}
-        layout={{
-          width: plotWidth,
-          height: plotHeight,
-          title: 'Average Visibility (meters)',
-        }}
-      />
-    ),
-    press: (
-      <Plot
-        data={[
-          {
-            x: props.data.map((value) => value.dt_txt),
-            y: props.data.map((value) => value.main.pressure),
-            type: 'scatter',
-            mode: 'lines+markers',
-          },
-        ]}
-        layout={{
-          width: plotWidth,
-          height: plotHeight,
-          title: 'Pressure (hPa)',
-        }}
-      />
-    ),
-    hum: (
-      <Plot
-        data={[
-          {
-            x: props.data.map((value) => value.dt_txt),
-            y: props.data.map((value) => value.main.humidity),
-            type: 'scatter',
-            mode: 'lines+markers',
-          },
-        ]}
-        layout={{
-          width: plotWidth,
-          height: plotHeight,
-          title: 'Humidity (%)',
-        }}
-      />
-    ),
+    temp: {
+      x: props.data.map((value) => value.dt_txt),
+      y: props.data.map((value) => value.main.temp),
+      title: 'Temperature',
+    },
+    pop: {
+      x: props.data.map((value) => value.dt_txt),
+      y: props.data.map((value) => value.pop),
+      title: 'Probability of Precipitation (%)',
+    },
+    rain: {
+      x: props.data.map((value) => value.dt_txt),
+      y: props.data.map((value) => (value.rain ? value.rain['3h'] : 0)),
+
+      title: 'Rain per 3 hours (mm)',
+    },
+    snow: {
+      x: props.data.map((value) => value.dt_txt),
+      y: props.data.map((value) => (value.snow ? value.snow['3h'] : 0)),
+      title: 'Snow per 3 hours (mm)',
+    },
+    clouds: {
+      x: props.data.map((value) => value.dt_txt),
+      y: props.data.map((value) => value.clouds.all),
+      title: 'Cloud Cover (%)',
+    },
+    wind: {
+      x: props.data.map((value) => value.dt_txt),
+      y: props.data.map((value) => value.wind.speed),
+      title: 'Wind Speed (mph)',
+    },
+    vis: {
+      x: props.data.map((value) => value.dt_txt),
+      y: props.data.map((value) => value.visibility),
+      title: 'Average Visibility (meters)',
+    },
+    press: {
+      x: props.data.map((value) => value.dt_txt),
+      y: props.data.map((value) => value.main.pressure),
+      title: 'Pressure (hPa)',
+    },
+    hum: {
+      x: props.data.map((value) => value.dt_txt),
+      y: props.data.map((value) => value.main.humidity),
+      title: 'Humidity (%)',
+    },
   };
 
-  const chosenPlotElements: JSX.Element[] = [];
+  const chosenPlotData: PlotData[] = [];
 
   for (let plot of chosenPlots) {
-    chosenPlotElements.push(plotElements[plot]);
+    chosenPlotData.push(plotData[plot]);
   }
 
   return (
     <>
-      <ToggleButtonGroup
-        value={chosenPlots}
-        onChange={choosePlotHandler}
-        sx={{ mx: 'auto' }}
-      >
-        <ToggleButton value='temp'>Temperature</ToggleButton>
-        <ToggleButton value='pop'>Chance of Precip</ToggleButton>
-        <ToggleButton value='rain'>Amount of Rain</ToggleButton>
-        <ToggleButton value='snow'>Amount of Snow</ToggleButton>
-        <ToggleButton value='clouds'>Cloud cover</ToggleButton>
-        <ToggleButton value='wind'>Wind speed</ToggleButton>
-        <ToggleButton value='vis'>Visibility</ToggleButton>
-        <ToggleButton value='press'>Pressure</ToggleButton>
-        <ToggleButton value='hum'>Humidity</ToggleButton>
-      </ToggleButtonGroup>
-
-      <Container maxWidth='xl'>{chosenPlotElements}</Container>
+      <Grid container direction='row' wrap='nowrap'>
+        <Grid item>
+          <Grid container direction='column'>
+            <Grid item sx={{ m: 1 }}>
+              <ChoosePlotButtons
+                value={chosenPlots}
+                onChange={choosePlotHandler}
+              />
+            </Grid>
+            <Grid item sx={{ m: 1 }}>
+              Plot width:
+              <Slider
+                value={plotWidth}
+                min={200}
+                max={1200}
+                onChange={widthChangeHandler}
+                aria-label='plot width'
+                color='secondary'
+              />
+              Plot height:
+              <Slider
+                value={plotHeight}
+                min={100}
+                max={1000}
+                onChange={heightChangeHandler}
+                aria-label='plot height'
+                color='secondary'
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Container>
+            {chosenPlotData.map((value) => (
+              <Plot
+                data={[
+                  {
+                    x: value.x,
+                    y: value.y,
+                    type: 'scatter',
+                    mode: 'lines+markers',
+                    marker: { color: '#762F3D' },
+                  },
+                ]}
+                layout={{
+                  width: plotWidth,
+                  height: plotHeight,
+                  title: value.title,
+                  margin: { l: 30, r: 30, t: 35, b: 40, pad: 5 },
+                }}
+              />
+            ))}
+          </Container>
+        </Grid>
+      </Grid>
     </>
   );
 };
