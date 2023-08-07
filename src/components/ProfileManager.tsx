@@ -15,9 +15,10 @@ import { firebaseUrl } from '../store/info';
 function ProfileManager() {
   const dispatch = useAppDispatch();
   const usersList = useAppSelector((state) => state.profile.usernamesList);
-  const locationsList = useAppSelector((state) => state.location.locations);
+  //const locationsList = useAppSelector((state) => state.location.locations);
   const { isLoading, sendData: saveData } = useSendData();
 
+  //get list of users when component mounts
   useEffect(() => {
     const fetchUsers = async () => {
       try {

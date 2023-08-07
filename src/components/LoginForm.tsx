@@ -1,19 +1,46 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 
 import { TextField, Box, Button, Typography } from '@mui/material';
 import { uiActions } from '../store/store';
 import { profileActions } from '../store/profile-slice';
 
+import useFetchData from '../hooks/useFetchData';
 import { locationActions } from '../store/location-slice';
+import { firebaseUrl } from '../store/info';
 
 function LoginForm() {
   const dispatch = useAppDispatch();
   const usersList = useAppSelector((state) => state.profile.usernamesList);
-  const username = useAppSelector((state) => state.profile.username);
+  //const username = useAppSelector((state) => state.profile.username);
   const [enteredUsername, setEnteredUsername] = useState('');
   const [helperText, setHelperText] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, fetchData: fetchLocations } = useFetchData();
+
+  const storeLocations = (data: any) => {
+    const { locations: loadedLocations } = data;
+    dispatch(locationActions.setLocations(loadedLocations));
+    dispatch(
+      uiActions.showNotification({
+        status: 'success',
+        title: 'Logged in successfully!',
+        message: '',
+      })
+    );
+  };
+
+  //look for profile in local storage when component mounts
+  useEffect(() => {
+    const storedUser = localStorage.getItem('profile');
+    if (storedUser) {
+      fetchLocations(
+        `${firebaseUrl}/weather/${storedUser}.json`,
+        'Could not find any saved locations for user ' + storedUser,
+        storeLocations
+      );
+      dispatch(profileActions.logIn(storedUser)); //still log them in even if they have no saved locations
+    }
+  }, [dispatch, localStorage]);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,47 +59,14 @@ function LoginForm() {
       );
       return;
     }
-
     //console.log('Fetching locations for user ' + enteredUser);
-
-    const fetchLocations = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${enteredUser}.json`,
-          {
-            method: 'GET',
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error('Request failed! Status: ' + response.status);
-        }
-
-        const data = await response.json();
-        const { locations: loadedLocations } = data;
-        dispatch(locationActions.setLocations(loadedLocations));
-        dispatch(profileActions.logIn(enteredUser));
-        dispatch(
-          uiActions.showNotification({
-            status: 'success',
-            title: 'Logged in successfully!',
-            message: '',
-          })
-        );
-      } catch (err: any) {
-        dispatch(
-          uiActions.showNotification({
-            status: 'warning',
-            title: 'Could not find any saved locations for user ' + enteredUser,
-            message: '',
-          })
-        );
-        dispatch(profileActions.logIn(enteredUser)); //still log them in even if they have no saved locations
-      }
-      setIsLoading(false);
-    };
-    fetchLocations();
+    fetchLocations(
+      `${firebaseUrl}/weather/${enteredUser}.json`,
+      'Could not find any saved locations for user ' + enteredUser,
+      storeLocations
+    );
+    dispatch(profileActions.logIn(enteredUser)); //still log them in even if they have no saved locations
+    localStorage.setItem('profile', enteredUser); //save that they are logged in to localStorage
   };
 
   const usernameChangeHandler = (

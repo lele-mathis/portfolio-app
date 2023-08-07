@@ -16,6 +16,7 @@ function CurrentUser() {
     dispatch(uiActions.closeNotification());
     dispatch(locationActions.clearLocations());
     dispatch(profileActions.logOut());
+    localStorage.removeItem('profile'); //remove username from local storage
   };
 
   return (
