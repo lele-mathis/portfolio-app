@@ -207,11 +207,7 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
       >
         <FormControlLabel
           control={
-            <Switch
-              onChange={switchChangeHandler}
-              checked={showIcons}
-              defaultChecked
-            />
+            <Switch onChange={switchChangeHandler} checked={showIcons} />
           }
           label='Show/Hide weather icons'
         />
