@@ -33,7 +33,7 @@ function LoginForm() {
       return;
     }
 
-    console.log('Fetching locations for user ' + enteredUser);
+    //console.log('Fetching locations for user ' + enteredUser);
 
     const fetchLocations = async () => {
       setIsLoading(true);
@@ -63,11 +63,12 @@ function LoginForm() {
       } catch (err: any) {
         dispatch(
           uiActions.showNotification({
-            status: 'error',
-            title: 'Error Fetching Locations',
-            message: 'Could not find locations for user ' + enteredUser,
+            status: 'warning',
+            title: 'Could not find any saved locations for user ' + enteredUser,
+            message: '',
           })
         );
+        dispatch(profileActions.logIn(enteredUser)); //still log them in even if they have no saved locations
       }
       setIsLoading(false);
     };
@@ -101,13 +102,14 @@ function LoginForm() {
         variant='outlined'
         size='small'
         color='secondary'
-        sx={{ m: 1 }}
+        sx={{ my: 1 }}
       />
       <Button
         type='submit'
         disabled={isLoading}
         variant='contained'
         color='secondary'
+        size='medium'
         sx={{ m: 1 }}
       >
         {isLoading ? 'Logging in...' : 'Log In'}
