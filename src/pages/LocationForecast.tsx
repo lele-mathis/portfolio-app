@@ -60,12 +60,7 @@ function LocationForecastPage() {
     <>
       {forecast && (
         <Card variant='outlined' sx={{ m: 1, p: 1 }}>
-          <Typography
-            component='h2'
-            variant='h5'
-            color='secondary'
-            sx={{ m: 1 }}
-          >
+          <Typography component='h2' variant='h5' sx={{ m: 1 }}>
             {forecast.city.name}, {location.admin1}, {location.country}
           </Typography>
           {forecast.city.name !== location.name && (
@@ -80,7 +75,7 @@ function LocationForecastPage() {
         </Card>
       )}
       <Button component={Link} to='..'>
-        <IoIosArrowBack className='icon' /> Back
+        <IoIosArrowBack className='icon' /> Back To Weather Home
       </Button>
     </>
   );

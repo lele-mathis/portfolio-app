@@ -59,7 +59,7 @@ function CreateProfile() {
       component='form'
       noValidate
       onSubmit={submitHandler}
-      sx={{ mx: 'auto', my: 1, p: 1, textAlign: 'center' }}
+      sx={{ textAlign: 'center' }}
     >
       <Typography>Save your locations by creating a profile:</Typography>
       <TextField
@@ -73,12 +73,13 @@ function CreateProfile() {
         variant='outlined'
         size='small'
         color='secondary'
-        sx={{ m: 1 }}
+        sx={{ my: 1 }}
       />
       <Button
         type='submit'
         variant='contained'
         color='secondary'
+        size='medium'
         sx={{ m: 1 }}
         disabled={isLoading}
       >

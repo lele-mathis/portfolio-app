@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Plot from 'react-plotly.js';
-import { Slider, Container, Grid } from '@mui/material';
+import { Slider, Container, Grid, useTheme } from '@mui/material';
 
 import WeatherPoint from '../models/weatherPoint';
 import ChoosePlotButtons from './ChoosePlotButtons';
@@ -9,12 +9,12 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
   const [chosenPlots, setChosenPlots] = useState<string[]>(['temp']);
   const [plotHeight, setPlotHeight] = useState<number>(300); //in pixels
   const [plotWidth, setPlotWidth] = useState<number>(1000);
+  const theme = useTheme();
 
   const choosePlotHandler = (
     event: React.MouseEvent<HTMLElement>,
     newPlots: string[]
   ) => {
-    console.log('Plots chosen: ' + newPlots);
     setChosenPlots(newPlots);
   };
 
@@ -37,7 +37,7 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
     temp: {
       x: props.data.map((value) => value.dt_txt),
       y: props.data.map((value) => value.main.temp),
-      title: 'Temperature',
+      title: 'Temperature (\xB0F)',
     },
     pop: {
       x: props.data.map((value) => value.dt_txt),
@@ -107,7 +107,7 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
                 max={1200}
                 onChange={widthChangeHandler}
                 aria-label='plot width'
-                color='secondary'
+                color='primary'
               />
               Plot height:
               <Slider
@@ -116,7 +116,7 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
                 max={1000}
                 onChange={heightChangeHandler}
                 aria-label='plot height'
-                color='secondary'
+                color='primary'
               />
             </Grid>
           </Grid>
@@ -131,14 +131,27 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
                     y: value.y,
                     type: 'scatter',
                     mode: 'lines+markers',
-                    marker: { color: '#762F3D' },
+                    // marker: {
+                    //   color: '#bf0101',
+                    // },
                   },
                 ]}
                 layout={{
                   width: plotWidth,
                   height: plotHeight,
-                  title: value.title,
-                  margin: { l: 30, r: 30, t: 35, b: 40, pad: 5 },
+                  xaxis: {
+                    range: [value.x[0], value.x[value.x.length - 1]],
+                    showgrid: false,
+                    showline: true,
+                    linecolor: '#000',
+                  },
+                  yaxis: { showgrid: false, showline: true, linecolor: '#000' },
+                  title: {
+                    text: value.title,
+                    font: { size: 16, color: '#000' },
+                  },
+                  font: { color: '#000' },
+                  margin: { l: 30, r: 30, t: 30, b: 40, pad: 0 },
                 }}
               />
             ))}

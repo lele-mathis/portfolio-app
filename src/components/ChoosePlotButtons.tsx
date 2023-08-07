@@ -9,7 +9,6 @@ const ChoosePlotButtons: React.FC<{
       value={props.value}
       onChange={props.onChange}
       orientation='vertical'
-      color='secondary'
       size='small'
       sx={{ mx: 'auto' }}
     >

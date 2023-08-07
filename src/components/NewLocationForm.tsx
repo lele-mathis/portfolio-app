@@ -216,7 +216,7 @@ function NewLocation() {
           id='submit-location-button'
           fullWidth
           variant='contained'
-          disabled={isSubmitting || enteredValues.city === ''}
+          disabled={isSubmitting}
           sx={{ my: 2 }}
         >
           <Typography color='secondaryLight'>
