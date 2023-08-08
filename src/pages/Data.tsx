@@ -1,6 +1,7 @@
 import { useAppSelector } from '../hooks/typedHooks';
 import { Typography, Paper, Card, Link, Box } from '@mui/material';
 function DataPage() {
+  document.title = 'Data Analytics Projects | Lele Mathis Portfolio';
   const isMobile = useAppSelector((state) => state.ui.isMobile);
   const pageContent = (
     <>

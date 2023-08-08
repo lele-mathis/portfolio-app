@@ -4,7 +4,7 @@ import { Button, Alert, AlertTitle } from '@mui/material';
 import { IoIosArrowBack } from 'react-icons/io';
 
 import Geocode from '../models/geocode';
-import Forecast from '../components/Forecast';
+import Forecast from '../components/weatherForecast/Forecast';
 import { uiActions } from '../store/store';
 
 function LocationForecastPage() {
@@ -28,12 +28,14 @@ function LocationForecastPage() {
     return <></>;
   }
 
+  document.title = `${location.name} Forecast | Weather App | Lele Mathis Portfolio`;
+
   return (
     <>
-      <Forecast location={location} />
-      <Button component={Link} to='..'>
-        <IoIosArrowBack className='icon' /> Back To Weather Home
+      <Button size='large' component={Link} to='..'>
+        <IoIosArrowBack className='icon' /> Back
       </Button>
+      <Forecast location={location} />
     </>
   );
 }

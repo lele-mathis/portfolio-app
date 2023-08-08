@@ -6,8 +6,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Container } from '@mui/material';
 
 import useWindowDimensions from '../hooks/useWindowDimensions';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/layout/Header';
+import Footer from '../components/layout/Footer';
 
 // When using TypeScript 4.x and above
 import type {} from '@mui/x-data-grid/themeAugmentation';

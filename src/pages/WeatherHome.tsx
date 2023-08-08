@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
+import Card from '@mui/material/Card';
 
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
 import WeatherLoc from '../models/weatherLoc';
-import NewLocation from '../components/NewLocationForm';
-import WeatherGrid from '../components/WeatherGrid';
+import NewLocation from '../components/weatherHome/NewLocationForm';
+import WeatherGrid from '../components/weatherHome/WeatherGrid';
 import { fetchCurrentWeather } from '../store/weather-actions';
 import { uiActions } from '../store/store';
-import ProfileManager from '../components/ProfileManager';
 import useSendData from '../hooks/useSendData';
 import { firebaseUrl } from '../store/info';
 
 const initialState: WeatherLoc[] = [];
 
 function WeatherHomePage() {
+  document.title = 'Weather App | Lele Mathis Portfolio';
   const { isLoading: locationsSaving, sendData: saveLocations } = useSendData();
   const dispatch = useAppDispatch();
   const locationsList: Geocode[] = useAppSelector(
@@ -23,6 +24,7 @@ function WeatherHomePage() {
 
   const username = useAppSelector((state) => state.profile.username);
   const [weatherList, setWeatherList] = useState(initialState);
+  const isMobile = useAppSelector((state) => state.ui.isMobile);
 
   //remake the weather list and send the locationsList to the backend when the locationsList changes
   useEffect(() => {
@@ -59,10 +61,13 @@ function WeatherHomePage() {
     }
   }, [locationsList, saveLocations, username, dispatch]); //fetch the weather every time the list of locations changes
 
+  const m = isMobile ? 1 : 2;
   let pageContent = (
-    <p style={{ textAlign: 'center' }}>
-      No locations to display - enter one above!
-    </p>
+    <Card variant='outlined' sx={{ m: m }}>
+      <p style={{ textAlign: 'center' }}>
+        No locations to display - enter one above!
+      </p>
+    </Card>
   );
 
   if (locationsList.length !== 0) {
