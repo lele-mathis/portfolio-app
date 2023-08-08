@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
 
 import { TextField, Box, Button, Typography } from '@mui/material';
@@ -28,19 +28,6 @@ function LoginForm() {
       })
     );
   };
-
-  //look for profile in local storage when component mounts
-  useEffect(() => {
-    const storedUser = localStorage.getItem('profile');
-    if (storedUser) {
-      fetchLocations(
-        `${firebaseUrl}/weather/${storedUser}.json`,
-        'Could not find any saved locations for user ' + storedUser,
-        storeLocations
-      );
-      dispatch(profileActions.logIn(storedUser)); //still log them in even if they have no saved locations
-    }
-  }, [dispatch, localStorage]);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -111,4 +98,5 @@ function LoginForm() {
     </Box>
   );
 }
+
 export default LoginForm;
