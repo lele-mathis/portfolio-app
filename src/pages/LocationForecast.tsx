@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useAppSelector } from '../hooks';
+import { useAppSelector } from '../hooks/typedHooks';
 import { Button, Typography, Card, Alert, AlertTitle } from '@mui/material';
 import { IoIosArrowBack } from 'react-icons/io';
 
@@ -8,6 +8,7 @@ import { fetchWeatherForecast } from '../store/weather-actions';
 import Geocode from '../models/geocode';
 import WeatherForecast from '../models/weatherForecast';
 import ForecastPlots from '../components/ForecastPlots';
+import FiveDayForecast from '../components/FiveDayForecast';
 
 function LocationForecastPage() {
   const locationList = useAppSelector((state) => state.location.locations);
@@ -71,6 +72,7 @@ function LocationForecastPage() {
           <Typography component='h3' variant='h6' sx={{ m: 1 }}>
             Weather forecast for the next 5 days:
           </Typography>
+          <FiveDayForecast data={data} />
           <ForecastPlots data={data} />
         </Card>
       )}
