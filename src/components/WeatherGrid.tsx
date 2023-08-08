@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { useAppDispatch, useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks/typedHooks';
 import { useNavigate } from 'react-router-dom';
 import {
   DataGrid,
@@ -22,6 +22,7 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const showIcons = useAppSelector((state) => state.ui.showIcons);
+  const isMobile = useAppSelector((state) => state.ui.isMobile);
   const [dialogMessage, setDialogMessage] = useState('');
   const [toRemove, setToRemove] = useState('');
   const dialogOpen = dialogMessage !== '';
@@ -183,6 +184,9 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
     dispatch(uiActions.setShowIcons(event.target.checked));
   };
 
+  const m = isMobile ? 1 : 2;
+  const elevation = isMobile ? 0 : 1;
+
   return (
     <>
       {dialogOpen && (
@@ -197,7 +201,16 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
           rows={rows}
           columns={showIcons ? columnsWithIcons : columnsNoIcons}
           onRowClick={rowClickHandler}
-          sx={{ m: 2 }}
+          sx={{
+            borderColor: '#bbb',
+            m: m,
+            '& .MuiDataGrid-columnHeaders': {
+              backgroundColor: 'white',
+            },
+            '& .MuiDataGrid-withBorderColor': {
+              borderColor: '#bbb',
+            },
+          }}
           slots={{ pagination: DataGridFooter }}
         />
       </div>

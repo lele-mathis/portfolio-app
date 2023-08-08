@@ -1,13 +1,16 @@
 import { Outlet } from 'react-router-dom';
+import { useAppDispatch } from '../hooks/typedHooks';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import useWindowDimensions from '../hooks/useWindowDimensions';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 // When using TypeScript 4.x and above
 import type {} from '@mui/x-data-grid/themeAugmentation';
+import { uiActions } from '../store/store';
 
 const theme = createTheme({
   palette: {
@@ -18,7 +21,7 @@ const theme = createTheme({
     },
     secondary: {
       main: '#ec6e4c',
-      light: '#cb3030',
+      light: '#eaa760',
       dark: '#cb3030',
     },
     background: {
@@ -30,7 +33,6 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: '#ddd',
-          '&.MuiDataGrid-columnHeaderTitle': { color: 'white' },
         },
       },
     },
@@ -45,6 +47,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: 'white',
+          borderColor: '#bbb',
         },
       },
     },
@@ -70,6 +73,12 @@ const theme = createTheme({
 theme.spacing(2);
 
 function RootLayout() {
+  const dispatch = useAppDispatch();
+  const windowDimensions = useWindowDimensions();
+  const isNarrowDevice = windowDimensions.width < 600;
+
+  dispatch(uiActions.setIsMobile(isNarrowDevice));
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

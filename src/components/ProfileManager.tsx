@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '../hooks';
+import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
 
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -16,6 +16,7 @@ function ProfileManager() {
   const dispatch = useAppDispatch();
   const usersList = useAppSelector((state) => state.profile.usernamesList);
   //const locationsList = useAppSelector((state) => state.location.locations);
+  const isMobile = useAppSelector((state) => state.ui.isMobile);
   const { isLoading, sendData: saveData } = useSendData();
 
   //get list of users when component mounts
@@ -58,8 +59,9 @@ function ProfileManager() {
   }, [usersList, saveData, dispatch]);
   const user = useAppSelector((state) => state.profile.username);
 
+  const m = isMobile ? 1 : 2;
   return (
-    <Card sx={{ m: 2, p: 2 }} variant='outlined'>
+    <Card sx={{ m: m, p: m }} variant='outlined'>
       {user === '' ? (
         <Grid container direction='column'>
           <Grid item xs={5}>

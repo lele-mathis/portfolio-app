@@ -2,11 +2,15 @@ import { createSlice, configureStore, PayloadAction } from '@reduxjs/toolkit';
 import { locationSlice } from './location-slice';
 import { profileSlice } from './profile-slice';
 
-const noNotification = { status: '', title: '', message: '' };
+const noNotification = { status: '', title: '', message: '' }; //change this to null?
 
 export const uiSlice = createSlice({
   name: 'ui',
-  initialState: { notification: noNotification, showIcons: true },
+  initialState: {
+    notification: noNotification,
+    showIcons: true,
+    isMobile: false,
+  },
   reducers: {
     showNotification(state, action) {
       state.notification = {
@@ -20,6 +24,9 @@ export const uiSlice = createSlice({
     },
     setShowIcons(state, action: PayloadAction<boolean>) {
       state.showIcons = action.payload;
+    },
+    setIsMobile(state, action: PayloadAction<boolean>) {
+      state.isMobile = action.payload;
     },
   },
 });

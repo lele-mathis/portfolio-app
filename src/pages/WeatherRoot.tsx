@@ -1,5 +1,6 @@
 import { Outlet, Link } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../hooks';
+import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
+import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
@@ -9,12 +10,14 @@ import { uiActions } from '../store/store';
 function WeatherRootLayout() {
   const dispatch = useAppDispatch();
   const notification = useAppSelector((state) => state.ui.notification);
+  const isMobile = useAppSelector((state) => state.ui.isMobile);
+
   const notificationCloseHandler = () => {
     dispatch(uiActions.closeNotification());
   };
-  return (
-    <Paper sx={{ m: 2, p: 2 }}>
-      {' '}
+
+  const pageContent = (
+    <>
       <Link to='/weather' style={{ textDecoration: 'none' }}>
         <Typography component='h1' variant='h4' color='primary'>
           Weather App
@@ -41,8 +44,14 @@ function WeatherRootLayout() {
           </Link>
         </Typography>
       </footer>
-    </Paper>
+    </>
   );
+
+  if (isMobile) {
+    return <Box sx={{ m: 1 }}>{pageContent}</Box>;
+  } else {
+    return <Paper sx={{ m: 2, p: 2 }}>{pageContent}</Paper>;
+  }
 }
 
 export default WeatherRootLayout;

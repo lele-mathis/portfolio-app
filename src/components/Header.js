@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { isMobile } from 'react-device-detect';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -21,8 +22,8 @@ function Header() {
         size='large'
         style={({ isActive }) =>
           isActive
-            ? { color: '#ec6e4c', fontWeight: 'bold' }
-            : { color: '#FFF', fontWeight: 'bold' }
+            ? { color: '#ec6e4c', fontWeight: 'bold', textAlign: 'center' }
+            : { color: '#FFF', fontWeight: 'bold', textAlign: 'center' }
         }
       >
         {page.name}
@@ -35,7 +36,7 @@ function Header() {
         <Container maxWidth='xl'>
           <Toolbar component='nav' id='toolbar' disableGutters>
             <Typography
-              variant='h3'
+              variant={isMobile ? 'h4' : 'h3'}
               color='#dcfcfc'
               style={{
                 fontFamily: 'Brush Script MT',

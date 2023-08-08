@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../hooks/typedHooks';
 
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 
 function HomePage() {
   const navigate = useNavigate();
+  const isMobile = useAppSelector((state) => state.ui.isMobile);
 
   const clickWeatherHandler = () => {
     navigate('weather');
@@ -16,8 +19,8 @@ function HomePage() {
     navigate('data');
   };
 
-  return (
-    <Paper sx={{ m: 2, p: 2 }}>
+  const pageContent = (
+    <>
       <Typography component='h1' variant='h4' color='primary'>
         Portfolio Website Home
       </Typography>
@@ -57,8 +60,13 @@ function HomePage() {
           </Button>
         </Grid>
       </Grid>
-    </Paper>
+    </>
   );
+  if (isMobile) {
+    return <Box sx={{ m: 1 }}>{pageContent}</Box>;
+  } else {
+    return <Paper sx={{ m: 2, p: 2 }}>{pageContent}</Paper>;
+  }
 }
 
 export default HomePage;

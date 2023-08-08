@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks/typedHooks';
 
 import {
   Button,
@@ -18,8 +18,9 @@ import { geocodeCity } from '../store/weather-actions';
 import { uiActions } from '../store/store';
 import { statesList, countriesList } from '../store/info';
 
-function NewLocation() {
+function NewLocationForm() {
   const dispatch = useAppDispatch();
+  const isMobile = useAppSelector((state) => state.ui.isMobile);
   const [cityTouched, setCityTouched] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [enteredValues, setEnteredValues] = useState({
@@ -205,8 +206,10 @@ function NewLocation() {
     closeMenuHandler();
   };
 
+  const m = isMobile ? 1 : 2;
+
   return (
-    <Card sx={{ m: 2, p: 2 }} variant='outlined'>
+    <Card sx={{ m: m, p: m }} variant='outlined'>
       <Box component='form' noValidate onSubmit={submitHandler}>
         <Grid container spacing={2}>
           {inputFields}
@@ -237,4 +240,4 @@ function NewLocation() {
   );
 }
 
-export default NewLocation;
+export default NewLocationForm;
