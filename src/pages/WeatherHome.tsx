@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../hooks';
+import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
 
 import Geocode from '../models/geocode';
 import Weather from '../models/weather';
