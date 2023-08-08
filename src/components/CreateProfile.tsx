@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../hooks';
+import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
 import { TextField, Box, Button, Typography } from '@mui/material';
 
 import { uiActions } from '../store/store';

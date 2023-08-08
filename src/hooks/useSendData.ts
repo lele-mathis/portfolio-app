@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch } from './typedHooks';
 
 import { uiActions } from '../store/store';
 
