@@ -1,21 +1,30 @@
 import { useState } from 'react';
+import { useAppSelector } from '../hooks/typedHooks';
 import Plot from 'react-plotly.js';
-import { Slider, Container, Grid, useTheme } from '@mui/material';
+import { Slider, Container, Grid } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
 
+import useWindowDimensions from '../hooks/useWindowDimensions';
 import WeatherPoint from '../models/weatherPoint';
 import ChoosePlotButtons from './ChoosePlotButtons';
+import PlotMenu from './PlotMenu';
 
 const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
   const [chosenPlots, setChosenPlots] = useState<string[]>(['temp']);
   const [plotHeight, setPlotHeight] = useState<number>(300); //in pixels
   const [plotWidth, setPlotWidth] = useState<number>(1000);
-  const theme = useTheme();
+  const isMobile = useAppSelector((state) => state.ui.isMobile);
+  const windowDimensions = useWindowDimensions();
 
   const choosePlotHandler = (
     event: React.MouseEvent<HTMLElement>,
     newPlots: string[]
   ) => {
     setChosenPlots(newPlots);
+  };
+
+  const selectPlotHandler = (event: SelectChangeEvent) => {
+    setChosenPlots((oldPlots) => oldPlots.concat(event.target.value as string));
   };
 
   const widthChangeHandler = (event: Event, newWidth: number | number[]) => {
@@ -88,8 +97,31 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
     chosenPlotData.push(plotData[plot]);
   }
 
-  return (
+  const sliders = (
     <>
+      {' '}
+      Plot width:
+      <Slider
+        value={plotWidth}
+        min={200}
+        max={1200}
+        onChange={widthChangeHandler}
+        aria-label='plot width'
+        color='primary'
+      />
+      Plot height:
+      <Slider
+        value={plotHeight}
+        min={100}
+        max={1000}
+        onChange={heightChangeHandler}
+        aria-label='plot height'
+        color='primary'
+      />
+    </>
+  );
+  if (!isMobile) {
+    return (
       <Grid container direction='row' wrap='nowrap'>
         <Grid item>
           <Grid container direction='column'>
@@ -99,41 +131,24 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
                 onChange={choosePlotHandler}
               />
             </Grid>
-            <Grid item sx={{ m: 1 }}>
-              Plot width:
-              <Slider
-                value={plotWidth}
-                min={200}
-                max={1200}
-                onChange={widthChangeHandler}
-                aria-label='plot width'
-                color='primary'
-              />
-              Plot height:
-              <Slider
-                value={plotHeight}
-                min={100}
-                max={1000}
-                onChange={heightChangeHandler}
-                aria-label='plot height'
-                color='primary'
-              />
-            </Grid>
+            <Grid item sx={{ m: 1 }}></Grid>
+            {sliders}
           </Grid>
         </Grid>
         <Grid item>
           <Container>
             {chosenPlotData.map((value) => (
               <Plot
+                key={value.title}
                 data={[
                   {
                     x: value.x,
                     y: value.y,
                     type: 'scatter',
                     mode: 'lines+markers',
-                    // marker: {
-                    //   color: '#bf0101',
-                    // },
+                    marker: {
+                      color: '#ec6e4c',
+                    },
                   },
                 ]}
                 layout={{
@@ -158,8 +173,55 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
           </Container>
         </Grid>
       </Grid>
-    </>
-  );
+    );
+  } else {
+    return (
+      <Grid container direction='column'>
+        {chosenPlotData.map((value) => (
+          <Grid item>
+            <Plot
+              key={value.title}
+              data={[
+                {
+                  x: value.x,
+                  y: value.y,
+                  type: 'scatter',
+                  mode: 'lines+markers',
+                  marker: {
+                    color: '#ec6e4c',
+                  },
+                },
+              ]}
+              layout={{
+                width: windowDimensions.width - 48,
+                height: (windowDimensions.width - 48) / 1.618,
+                xaxis: {
+                  range: [value.x[0], value.x[value.x.length - 1]],
+                  showgrid: false,
+                  showline: true,
+                  linecolor: '#000',
+                },
+                yaxis: {
+                  showgrid: false,
+                  showline: true,
+                  linecolor: '#000',
+                },
+                title: {
+                  text: value.title,
+                  font: { size: 16, color: '#000' },
+                },
+                font: { color: '#000' },
+                margin: { l: 30, r: 30, t: 30, b: 40, pad: 0 },
+              }}
+            />
+          </Grid>
+        ))}
+        <Grid item>
+          <PlotMenu values={chosenPlots} onChange={selectPlotHandler} />
+        </Grid>
+      </Grid>
+    );
+  }
 };
 
 export default ForecastPlots;
