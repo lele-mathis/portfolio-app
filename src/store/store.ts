@@ -9,7 +9,7 @@ export const uiSlice = createSlice({
   initialState: {
     notification: noNotification,
     showIcons: true,
-    isMobile: false,
+    isNarrow: false,
   },
   reducers: {
     showNotification(state, action) {
@@ -25,8 +25,8 @@ export const uiSlice = createSlice({
     setShowIcons(state, action: PayloadAction<boolean>) {
       state.showIcons = action.payload;
     },
-    setIsMobile(state, action: PayloadAction<boolean>) {
-      state.isMobile = action.payload;
+    setisNarrow(state, action: PayloadAction<boolean>) {
+      state.isNarrow = action.payload;
     },
   },
 });

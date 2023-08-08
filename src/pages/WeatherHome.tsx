@@ -24,7 +24,7 @@ function WeatherHomePage() {
 
   const username = useAppSelector((state) => state.profile.username);
   const [weatherList, setWeatherList] = useState(initialState);
-  const isMobile = useAppSelector((state) => state.ui.isMobile);
+  const isNarrow = useAppSelector((state) => state.ui.isNarrow);
 
   //remake the weather list and send the locationsList to the backend when the locationsList changes
   useEffect(() => {
@@ -61,7 +61,7 @@ function WeatherHomePage() {
     }
   }, [locationsList, saveLocations, username, dispatch]); //fetch the weather every time the list of locations changes
 
-  const m = isMobile ? 1 : 2;
+  const m = isNarrow ? 1 : 2;
   let pageContent = (
     <Card variant='outlined' sx={{ m: m }}>
       <p style={{ textAlign: 'center' }}>

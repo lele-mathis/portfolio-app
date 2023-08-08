@@ -2,13 +2,13 @@ import { useAppSelector } from '../hooks/typedHooks';
 import { Typography, Paper, Card, Link, Box } from '@mui/material';
 function DataPage() {
   document.title = 'Data Analytics Projects | Lele Mathis Portfolio';
-  const isMobile = useAppSelector((state) => state.ui.isMobile);
+  const isNarrow = useAppSelector((state) => state.ui.isNarrow);
   const pageContent = (
     <>
       <Typography component='h1' variant='h4' color='primary'>
         Data Analytics Projects
       </Typography>
-      <Card variant={isMobile ? 'elevation' : 'outlined'} sx={{ m: 2, p: 2 }}>
+      <Card variant={isNarrow ? 'elevation' : 'outlined'} sx={{ m: 2, p: 2 }}>
         <Typography component='h2' variant='h6'>
           Tornadoes in the U.S. Over Seven Decades
         </Typography>
@@ -17,6 +17,7 @@ function DataPage() {
     from 1950 to 2021
   </Typography> */}
         <ul>
+          <li>Data cleaning in Microsoft Excel</li>
           <li>
             <Link href='https://public.tableau.com/app/profile/lele.mathis/viz/TornadoesintheU_S_1950-2021Updated/Dashboard'>
               Data Visualization in Tableau
@@ -24,7 +25,7 @@ function DataPage() {
           </li>
         </ul>
       </Card>
-      <Card variant={isMobile ? 'elevation' : 'outlined'} sx={{ m: 2, p: 2 }}>
+      <Card variant={isNarrow ? 'elevation' : 'outlined'} sx={{ m: 2, p: 2 }}>
         <Typography component='h2' variant='h6'>
           Analysis of Alternative Fuel Stations
         </Typography>
@@ -49,7 +50,7 @@ function DataPage() {
     </>
   );
 
-  if (isMobile) {
+  if (isNarrow) {
     return <Box sx={{ m: 1 }}>{pageContent}</Box>;
   } else {
     return <Paper sx={{ m: 2, p: 2 }}>{pageContent}</Paper>;

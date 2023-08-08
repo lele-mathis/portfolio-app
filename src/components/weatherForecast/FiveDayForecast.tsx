@@ -5,7 +5,7 @@ import WeatherPoint from '../../models/weatherPoint';
 import { uiActions } from '../../store/store';
 
 const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
-  const isMobile = useAppSelector((state) => state.ui.isMobile);
+  const isNarrow = useAppSelector((state) => state.ui.isNarrow);
   const dispatch = useAppDispatch();
 
   const stringDate = (date: Date) => {
@@ -50,12 +50,12 @@ const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
             alt={weatherMode ? weatherMode : ''}
             aria-labelledby='caption'
             src={
-              isMobile
+              isNarrow
                 ? `https://openweathermap.org/img/wn/${iconMode}d.png`
                 : `https://openweathermap.org/img/wn/${iconMode}d@2x.png`
             }
           />
-          <Typography id='caption' variant={isMobile ? 'caption' : 'body1'}>
+          <Typography id='caption' variant={isNarrow ? 'caption' : 'body1'}>
             {date}: {weatherMode}
           </Typography>
           {/* <Typography variant='caption'>
@@ -68,7 +68,7 @@ const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
     } else if (weatherMode) {
       fiveDayWeather.push(
         <Grid item key={date}>
-          <Typography id='caption' variant={isMobile ? 'caption' : 'body1'}>
+          <Typography id='caption' variant={isNarrow ? 'caption' : 'body1'}>
             {date}: {weatherMode}
           </Typography>
         </Grid>

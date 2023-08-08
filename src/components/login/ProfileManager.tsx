@@ -17,7 +17,7 @@ function ProfileManager() {
   const dispatch = useAppDispatch();
   const usersList = useAppSelector((state) => state.profile.usernamesList);
   //const locationsList = useAppSelector((state) => state.location.locations);
-  const isMobile = useAppSelector((state) => state.ui.isMobile);
+  const isMobile = useAppSelector((state) => state.ui.isNarrow);
   const { isLoading, sendData: saveData } = useSendData();
 
   //get list of users when component mounts

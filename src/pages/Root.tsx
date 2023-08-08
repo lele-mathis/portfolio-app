@@ -47,8 +47,10 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: 'white',
           borderColor: '#bbb',
+          '&:hover.homeCard': {
+            backgroundColor: '#eee',
+          },
         },
       },
     },
@@ -78,7 +80,7 @@ function RootLayout() {
   const windowDimensions = useWindowDimensions();
   const isNarrowDevice = windowDimensions.width < 1000;
 
-  dispatch(uiActions.setIsMobile(isNarrowDevice));
+  dispatch(uiActions.setisNarrow(isNarrowDevice));
   if (isNarrowDevice) {
     theme.spacing(1);
   }

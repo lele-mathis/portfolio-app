@@ -11,7 +11,7 @@ import ProfileManager from '../components/login/ProfileManager';
 function WeatherRootLayout() {
   const dispatch = useAppDispatch();
   const notification = useAppSelector((state) => state.ui.notification);
-  const isMobile = useAppSelector((state) => state.ui.isMobile);
+  const isNarrow = useAppSelector((state) => state.ui.isNarrow);
 
   const notificationCloseHandler = () => {
     dispatch(uiActions.closeNotification());
@@ -44,12 +44,14 @@ function WeatherRootLayout() {
           <Link to='https://open-meteo.com/en/docs/geocoding-api'>
             Open-Meteo
           </Link>
+          , data stored in{' '}
+          <Link to='https://firebase.google.com/'>Firebase</Link>
         </Typography>
       </footer>
     </>
   );
 
-  if (isMobile) {
+  if (isNarrow) {
     return <Box sx={{ m: 1 }}>{pageContent}</Box>;
   } else {
     return <Paper sx={{ m: 2, p: 2 }}>{pageContent}</Paper>;

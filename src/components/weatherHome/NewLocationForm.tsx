@@ -20,7 +20,7 @@ import { statesList, countriesList } from '../../store/info';
 
 function NewLocationForm() {
   const dispatch = useAppDispatch();
-  const isMobile = useAppSelector((state) => state.ui.isMobile);
+  const isNarrow = useAppSelector((state) => state.ui.isNarrow);
   const [cityTouched, setCityTouched] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [enteredValues, setEnteredValues] = useState({
@@ -206,7 +206,7 @@ function NewLocationForm() {
     closeMenuHandler();
   };
 
-  const m = isMobile ? 1 : 2;
+  const m = isNarrow ? 1 : 2;
 
   return (
     <Card sx={{ m: m, p: m }} variant='outlined'>

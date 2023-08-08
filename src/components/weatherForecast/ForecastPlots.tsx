@@ -3,6 +3,7 @@ import { useAppSelector } from '../../hooks/typedHooks';
 import Plot from 'react-plotly.js';
 import { Slider, Container, Grid } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
+import { isMobile } from 'react-device-detect';
 
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import WeatherPoint from '../../models/weatherPoint';
@@ -13,7 +14,7 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
   const [chosenPlots, setChosenPlots] = useState<string[]>(['temp']);
   const [plotHeight, setPlotHeight] = useState<number>(300); //in pixels
   const [plotWidth, setPlotWidth] = useState<number>(1000);
-  const isMobile = useAppSelector((state) => state.ui.isMobile);
+  const isNarrow = useAppSelector((state) => state.ui.isNarrow);
   const windowDimensions = useWindowDimensions();
 
   const choosePlotHandler = (

@@ -22,7 +22,7 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const showIcons = useAppSelector((state) => state.ui.showIcons);
-  const isMobile = useAppSelector((state) => state.ui.isMobile);
+  const isNarrow = useAppSelector((state) => state.ui.isNarrow);
   const [dialogMessage, setDialogMessage] = useState('');
   const [toRemove, setToRemove] = useState('');
   const dialogOpen = dialogMessage !== '';
@@ -184,8 +184,8 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
     dispatch(uiActions.setShowIcons(event.target.checked));
   };
 
-  const m = isMobile ? 1 : 2;
-  const elevation = isMobile ? 0 : 1;
+  const m = isNarrow ? 1 : 2;
+  const elevation = isNarrow ? 0 : 1;
 
   return (
     <>
