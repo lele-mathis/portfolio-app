@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
+import { useAppSelector, useAppDispatch } from '../../hooks/typedHooks';
 
 import { TextField, Box, Button, Typography } from '@mui/material';
-import { uiActions } from '../store/store';
-import { profileActions } from '../store/profile-slice';
+import { uiActions } from '../../store/store';
+import { profileActions } from '../../store/profile-slice';
 
-import useFetchData from '../hooks/useFetchData';
-import { locationActions } from '../store/location-slice';
-import { firebaseUrl } from '../store/info';
+import useFetchData from '../../hooks/useFetchData';
+import { locationActions } from '../../store/location-slice';
+import { firebaseUrl } from '../../store/info';
 
 function LoginForm() {
   const dispatch = useAppDispatch();
@@ -70,7 +70,8 @@ function LoginForm() {
       sx={{ mx: 'auto', textAlign: 'center' }}
     >
       <Typography>
-        Log in to your profile below to display saved locations:
+        <strong>Already have a profile?</strong> Log in to display your
+        locations:
       </Typography>
       <TextField
         name='username'

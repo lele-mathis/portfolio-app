@@ -1,4 +1,4 @@
-import { useAppSelector } from '../hooks/typedHooks';
+import { useAppSelector } from '../../hooks/typedHooks';
 import { Typography, Pagination, Stack } from '@mui/material';
 import { IoIosArrowUp } from 'react-icons/io';
 const DataGridFooter = () => {

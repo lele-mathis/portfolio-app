@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../hooks/typedHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/typedHooks';
 
 import {
   Button,
@@ -11,12 +11,12 @@ import {
   Autocomplete,
 } from '@mui/material';
 
-import Geocode from '../models/geocode';
+import Geocode from '../../models/geocode';
 import LocationMenu from './LocationMenu';
-import { locationActions } from '../store/location-slice';
-import { geocodeCity } from '../store/weather-actions';
-import { uiActions } from '../store/store';
-import { statesList, countriesList } from '../store/info';
+import { locationActions } from '../../store/location-slice';
+import { geocodeCity } from '../../store/weather-actions';
+import { uiActions } from '../../store/store';
+import { statesList, countriesList } from '../../store/info';
 
 function NewLocationForm() {
   const dispatch = useAppDispatch();

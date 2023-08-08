@@ -1,5 +1,5 @@
 import { Menu, MenuItem, Divider } from '@mui/material';
-import Geocode from '../models/geocode';
+import Geocode from '../../models/geocode';
 
 const LocationMenu: React.FC<{
   open: boolean;

@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useAppSelector } from '../hooks/typedHooks';
+import { useAppSelector } from '../../hooks/typedHooks';
 import Plot from 'react-plotly.js';
 import { Slider, Container, Grid } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 
-import useWindowDimensions from '../hooks/useWindowDimensions';
-import WeatherPoint from '../models/weatherPoint';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
+import WeatherPoint from '../../models/weatherPoint';
 import ChoosePlotButtons from './ChoosePlotButtons';
 import PlotMenu from './PlotMenu';
 

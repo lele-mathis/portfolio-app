@@ -1,10 +1,10 @@
-import { Link, IconButton } from '@mui/material';
+import { Link, IconButton, Typography } from '@mui/material';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
 function Footer() {
   return (
     <footer style={{ textAlign: 'center', maxWidth: 'xl', margin: 2 }}>
-      <p id='copyright-and-links'>
+      <Typography id='copyright-and-links' sx={{ m: 1 }}>
         © 2023 Lele Mathis{' '}
         <IconButton
           component={Link}
@@ -20,7 +20,9 @@ function Footer() {
         >
           <FaGithub className='icon' color='#340442' />
         </IconButton>
-      </p>
+        <br />
+        Last updated {new Date().toDateString()}
+      </Typography>
       <Link href='https://github.com/lele-mathis/portfolio-app'>
         View source code
       </Link>

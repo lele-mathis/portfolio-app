@@ -1,8 +1,8 @@
-import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
+import { useAppSelector, useAppDispatch } from '../../hooks/typedHooks';
 import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import WeatherPoint from '../models/weatherPoint';
-import { uiActions } from '../store/store';
+import WeatherPoint from '../../models/weatherPoint';
+import { uiActions } from '../../store/store';
 
 const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
   const isMobile = useAppSelector((state) => state.ui.isMobile);

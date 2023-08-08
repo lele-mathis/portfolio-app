@@ -1,12 +1,12 @@
-import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
+import { useAppSelector, useAppDispatch } from '../../hooks/typedHooks';
 import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
-import { uiActions } from '../store/store';
-import { locationActions } from '../store/location-slice';
-import { profileActions } from '../store/profile-slice';
+import { uiActions } from '../../store/store';
+import { locationActions } from '../../store/location-slice';
+import { profileActions } from '../../store/profile-slice';
 
 //import { Typography } from '@mui/material';
 

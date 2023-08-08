@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
+import { useAppSelector, useAppDispatch } from '../../hooks/typedHooks';
 
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 
 import CreateProfile from './CreateProfile';
 import CurrentUser from './CurrentUser';
 import LoginForm from './LoginForm';
-import useSendData from '../hooks/useSendData';
-import { uiActions } from '../store/store';
-import { profileActions } from '../store/profile-slice';
-import { firebaseUrl } from '../store/info';
+import useSendData from '../../hooks/useSendData';
+import { uiActions } from '../../store/store';
+import { profileActions } from '../../store/profile-slice';
+import { firebaseUrl } from '../../store/info';
 
 function ProfileManager() {
   const dispatch = useAppDispatch();
@@ -61,9 +62,22 @@ function ProfileManager() {
 
   const m = isMobile ? 1 : 2;
   return (
-    <Card sx={{ m: m, p: m }} variant='outlined'>
+    <Card
+      sx={{
+        m: m,
+        p: m,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      variant='outlined'
+    >
       {user === '' ? (
-        <Grid container direction='column'>
+        <Grid
+          container
+          direction={isMobile ? 'column' : 'row'}
+          justifyContent='space-around'
+        >
           <Grid item xs={5}>
             <CreateProfile />
           </Grid>
@@ -74,8 +88,9 @@ function ProfileManager() {
       ) : (
         <CurrentUser />
       )}
+
       {isLoading && (
-        <p style={{ textAlign: 'center' }}>Saving data to server...</p>
+        <p style={{ textAlign: 'center' }}>Saving users to server...</p>
       )}
     </Card>
   );

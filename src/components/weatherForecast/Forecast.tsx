@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useAppDispatch } from '../hooks/typedHooks';
+import { useAppDispatch } from '../../hooks/typedHooks';
 
 import { Typography, Card } from '@mui/material';
 
-import { fetchWeatherForecast } from '../store/weather-actions';
-import WeatherForecast from '../models/weatherForecast';
-import Geocode from '../models/geocode';
-import ForecastPlots from '../components/ForecastPlots';
-import FiveDayForecast from '../components/FiveDayForecast';
-import { uiActions } from '../store/store';
+import { fetchWeatherForecast } from '../../store/weather-actions';
+import WeatherForecast from '../../models/weatherForecast';
+import Geocode from '../../models/geocode';
+import ForecastPlots from './ForecastPlots';
+import FiveDayForecast from './FiveDayForecast';
+import { uiActions } from '../../store/store';
 
 const Forecast: React.FC<{ location: Geocode }> = (props) => {
   const [forecast, setForecast] = useState<WeatherForecast>();

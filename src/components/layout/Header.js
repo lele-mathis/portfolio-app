@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { useAppSelector } from '../hooks/typedHooks';
+import { useAppSelector } from '../../hooks/typedHooks';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -45,7 +45,6 @@ function Header() {
               color='#dcfcfc'
               style={{
                 fontFamily: 'Brush Script MT',
-                textShadow: 2,
                 textDecoration: 'none',
                 flexGrow: 1,
                 flexShrink: 1,

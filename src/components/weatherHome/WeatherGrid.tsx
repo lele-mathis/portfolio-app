@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { useAppDispatch, useAppSelector } from '../hooks/typedHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/typedHooks';
 import { useNavigate } from 'react-router-dom';
 import {
   DataGrid,
@@ -13,10 +13,10 @@ import { Button, Switch, FormControlLabel, Toolbar } from '@mui/material';
 import { FaTrash as TrashIcon } from 'react-icons/fa';
 
 import DataGridFooter from './DataGridFooter';
-import WeatherLoc from '../models/weatherLoc';
-import ConfirmDialog from '../ui/ConfirmDialog';
-import { locationActions } from '../store/location-slice';
-import { uiActions } from '../store/store';
+import WeatherLoc from '../../models/weatherLoc';
+import ConfirmDialog from '../../ui/ConfirmDialog';
+import { locationActions } from '../../store/location-slice';
+import { uiActions } from '../../store/store';
 
 const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
   const dispatch = useAppDispatch();

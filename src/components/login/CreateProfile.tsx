@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
+import { useAppSelector, useAppDispatch } from '../../hooks/typedHooks';
 import { TextField, Box, Button, Typography } from '@mui/material';
 
-import { uiActions } from '../store/store';
-import { profileActions } from '../store/profile-slice';
-import useSendData from '../hooks/useSendData';
+import { uiActions } from '../../store/store';
+import { profileActions } from '../../store/profile-slice';
+import useSendData from '../../hooks/useSendData';
 
 function CreateProfile() {
   const dispatch = useAppDispatch();
@@ -61,7 +61,9 @@ function CreateProfile() {
       onSubmit={submitHandler}
       sx={{ textAlign: 'center' }}
     >
-      <Typography>Save your locations by creating a profile:</Typography>
+      <Typography>
+        <strong>Want your locations to be saved?</strong> Create a profile:
+      </Typography>
       <TextField
         name='username'
         id='username'
