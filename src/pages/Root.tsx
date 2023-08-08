@@ -3,6 +3,7 @@ import { useAppDispatch } from '../hooks/typedHooks';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Container } from '@mui/material';
 
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import Header from '../components/Header';
@@ -75,17 +76,29 @@ theme.spacing(2);
 function RootLayout() {
   const dispatch = useAppDispatch();
   const windowDimensions = useWindowDimensions();
-  const isNarrowDevice = windowDimensions.width < 600;
+  const isNarrowDevice = windowDimensions.width < 1000;
 
   dispatch(uiActions.setIsMobile(isNarrowDevice));
+  if (isNarrowDevice) {
+    theme.spacing(1);
+  }
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
-      <main>
-        <Outlet />
-      </main>
+      {isNarrowDevice ? (
+        <main>
+          <Outlet />
+        </main>
+      ) : (
+        <Container maxWidth='xl'>
+          <main>
+            <Outlet />
+          </main>
+        </Container>
+      )}
+
       <Footer />
     </ThemeProvider>
   );

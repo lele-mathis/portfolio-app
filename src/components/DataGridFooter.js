@@ -13,7 +13,7 @@ const DataGridFooter = () => {
         ) : (
           <>
             <IoIosArrowUp />
-            &nbsp;
+            &nbsp;Click{' '}
           </>
         )}
         on a row to see forecast data for the next 5 days&nbsp;
