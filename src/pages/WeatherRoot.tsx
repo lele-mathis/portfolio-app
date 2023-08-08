@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 
 import Notification from '../ui/Notification';
 import { uiActions } from '../store/store';
+import ProfileManager from '../components/ProfileManager';
 
 function WeatherRootLayout() {
   const dispatch = useAppDispatch();
@@ -30,6 +31,7 @@ function WeatherRootLayout() {
         />
       )}
       <Outlet />
+      <ProfileManager />
       <footer>
         <Typography
           component='p'

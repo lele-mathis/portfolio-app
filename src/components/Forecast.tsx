@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useAppDispatch } from '../hooks/typedHooks';
 
 import { Typography, Card } from '@mui/material';
 
@@ -7,10 +8,13 @@ import WeatherForecast from '../models/weatherForecast';
 import Geocode from '../models/geocode';
 import ForecastPlots from '../components/ForecastPlots';
 import FiveDayForecast from '../components/FiveDayForecast';
+import { uiActions } from '../store/store';
 
 const Forecast: React.FC<{ location: Geocode }> = (props) => {
   const [forecast, setForecast] = useState<WeatherForecast>();
+  const dispatch = useAppDispatch();
   const { location } = props; //destructuring
+
   useEffect(() => {
     //put this in a loader?
     console.log('Fetching forecast for ' + location.name);
@@ -20,20 +24,14 @@ const Forecast: React.FC<{ location: Geocode }> = (props) => {
       })
       .catch((error: any) => {
         console.log(`Error fetching forecast data for ${location.id}`);
-        // //redirect to error page
-        // return (
-        //   <>
-        //     <Alert severity={'error'} sx={{ m: 2 }}>
-        //       <AlertTitle>
-        //         Could not retrieve weather forecast for location with ID {locId}
-        //       </AlertTitle>
-        //       {error.message}
-        //     </Alert>
-        //     <Button component={Link} to='..'>
-        //       <IoIosArrowBack className='icon' /> Back
-        //     </Button>
-        //   </>
-        // );
+        //redirect to error page
+        dispatch(
+          uiActions.showNotification({
+            status: 'error',
+            title: 'Error fetching forecast',
+            message: `Could not retrieve forecast data for ${location.name} with ID ${location.id}`,
+          })
+        );
       });
   }, [location, fetchWeatherForecast]);
 

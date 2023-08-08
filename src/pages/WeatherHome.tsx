@@ -74,7 +74,6 @@ function WeatherHomePage() {
       <NewLocation />
       {pageContent}
       {locationsSaving && <p>Saving locations...</p>}
-      <ProfileManager />
     </>
   );
 }

@@ -122,7 +122,7 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
   );
   if (!isMobile) {
     return (
-      <Grid container direction='row' wrap='nowrap'>
+      <Grid container direction='row' wrap='nowrap' sx={{ m: 1, p: 1 }}>
         <Grid item>
           <Grid container direction='column'>
             <Grid item sx={{ m: 1 }}>
