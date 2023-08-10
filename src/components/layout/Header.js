@@ -8,7 +8,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 function Header() {
-  const isMobile = useAppSelector((state) => state.ui.isMobile);
+  const isNarrow = useAppSelector((state) => state.ui.isNarrow);
   const PAGES = [
     { name: 'Home', path: '/' },
     { name: 'Weather App', path: '/weather' },
@@ -23,7 +23,7 @@ function Header() {
       <Button
         component={NavLink}
         to={page.path}
-        size={isMobile ? 'small' : 'large'}
+        size={isNarrow ? 'medium' : 'large'}
         style={({ isActive }) =>
           isActive
             ? { color: '#ec6e4c', fontWeight: 'bold', textAlign: 'center' }
@@ -41,7 +41,7 @@ function Header() {
         <Container maxWidth='xl'>
           <Toolbar component='nav' id='toolbar' disableGutters>
             <Typography
-              variant={isMobile ? 'h4' : 'h3'}
+              variant={isNarrow ? 'h4' : 'h3'}
               color='#dcfcfc'
               style={{
                 fontFamily: 'Brush Script MT',

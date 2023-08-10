@@ -108,7 +108,7 @@ const theme = createTheme({
 function App() {
   const dispatch = useAppDispatch();
   const windowDimensions = useWindowDimensions();
-  const isNarrowDevice = windowDimensions.width < 1000;
+  const isNarrowDevice = windowDimensions.width < 800;
 
   dispatch(uiActions.setisNarrow(isNarrowDevice));
 
