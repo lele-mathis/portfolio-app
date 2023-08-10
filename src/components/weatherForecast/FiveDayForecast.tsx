@@ -44,8 +44,13 @@ const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
     const weatherMode = mostFrequent(weatherByDate[date].weather);
     const iconMode = mostFrequent(weatherByDate[date].icon);
     if (weatherMode && iconMode) {
+      const formattedDate = new Date(date).toLocaleString('en-US', {
+        weekday: isNarrow ? 'short' : 'long',
+        month: isNarrow ? 'short' : 'long',
+        day: 'numeric',
+      });
       fiveDayWeather.push(
-        <Grid item key={date}>
+        <Grid item key={date} sx={{ textAlign: 'center' }}>
           <img //only using 'day' icons
             alt={weatherMode ? weatherMode : ''}
             aria-labelledby='caption'
@@ -55,8 +60,10 @@ const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
                 : `https://openweathermap.org/img/wn/${iconMode}d@2x.png`
             }
           />
-          <Typography id='caption' variant={isNarrow ? 'caption' : 'body1'}>
-            {date}: {weatherMode}
+          <Typography id='caption' variant={isNarrow ? 'body2' : 'body1'}>
+            {formattedDate}
+            <br />
+            {weatherMode}
           </Typography>
           {/* <Typography variant='caption'>
           {weatherByDate[date].icon.map((val) => val)}
