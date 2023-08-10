@@ -21,7 +21,7 @@ function Footer() {
           <FaGithub className='icon' color='#340442' />
         </IconButton>
         <br />
-        Last updated {new Date().toDateString()}
+        Last updated August 9th, 2023
       </Typography>
       <Link href='https://github.com/lele-mathis/portfolio-app'>
         View source code
