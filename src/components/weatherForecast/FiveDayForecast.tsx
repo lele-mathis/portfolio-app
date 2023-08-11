@@ -9,7 +9,12 @@ const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
   const dispatch = useAppDispatch();
 
   const stringDate = (date: Date) => {
-    return date.toString().substring(0, 10);
+    const formattedDate = new Date(date).toLocaleString('en-US', {
+      weekday: isNarrow ? 'short' : 'long',
+      month: isNarrow ? 'short' : 'long',
+      day: 'numeric',
+    });
+    return formattedDate;
   };
   //make schedule with icons
   let weatherByDate: { [keys: string]: { weather: string[]; icon: string[] } } =
@@ -38,21 +43,18 @@ const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
       weatherByDate[stringDate(value.dt_txt)] = { weather: [], icon: [] };
     }
   }
+
   const fiveDayWeather: JSX.Element[] = [];
 
   for (let date in weatherByDate) {
     const weatherMode = mostFrequent(weatherByDate[date].weather);
     const iconMode = mostFrequent(weatherByDate[date].icon);
+
     if (weatherMode && iconMode) {
-      const formattedDate = new Date(date).toLocaleString('en-US', {
-        weekday: isNarrow ? 'short' : 'long',
-        month: isNarrow ? 'short' : 'long',
-        day: 'numeric',
-      });
       fiveDayWeather.push(
         <Grid item key={date} sx={{ textAlign: 'center' }}>
           <img //only using 'day' icons
-            alt={weatherMode ? weatherMode : ''}
+            alt='weather icon'
             aria-labelledby='caption'
             src={
               isNarrow
@@ -61,27 +63,22 @@ const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
             }
           />
           <Typography id='caption' variant={isNarrow ? 'body2' : 'body1'}>
-            {formattedDate}
+            {date}
             <br />
             {weatherMode}
           </Typography>
           {/* <Typography variant='caption'>
-          {weatherByDate[date].icon.map((val) => val)}
-          <br />
-          {weatherByDate[date].weather.map((val) => val)}
-        </Typography> */}
-        </Grid>
-      );
-    } else if (weatherMode) {
-      fiveDayWeather.push(
-        <Grid item key={date}>
-          <Typography id='caption' variant={isNarrow ? 'caption' : 'body1'}>
-            {date}: {weatherMode}
-          </Typography>
+            {date}
+            <br />
+            {weatherByDate[date].icon.map((val) => val)}
+            <br />
+            {weatherByDate[date].weather.map((val) => val)}
+          </Typography> */}
         </Grid>
       );
     } else {
       console.log('Weather forecast data missing for ' + date);
+      continue;
       //   dispatch(
       //     uiActions.showNotification({
       //       status: 'warning',
@@ -91,6 +88,7 @@ const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
       //   );
     }
   }
+
   return (
     <Grid
       container
