@@ -1,46 +1,12 @@
-# Getting Started with Create React App
+# Lele Mathis Portfolio
+Welcome to the repository for my portfolio website! This app was made using React and was written in JavaScript/TypeScript. It uses React Router, Redux toolkit, Material UI, and Plotly. The website https://lele-mathis-portfolio.web.app/ is hosted through Firebase Hosting.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). The lion's share of the code is my weather app project:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Weather App
 
-## Available Scripts
+On the Weather page, the user can enter locations using the city or postal code and optionally the state/region and country. The app then retrieves geocode information from the Open-Meteo geocoding API and uses the latitude and longitude to fetch current weather data from the OpenWeather API and displays it in a MUI DataGrid. Clicking on one of the locations shows the user weather forecast data for the next 5 days, which is also retrieved from OpenWeather.
 
-In the project directory, you can run:
+The user has the option of entering a username to create a profile to save the locations they input, so they will be retrieved when they log in again. The usernames and location data are saved to a Firebase realtime database. Note: This database is not secured using authentication, so do not input any sensitive/identifying information as your username.
 
-### `npm start`
+Please try it out and let me know if you run into any issues, find any bugs, or have any other feedback! I am eager to learn and improve.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
