@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAppDispatch } from '../../hooks/typedHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/typedHooks';
 
 import { Typography, Card } from '@mui/material';
 
@@ -13,6 +13,7 @@ import { uiActions } from '../../store/store';
 const Forecast: React.FC<{ location: Geocode }> = (props) => {
   const [forecast, setForecast] = useState<WeatherForecast>();
   const dispatch = useAppDispatch();
+  const isNarrow = useAppSelector((state) => state.ui.isNarrow);
   const { location } = props; //destructuring
 
   useEffect(() => {
@@ -33,15 +34,17 @@ const Forecast: React.FC<{ location: Geocode }> = (props) => {
           })
         );
       });
-  }, [location, fetchWeatherForecast]);
+  }, [location, fetchWeatherForecast, dispatch]);
 
   if (!forecast) {
     //display error page
-    return <p>Forecast is undefined!</p>;
+    return <p>Loading forecast data...</p>;
   }
 
+  const m = isNarrow ? 1 : 2;
+
   return (
-    <Card variant='outlined' sx={{ m: 1, p: 1 }}>
+    <Card variant={isNarrow ? 'elevation' : 'outlined'} sx={{ m: m, p: 1 }}>
       <Typography component='h2' variant='h5' sx={{ m: 1 }}>
         {forecast.city.name}, {location.admin1}, {location.country}
       </Typography>
