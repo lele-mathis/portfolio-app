@@ -25,7 +25,7 @@ export const uiSlice = createSlice({
     setShowIcons(state, action: PayloadAction<boolean>) {
       state.showIcons = action.payload;
     },
-    setisNarrow(state, action: PayloadAction<boolean>) {
+    setIsNarrow(state, action: PayloadAction<boolean>) {
       state.isNarrow = action.payload;
     },
   },

@@ -110,7 +110,7 @@ function App() {
   const windowDimensions = useWindowDimensions();
   const isNarrowDevice = windowDimensions.width < 800;
 
-  dispatch(uiActions.setisNarrow(isNarrowDevice));
+  dispatch(uiActions.setIsNarrow(isNarrowDevice));
 
   theme.spacing(2);
   if (isNarrowDevice) {
