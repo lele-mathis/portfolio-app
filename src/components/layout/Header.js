@@ -23,7 +23,7 @@ function Header() {
       <Button
         component={NavLink}
         to={page.path}
-        size={isNarrow ? 'medium' : 'large'}
+        size={isNarrow ? 'small' : 'large'}
         style={({ isActive }) =>
           isActive
             ? { color: '#ec6e4c', fontWeight: 'bold', textAlign: 'center' }
