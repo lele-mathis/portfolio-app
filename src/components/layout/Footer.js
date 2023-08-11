@@ -9,14 +9,14 @@ function Footer() {
         <IconButton
           component={Link}
           alt='Linkedin icon'
-          to='https://www.linkedin.com/in/lele-mathis/'
+          href='https://www.linkedin.com/in/lele-mathis/'
         >
           <FaLinkedin className='icon' color='#340442' />
         </IconButton>
         <IconButton
           component={Link}
           alt='Github icon'
-          to='https://github.com/lele-mathis'
+          href='https://github.com/lele-mathis'
         >
           <FaGithub className='icon' color='#340442' />
         </IconButton>
