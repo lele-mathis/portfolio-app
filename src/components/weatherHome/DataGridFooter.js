@@ -9,7 +9,7 @@ const DataGridFooter = () => {
       <Typography color='primary'>
         <IoIosArrowUp />
         {isMobile ? ' Tap ' : <>&nbsp;Click on </>}a row to see the weather
-        forecast {!isMobile && 'for the next 5 days '}
+        forecast {isMobile ? '! ' : 'for the next 5 days! '}
         <IoIosArrowUp />
         &nbsp;
       </Typography>

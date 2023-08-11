@@ -15,11 +15,11 @@ export const locationSlice = createSlice({
       }
     },
     removeLocation(state, action: PayloadAction<string>) {
-      console.log('locations before: ' + state.locations.map((loc) => loc.id));
+      //console.log('locations before: ' + state.locations.map((loc) => loc.id));
       state.locations = state.locations.filter(
         (loc) => loc.id != action.payload
       );
-      console.log('locations after: ' + state.locations.map((loc) => loc.id));
+      //console.log('locations after: ' + state.locations.map((loc) => loc.id));
     },
     clearLocations(state) {
       state.locations = initialLocations;

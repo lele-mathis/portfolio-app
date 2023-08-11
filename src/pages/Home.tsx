@@ -90,7 +90,7 @@ function HomePage() {
             <Typography variant='subtitle1'>
               made using SQL, Excel, and Tableau
             </Typography>
-            <Typography component='p' variant='body1'>
+            <Typography variant='body1'>
               <ul>
                 <li>
                   Learn about tornadoes, hydrogen fueling stations, and more!

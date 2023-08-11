@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
-import { Button, Alert, AlertTitle } from '@mui/material';
+import { Button } from '@mui/material';
 import { IoIosArrowBack } from 'react-icons/io';
 
 import Geocode from '../models/geocode';
@@ -25,7 +25,11 @@ function LocationForecastPage() {
         message: 'Could not find location with ID ' + locId,
       })
     );
-    return <></>;
+    return (
+      <Button size='large' component={Link} to='..'>
+        <IoIosArrowBack className='icon' /> Back
+      </Button>
+    );
   }
 
   document.title = `${location.name} Forecast | Weather App | Lele Mathis Portfolio`;
