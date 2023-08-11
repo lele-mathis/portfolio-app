@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useAppSelector } from '../../hooks/typedHooks';
 import Plot from 'react-plotly.js';
 import { Slider, Container, Grid } from '@mui/material';
-import { SelectChangeEvent } from '@mui/material/Select';
 import { isMobile } from 'react-device-detect';
 
 import useWindowDimensions from '../../hooks/useWindowDimensions';
@@ -24,8 +23,10 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
     setChosenPlots(newPlots);
   };
 
-  const selectPlotHandler = (event: SelectChangeEvent) => {
-    setChosenPlots((oldPlots) => oldPlots.concat(event.target.value as string));
+  const selectPlotHandler = (newPlot: string) => {
+    if (!chosenPlots.find((plot) => plot === newPlot)) {
+      setChosenPlots((oldPlots) => oldPlots.concat(newPlot));
+    }
   };
 
   const widthChangeHandler = (event: Event, newWidth: number | number[]) => {
@@ -179,7 +180,7 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
     return (
       <Grid container direction='column'>
         {chosenPlotData.map((value) => (
-          <Grid item>
+          <Grid item key={value.title}>
             <Plot
               key={value.title}
               data={[

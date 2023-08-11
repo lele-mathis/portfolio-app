@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { MenuItem, InputLabel, FormControl } from '@mui/material';
 
@@ -15,8 +16,9 @@ const ALL_PLOTS = [
 
 const PlotMenu: React.FC<{
   values: string[];
-  onChange: (event: SelectChangeEvent) => void;
+  onChange: (newPlot: string) => void;
 }> = (props) => {
+  const [selectValue, setSelectValue] = useState('');
   const remainingValues = ALL_PLOTS.filter(
     (plot) => props.values.indexOf(plot) === -1
   );
@@ -32,12 +34,20 @@ const PlotMenu: React.FC<{
     press: 'Pressure',
     hum: 'Humidity',
   };
+
+  const selectChangeHandler = (event: SelectChangeEvent) => {
+    const plot: string = event.target.value;
+    setSelectValue(plot);
+    props.onChange(plot);
+    setSelectValue('');
+  };
   return (
     <FormControl fullWidth>
       <InputLabel id='plot-select'>Add a new graph</InputLabel>
       <Select
         labelId='plot-select'
-        onChange={props.onChange}
+        onChange={selectChangeHandler}
+        value={selectValue}
         label='Add a new graph'
         fullWidth
       >
