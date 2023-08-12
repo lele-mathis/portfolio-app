@@ -8,6 +8,8 @@ import WeatherPoint from '../../models/weatherPoint';
 const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
   const isNarrow = useAppSelector((state) => state.ui.isNarrow);
 
+  const isMobile = true;
+
   const stringDate = (date_txt: string) => {
     //always use short date format on mobile
     let formattedDate = new Date(date_txt).toLocaleString('en-US', {
@@ -16,7 +18,7 @@ const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
       day: 'numeric',
     });
     if (formattedDate === 'Invalid Date') {
-      return new Date(date_txt).toDateString(); //fallback if toLocaleString() doesn't work
+      return date_txt.substring(0, 10); //fallback if toLocaleString() doesn't work
     }
     return formattedDate;
   };
