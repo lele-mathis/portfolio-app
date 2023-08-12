@@ -44,7 +44,7 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
 
   //make all the plot elements and then render the selected ones - memoize?
   const plotData: PlotDataObj = {
-    //add traces for min and max temp
+    //add traces for min and max temp later
     temp: {
       x: props.data.map((value) => value.dt_txt),
       y: props.data.map((value) => value.main.temp),
@@ -123,6 +123,7 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
     </>
   );
   if (!isMobile) {
+    //desktop version allows resizing plots
     return (
       <Grid container direction='row' wrap='nowrap' sx={{ m: 1, p: 1 }}>
         <Grid item>
@@ -177,6 +178,7 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
       </Grid>
     );
   } else {
+    //mobile version sets width and height and uses PlotMenu to select plots
     return (
       <Grid container direction='column'>
         {chosenPlotData.map((value) => (
@@ -195,8 +197,8 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
                 },
               ]}
               layout={{
-                width: windowDimensions.width - 48,
-                height: (windowDimensions.width - 48) / 1.618,
+                width: windowDimensions.width - 50,
+                height: (windowDimensions.width - 50) / 1.618,
                 xaxis: {
                   range: [value.x[0], value.x[value.x.length - 1]],
                   showgrid: false,

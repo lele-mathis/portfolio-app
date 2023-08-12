@@ -1,17 +1,18 @@
-import { useAppSelector, useAppDispatch } from '../../hooks/typedHooks';
+import { useAppSelector } from '../../hooks/typedHooks';
 import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import { isMobile } from 'react-device-detect';
+
 import WeatherPoint from '../../models/weatherPoint';
-import { uiActions } from '../../store/store';
 
 const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
   const isNarrow = useAppSelector((state) => state.ui.isNarrow);
-  const dispatch = useAppDispatch();
 
   const stringDate = (date: Date) => {
+    //always use short date format on mobile
     const formattedDate = new Date(date).toLocaleString('en-US', {
-      weekday: isNarrow ? 'short' : 'long',
-      month: isNarrow ? 'short' : 'long',
+      weekday: isMobile || isNarrow ? 'short' : 'long',
+      month: isMobile || isNarrow ? 'short' : 'long',
       day: 'numeric',
     });
     return formattedDate;
