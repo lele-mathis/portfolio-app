@@ -42,52 +42,53 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
     [key: string]: PlotData;
   };
 
+  const dateTimes = props.data.map((value) => new Date(value.dt_txt));
   //make all the plot elements and then render the selected ones - memoize?
   const plotData: PlotDataObj = {
     //add traces for min and max temp later
     temp: {
-      x: props.data.map((value) => value.dt_txt),
+      x: dateTimes,
       y: props.data.map((value) => value.main.temp),
       title: 'Temperature (\xB0F)',
     },
     pop: {
-      x: props.data.map((value) => value.dt_txt),
+      x: dateTimes,
       y: props.data.map((value) => value.pop),
       title: 'Probability of Precipitation (%)',
     },
     rain: {
-      x: props.data.map((value) => value.dt_txt),
+      x: dateTimes,
       y: props.data.map((value) => (value.rain ? value.rain['3h'] : 0)),
 
       title: 'Rain per 3 hours (mm)',
     },
     snow: {
-      x: props.data.map((value) => value.dt_txt),
+      x: dateTimes,
       y: props.data.map((value) => (value.snow ? value.snow['3h'] : 0)),
       title: 'Snow per 3 hours (mm)',
     },
     clouds: {
-      x: props.data.map((value) => value.dt_txt),
+      x: dateTimes,
       y: props.data.map((value) => value.clouds.all),
       title: 'Cloud Cover (%)',
     },
     wind: {
-      x: props.data.map((value) => value.dt_txt),
+      x: dateTimes,
       y: props.data.map((value) => value.wind.speed),
       title: 'Wind Speed (mph)',
     },
     vis: {
-      x: props.data.map((value) => value.dt_txt),
+      x: dateTimes,
       y: props.data.map((value) => value.visibility),
       title: 'Average Visibility (meters)',
     },
     press: {
-      x: props.data.map((value) => value.dt_txt),
+      x: dateTimes,
       y: props.data.map((value) => value.main.pressure),
       title: 'Pressure (hPa)',
     },
     hum: {
-      x: props.data.map((value) => value.dt_txt),
+      x: dateTimes,
       y: props.data.map((value) => value.main.humidity),
       title: 'Humidity (%)',
     },

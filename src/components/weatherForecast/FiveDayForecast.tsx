@@ -8,13 +8,16 @@ import WeatherPoint from '../../models/weatherPoint';
 const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
   const isNarrow = useAppSelector((state) => state.ui.isNarrow);
 
-  const stringDate = (date: Date) => {
+  const stringDate = (date_txt: string) => {
     //always use short date format on mobile
-    const formattedDate = new Date(date).toLocaleString('en-US', {
+    let formattedDate = new Date(date_txt).toLocaleString('en-US', {
       weekday: isMobile || isNarrow ? 'short' : 'long',
       month: isMobile || isNarrow ? 'short' : 'long',
       day: 'numeric',
     });
+    if (formattedDate === 'Invalid Date') {
+      return new Date(date_txt).toDateString(); //fallback if toLocaleString() doesn't work
+    }
     return formattedDate;
   };
   //make schedule with icons

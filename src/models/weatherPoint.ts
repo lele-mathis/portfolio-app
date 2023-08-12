@@ -16,7 +16,7 @@ type WeatherPoint = {
   rain: { '3h': number } | undefined;
   snow: { '3h': number } | undefined;
   sys: { pod: string }; //part of day, n - night, d - day
-  dt_txt: Date;
+  dt_txt: string;
 };
 
 export default WeatherPoint;
