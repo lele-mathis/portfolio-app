@@ -10,3 +10,8 @@ The user has the option of entering a username to create a profile to save the l
 
 Please try it out and let me know if you run into any issues, find any bugs, or have any other feedback! I am eager to learn and improve.
 
+### Planned improvements:
+- Add lazy loading to improve performance
+- Add average daily temperature to five-day forecast summary
+- Add ability to close forecast plots on mobile
+
