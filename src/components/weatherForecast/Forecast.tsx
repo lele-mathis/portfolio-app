@@ -37,11 +37,11 @@ const Forecast: React.FC<{ location: Geocode }> = (props) => {
   }, [location, fetchWeatherForecast, dispatch]);
 
   if (!forecast) {
-    //display error page
+    //forecast data hasn't been fetched yet
     return <p>Loading forecast data...</p>;
   }
 
-  const m = isNarrow ? 1 : 2;
+  const m = isNarrow ? 1 : 2; //margins
 
   return (
     <Card variant={isNarrow ? 'elevation' : 'outlined'} sx={{ m: m, p: 1 }}>
