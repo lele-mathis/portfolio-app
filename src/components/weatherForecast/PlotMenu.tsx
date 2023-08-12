@@ -14,6 +14,7 @@ const ALL_PLOTS = [
   'hum',
 ];
 
+//only used on mobile
 const PlotMenu: React.FC<{
   values: string[];
   onChange: (newPlot: string) => void;
