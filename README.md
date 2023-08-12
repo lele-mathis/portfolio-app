@@ -1,4 +1,5 @@
 # Lele Mathis Portfolio
+
 Welcome to the repository for my portfolio website! This app was made using React and was written in JavaScript/TypeScript. It uses [React Router](https://reactrouter.com/en/main), [Redux toolkit](https://redux-toolkit.js.org/), [Material UI](https://mui.com/), and [Plotly.js](https://plotly.com/javascript/react/). The [website](https://lele-mathis-portfolio.web.app/) is hosted through [Firebase Hosting](https://firebase.google.com/products/hosting).
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). The lion's share of the code is my weather app project:
 
@@ -11,7 +12,7 @@ The user has the option of entering a username to create a profile to save the l
 Please try it out and let me know if you run into any issues, find any bugs, or have any other feedback! I am eager to learn and improve.
 
 ### Planned improvements:
+
 - Add lazy loading to improve performance
 - Add average daily temperature to five-day forecast summary
 - Add ability to close forecast plots on mobile
-
