@@ -36,28 +36,32 @@ const Forecast: React.FC<{ location: Geocode }> = (props) => {
       });
   }, [location, fetchWeatherForecast, dispatch]);
 
-  if (!forecast) {
-    //forecast data hasn't been fetched yet
-    return <p>Loading forecast data...</p>;
-  }
-
   const m = isNarrow ? 1 : 2; //margins
 
   return (
     <Card variant={isNarrow ? 'elevation' : 'outlined'} sx={{ m: m, p: 1 }}>
-      <Typography component='h2' variant='h5' sx={{ m: 1 }}>
-        {forecast.city.name}, {location.admin1}, {location.country}
-      </Typography>
-      {forecast.city.name !== location.name && (
-        <Typography sx={{ mx: 2 }}>
-          (Closest location found to {location.name})
+      {forecast ? (
+        <>
+          <Typography component='h2' variant='h5' sx={{ m: 1 }}>
+            {forecast.city.name}, {location.admin1}, {location.country}
+          </Typography>
+          {forecast.city.name !== location.name && (
+            <Typography sx={{ mx: 2 }}>
+              (Closest location found to {location.name})
+            </Typography>
+          )}
+
+          <Typography component='h3' variant='h6' sx={{ m: 1 }}>
+            Weather forecast for the next 5 days:
+          </Typography>
+          <FiveDayForecast data={forecast.list} />
+          <ForecastPlots data={forecast.list} />
+        </>
+      ) : (
+        <Typography component='h3' variant='h6' sx={{ m: m }}>
+          Loading weather forecast...
         </Typography>
       )}
-      <Typography component='h3' variant='h6' sx={{ m: 1 }}>
-        Weather forecast for the next 5 days:
-      </Typography>
-      <FiveDayForecast data={forecast.list} />
-      <ForecastPlots data={forecast.list} />
     </Card>
   );
 };
