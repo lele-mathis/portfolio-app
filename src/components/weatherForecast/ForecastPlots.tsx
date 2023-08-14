@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAppSelector } from '../../hooks/typedHooks';
+//import { useAppSelector } from '../../hooks/typedHooks';
 import Plot from 'react-plotly.js';
 import { Slider, Container, Grid } from '@mui/material';
 import { isMobile } from 'react-device-detect';
@@ -13,7 +13,7 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
   const [chosenPlots, setChosenPlots] = useState<string[]>(['temp']);
   const [plotHeight, setPlotHeight] = useState<number>(300); //in pixels
   const [plotWidth, setPlotWidth] = useState<number>(1000);
-  const isNarrow = useAppSelector((state) => state.ui.isNarrow);
+  //const isNarrow = useAppSelector((state) => state.ui.isNarrow);
   const windowDimensions = useWindowDimensions();
 
   const choosePlotHandler = (
@@ -179,7 +179,7 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
       </Grid>
     );
   } else {
-    //mobile version sets width and height and uses PlotMenu to select plots
+    //mobile version has fixed width and height, uses PlotMenu to select plots, and hides plotly ModeBar
     return (
       <Grid container direction='column'>
         {chosenPlotData.map((value) => (
@@ -218,6 +218,7 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
                 font: { color: '#000' },
                 margin: { l: 30, r: 30, t: 30, b: 40, pad: 0 },
               }}
+              config={{ displayModeBar: false }}
             />
           </Grid>
         ))}
