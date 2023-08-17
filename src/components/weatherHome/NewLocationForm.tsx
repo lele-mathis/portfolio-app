@@ -97,7 +97,9 @@ function NewLocationForm() {
 
   let inputFields = (
     <>
-      <Grid item>Enter a location to see the current weather there:</Grid>
+      <Grid item style={{ display: 'flex', alignItems: 'center' }}>
+        Enter a location to see the current weather there:
+      </Grid>
       <Grid item>
         <TextField
           name='city'
@@ -211,21 +213,21 @@ function NewLocationForm() {
   return (
     <Card sx={{ m: m, p: m }} variant='outlined'>
       <Box component='form' noValidate onSubmit={submitHandler}>
-        <Grid container spacing={2}>
+        <Grid container direction='row' spacing={m}>
           {inputFields}
+          <Grid item alignItems='stretch' style={{ display: 'flex' }}>
+            <Button
+              type='submit'
+              id='submit-location-button'
+              variant='contained'
+              disabled={isSubmitting}
+            >
+              <Typography>
+                {isSubmitting ? 'Finding location...' : 'Add location'}
+              </Typography>
+            </Button>
+          </Grid>
         </Grid>
-        <Button
-          type='submit'
-          id='submit-location-button'
-          fullWidth
-          variant='contained'
-          disabled={isSubmitting}
-          sx={{ my: 2 }}
-        >
-          <Typography color='secondaryLight'>
-            {isSubmitting ? 'Finding location...' : 'Add location'}
-          </Typography>
-        </Button>
         {menuItems && (
           <LocationMenu
             open={menuOpen}
