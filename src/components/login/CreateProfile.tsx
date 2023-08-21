@@ -29,13 +29,15 @@ function CreateProfile() {
       return;
     }
 
-    dispatch(profileActions.addProfile(newUser)); //add to profile list
+    dispatch(profileActions.addProfile(newUser)); //add to profile list and log them in
+    localStorage.setItem('profile', newUser); //save that they are logged in to localStorage
 
     saveData({
       url: `https://react-http-3724a-default-rtdb.firebaseio.com/weather/${newUser}.json`,
       method: 'PUT',
       body: { locations: locationsList },
     }); //save locations to backend
+
     if (alert.status === '') {
       dispatch(
         uiActions.showNotification({
