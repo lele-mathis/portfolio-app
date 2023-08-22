@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
+import { useAppSelector } from '../hooks/typedHooks';
 import { Button, Typography, Card, Link as MuiLink } from '@mui/material';
 import { IoIosArrowBack } from 'react-icons/io';
 
