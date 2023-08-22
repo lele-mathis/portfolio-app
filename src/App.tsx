@@ -1,4 +1,4 @@
-import { useEffect, lazy, Suspense } from 'react';
+import { useEffect, useCallback, lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useAppDispatch } from './hooks/typedHooks';
 import useWindowDimensions from './hooks/useWindowDimensions';
@@ -15,11 +15,11 @@ import RootLayout from './pages/Root';
 import ErrorPage from './pages/Error';
 import WeatherRootLayout from './pages/WeatherRoot';
 import HomePage from './pages/Home';
+import { uiActions } from './store/ui-slice';
+
 const WeatherHomePage = lazy(() => import('./pages/WeatherHome'));
 const LocationForecastPage = lazy(() => import('./pages/LocationForecast'));
 const DataPage = lazy(() => import('./pages/Data'));
-
-import { uiActions } from './store/ui-slice';
 
 const router = createBrowserRouter([
   {
@@ -138,10 +138,13 @@ function App() {
 
   const { isLoading, fetchData: fetchLocations } = useFetchData();
 
-  const storeLocations = (data: any) => {
-    const { locations: loadedLocations } = data;
-    dispatch(locationActions.setLocations(loadedLocations));
-  };
+  const storeLocations = useCallback(
+    (data: any) => {
+      const { locations: loadedLocations } = data;
+      dispatch(locationActions.setLocations(loadedLocations));
+    },
+    [dispatch]
+  );
 
   //look for profile in local storage when component mounts
   useEffect(() => {
@@ -154,7 +157,7 @@ function App() {
       );
       dispatch(profileActions.logIn(storedUser)); //still log them in even if they have no saved locations
     }
-  }, [dispatch, localStorage]);
+  }, [dispatch, fetchLocations, storeLocations]);
 
   return (
     <ThemeProvider theme={theme}>

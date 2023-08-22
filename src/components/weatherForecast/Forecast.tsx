@@ -6,10 +6,10 @@ import { Typography, Card } from '@mui/material';
 import { fetchWeatherForecast } from '../../store/weather-actions';
 import WeatherForecast from '../../models/weatherForecast';
 import Geocode from '../../models/geocode';
+import { uiActions } from '../../store/ui-slice';
+
 const FiveDayForecast = lazy(() => import('./FiveDayForecast'));
 const ForecastPlots = lazy(() => import('./ForecastPlots'));
-
-import { uiActions } from '../../store/ui-slice';
 
 const Forecast: React.FC<{ location: Geocode }> = (props) => {
   const [forecast, setForecast] = useState<WeatherForecast>();
@@ -35,7 +35,7 @@ const Forecast: React.FC<{ location: Geocode }> = (props) => {
           })
         );
       });
-  }, [location, fetchWeatherForecast, dispatch]);
+  }, [location, dispatch]);
 
   const m = isNarrow ? 1 : 2; //margins
 
