@@ -16,7 +16,7 @@ import DataGridFooter from './DataGridFooter';
 import WeatherLoc from '../../models/weatherLoc';
 import ConfirmDialog from '../../ui/ConfirmDialog';
 import { locationActions } from '../../store/location-slice';
-import { uiActions } from '../../store/store';
+import { uiActions } from '../../store/ui-slice';
 
 const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
   const dispatch = useAppDispatch();
@@ -185,7 +185,6 @@ const WeatherGrid: React.FC<{ weatherList: WeatherLoc[] }> = (props) => {
   };
 
   const m = isNarrow ? 1 : 2;
-  const elevation = isNarrow ? 0 : 1;
 
   return (
     <>

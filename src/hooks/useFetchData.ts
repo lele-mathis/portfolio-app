@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useAppDispatch } from './typedHooks';
 
-import { uiActions } from '../store/store';
+import { uiActions } from '../store/ui-slice';
 
 const useFetchData = () => {
   const dispatch = useAppDispatch();

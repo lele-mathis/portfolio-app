@@ -8,7 +8,7 @@ import WeatherLoc from '../models/weatherLoc';
 import NewLocation from '../components/weatherHome/NewLocationForm';
 import WeatherGrid from '../components/weatherHome/WeatherGrid';
 import { fetchCurrentWeather } from '../store/weather-actions';
-import { uiActions } from '../store/store';
+import { uiActions } from '../store/ui-slice';
 import useSendData from '../hooks/useSendData';
 import { firebaseUrl } from '../store/info';
 

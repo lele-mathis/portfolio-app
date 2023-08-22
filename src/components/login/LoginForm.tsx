@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/typedHooks';
 
 import { TextField, Box, Button, Typography } from '@mui/material';
-import { uiActions } from '../../store/store';
+import { uiActions } from '../../store/ui-slice';
 import { profileActions } from '../../store/profile-slice';
 
 import useFetchData from '../../hooks/useFetchData';

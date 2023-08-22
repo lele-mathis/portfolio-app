@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 import Notification from '../ui/Notification';
-import { uiActions } from '../store/store';
+import { uiActions } from '../store/ui-slice';
 import ProfileManager from '../components/login/ProfileManager';
 
 function WeatherRootLayout() {

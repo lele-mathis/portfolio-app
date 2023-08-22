@@ -19,7 +19,7 @@ import WeatherHomePage from './pages/WeatherHome';
 import DataPage from './pages/Data';
 import LocationForecastPage from './pages/LocationForecast';
 
-import { uiActions } from './store/store';
+import { uiActions } from './store/ui-slice';
 
 const router = createBrowserRouter([
   {
@@ -113,6 +113,7 @@ function App() {
   dispatch(uiActions.setIsNarrow(isNarrowDevice));
 
   theme.spacing(2);
+
   if (isNarrowDevice) {
     theme.spacing(1);
   }

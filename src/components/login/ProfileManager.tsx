@@ -9,7 +9,7 @@ import CreateProfile from './CreateProfile';
 import CurrentUser from './CurrentUser';
 import LoginForm from './LoginForm';
 import useSendData from '../../hooks/useSendData';
-import { uiActions } from '../../store/store';
+import { uiActions } from '../../store/ui-slice';
 import { profileActions } from '../../store/profile-slice';
 import { firebaseUrl } from '../../store/info';
 

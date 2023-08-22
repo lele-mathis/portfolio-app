@@ -8,7 +8,7 @@ import WeatherForecast from '../../models/weatherForecast';
 import Geocode from '../../models/geocode';
 import ForecastPlots from './ForecastPlots';
 import FiveDayForecast from './FiveDayForecast';
-import { uiActions } from '../../store/store';
+import { uiActions } from '../../store/ui-slice';
 
 const Forecast: React.FC<{ location: Geocode }> = (props) => {
   const [forecast, setForecast] = useState<WeatherForecast>();

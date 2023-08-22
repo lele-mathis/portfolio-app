@@ -15,7 +15,7 @@ import Geocode from '../../models/geocode';
 import LocationMenu from './LocationMenu';
 import { locationActions } from '../../store/location-slice';
 import { geocodeCity } from '../../store/weather-actions';
-import { uiActions } from '../../store/store';
+import { uiActions } from '../../store/ui-slice';
 import { statesList, countriesList } from '../../store/info';
 
 function NewLocationForm() {
