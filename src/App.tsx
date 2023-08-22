@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useAppDispatch } from './hooks/typedHooks';
 import useWindowDimensions from './hooks/useWindowDimensions';
@@ -15,9 +15,9 @@ import RootLayout from './pages/Root';
 import ErrorPage from './pages/Error';
 import WeatherRootLayout from './pages/WeatherRoot';
 import HomePage from './pages/Home';
-import WeatherHomePage from './pages/WeatherHome';
-import DataPage from './pages/Data';
-import LocationForecastPage from './pages/LocationForecast';
+const WeatherHomePage = lazy(() => import('./pages/WeatherHome'));
+const LocationForecastPage = lazy(() => import('./pages/LocationForecast'));
+const DataPage = lazy(() => import('./pages/Data'));
 
 import { uiActions } from './store/ui-slice';
 
@@ -32,15 +32,33 @@ const router = createBrowserRouter([
         path: 'weather',
         element: <WeatherRootLayout />,
         children: [
-          { index: true, element: <WeatherHomePage /> },
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<p>Loading weather homepage...</p>}>
+                <WeatherHomePage />
+              </Suspense>
+            ),
+          },
           {
             path: ':locId',
             id: 'location-forecast',
-            element: <LocationForecastPage />,
+            element: (
+              <Suspense fallback={<p>Loading location forecast...</p>}>
+                <LocationForecastPage />
+              </Suspense>
+            ),
           },
         ],
       },
-      { path: 'data', element: <DataPage /> },
+      {
+        path: 'data',
+        element: (
+          <Suspense fallback={<p>Loading data analytics projects...</p>}>
+            <DataPage />
+          </Suspense>
+        ),
+      },
     ],
   },
 ]);

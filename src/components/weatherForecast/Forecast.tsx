@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/typedHooks';
 
 import { Typography, Card } from '@mui/material';
@@ -6,8 +6,9 @@ import { Typography, Card } from '@mui/material';
 import { fetchWeatherForecast } from '../../store/weather-actions';
 import WeatherForecast from '../../models/weatherForecast';
 import Geocode from '../../models/geocode';
-import ForecastPlots from './ForecastPlots';
-import FiveDayForecast from './FiveDayForecast';
+const FiveDayForecast = lazy(() => import('./FiveDayForecast'));
+const ForecastPlots = lazy(() => import('./ForecastPlots'));
+
 import { uiActions } from '../../store/ui-slice';
 
 const Forecast: React.FC<{ location: Geocode }> = (props) => {
@@ -54,12 +55,16 @@ const Forecast: React.FC<{ location: Geocode }> = (props) => {
           <Typography component='h3' variant='h6' sx={{ m: 1 }}>
             Weather forecast for the next 5 days:
           </Typography>
-          <FiveDayForecast data={forecast.list} />
-          <ForecastPlots data={forecast.list} />
+          <Suspense fallback={<p>Loading five-day forecast...</p>}>
+            <FiveDayForecast data={forecast.list} />
+          </Suspense>
+          <Suspense fallback={<p>Loading graphs...</p>}>
+            <ForecastPlots data={forecast.list} />
+          </Suspense>
         </>
       ) : (
-        <Typography component='h3' variant='h6' sx={{ m: m }}>
-          Loading weather forecast...
+        <Typography component='h2' variant='h6' sx={{ m: m }}>
+          Loading weather forecast for {location.name}
         </Typography>
       )}
     </Card>
