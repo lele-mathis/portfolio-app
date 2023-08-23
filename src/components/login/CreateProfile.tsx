@@ -67,8 +67,8 @@ function CreateProfile() {
         <strong>Want your locations to be saved?</strong> Create a profile:
       </Typography>
       <TextField
-        name='username'
-        id='username'
+        name='newUsername'
+        id='newUsername'
         label='New Username'
         onChange={usernameChangeHandler}
         value={newUsername}
