@@ -13,10 +13,9 @@ Please try it out and let me know if you run into any issues, find any bugs, or 
 
 ### Planned improvements:
 
-- Add lazy loading to improve performance
 - Add average daily temperature to five-day forecast summary
 - Add ability to close forecast plots on mobile
 
 ### Known bugs:
 
-- Data on plots doesn't show up on some mobile devices
+- None for now
