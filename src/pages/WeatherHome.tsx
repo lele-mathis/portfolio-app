@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks/typedHooks';
 import Card from '@mui/material/Card';
 
@@ -6,11 +6,13 @@ import Geocode from '../models/geocode';
 import Weather from '../models/weather';
 import WeatherLoc from '../models/weatherLoc';
 import NewLocation from '../components/weatherHome/NewLocationForm';
-import WeatherGrid from '../components/weatherHome/WeatherGrid';
+
 import { fetchCurrentWeather } from '../store/weather-actions';
 import { uiActions } from '../store/ui-slice';
 import useSendData from '../hooks/useSendData';
 import { firebaseUrl } from '../store/info';
+
+const WeatherGrid = lazy(() => import('../components/weatherHome/WeatherGrid'));
 
 const initialState: WeatherLoc[] = [];
 
@@ -71,7 +73,11 @@ function WeatherHomePage() {
   );
 
   if (locationsList.length !== 0) {
-    pageContent = <WeatherGrid weatherList={weatherList} />;
+    pageContent = (
+      <Suspense fallback={<p>Loading weather grid...</p>}>
+        <WeatherGrid weatherList={weatherList} />
+      </Suspense>
+    );
   }
 
   return (
