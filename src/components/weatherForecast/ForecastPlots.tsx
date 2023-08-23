@@ -40,7 +40,11 @@ const ForecastPlots: React.FC<{ data: WeatherPoint[] }> = (props) => {
     [key: string]: PlotData;
   };
 
-  const dateTimes = props.data.map((value) => new Date(value.dt_txt));
+  let dateTimes = props.data.map((value) => new Date(value.dt_txt));
+  //for my phone that has issues with date objects
+  if (dateTimes[0].toLocaleString() === 'Invalid Date') {
+    dateTimes = props.data.map((value) => value.dt_txt as unknown as Date);
+  }
   //make all the plot elements and then render the selected ones - memoize?
   const plotData: PlotDataObj = {
     //add traces for min and max temp later
