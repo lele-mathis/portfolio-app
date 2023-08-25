@@ -1,7 +1,12 @@
+import { lazy, Suspense } from 'react';
 import { useAppSelector } from '../hooks/typedHooks';
 import { Typography, Paper, Card, Link, Box } from '@mui/material';
-import TornadoDashboard from '../components/dataAnalytics/TornadoDashboard';
-import HydrogenDashboard from '../components/dataAnalytics/HydrogenDashboard';
+const TornadoDashboard = lazy(
+  () => import('../components/dataAnalytics/TornadoDashboard')
+);
+const HydrogenDashboard = lazy(
+  () => import('../components/dataAnalytics/HydrogenDashboard')
+);
 
 function DataPage() {
   document.title = 'Data Analytics Projects | Lele Mathis Portfolio';
@@ -27,7 +32,11 @@ function DataPage() {
               View dashboard on Tableau Public
             </Link>
           ) : (
-            <TornadoDashboard />
+            <Suspense
+              fallback={<p>Loading dashboard from Tableau Public...</p>}
+            >
+              <TornadoDashboard />
+            </Suspense>
           )}
         </div>
       </Card>
@@ -59,7 +68,11 @@ function DataPage() {
               View dashboard on Tableau Public
             </Link>
           ) : (
-            <HydrogenDashboard />
+            <Suspense
+              fallback={<p>Loading dashboard from Tableau Public...</p>}
+            >
+              <HydrogenDashboard />
+            </Suspense>
           )}
         </div>
       </Card>
