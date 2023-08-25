@@ -21,7 +21,7 @@ function Footer() {
           <FaGithub className='icon' color='#340442' />
         </IconButton>
         <br />
-        Last updated August 22th, 2023, hosted on{' '}
+        Last updated August 25th, 2023, hosted on{' '}
         <Link href='https://firebase.google.com/'>Firebase</Link>
       </Typography>
       <Link href='https://github.com/lele-mathis/portfolio-app'>

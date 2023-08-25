@@ -1,6 +1,7 @@
 import { useAppSelector } from '../hooks/typedHooks';
 import { Typography, Paper, Card, Link, Box } from '@mui/material';
-import TornadoDashboard from '../components/TornadoDashboard';
+import TornadoDashboard from '../components/dataAnalytics/TornadoDashboard';
+import HydrogenDashboard from '../components/dataAnalytics/HydrogenDashboard';
 
 function DataPage() {
   document.title = 'Data Analytics Projects | Lele Mathis Portfolio';
@@ -15,11 +16,11 @@ function DataPage() {
         <Typography component='h2' variant='h5'>
           Time Series Analysis: Tornadoes Over Seven Decades
         </Typography>
-        <p>
+        <Typography component='p'>
           Visualizing the number, intensity, and impact of tornadoes in the U.S.
           from 1950 to 2021. Data cleaning done in MS Excel, data visualization
           in Tableau.
-        </p>
+        </Typography>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           {isNarrow ? (
             <Link href='https://public.tableau.com/views/TornadoesintheU_S_1950-2021Updated/Dashboard?:language=en-US&:display_count=n&:origin=viz_share_link'>
@@ -34,28 +35,33 @@ function DataPage() {
         <Typography component='h2' variant='h5'>
           Geographic Analysis: Alternative Fuel Stations
         </Typography>
-        <p>
+        <Typography component='p'>
           Investigating the number, accessibility, and geographic distribution
           of automobile fuel stations in the U.S., focusing on hydrogen fuel
           stations.
-        </p>
-        <ul>
-          <li>
-            <Link href='https://github.com/lele-mathis/PortfolioProjects/blob/main/Alt_Fuel_Stations_SQL_Data_Cleaning.ipynb'>
-              Data Cleaning in SQL
+        </Typography>
+        <Typography marginTop='1rem' align='center'>
+          <Link href='https://github.com/lele-mathis/PortfolioProjects/blob/main/Alt_Fuel_Stations_SQL_Data_Cleaning.ipynb'>
+            Data Cleaning in SQL
+          </Link>{' '}
+          &#8594;{' '}
+          <Link href='https://github.com/lele-mathis/PortfolioProjects/blob/main/Alt_Fuel_Stations_SQL_EDA.ipynb'>
+            Data Exploration in SQL
+          </Link>{' '}
+          &#8594;{' '}
+          <Link href='https://public.tableau.com/app/profile/lele.mathis/viz/HydrogenFuelStations/HydrogenDashboard?publish=yes'>
+            Data Visualization in Tableau
+          </Link>
+        </Typography>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          {isNarrow ? (
+            <Link href='https://public.tableau.com/views/HydrogenFuelStations/HydrogenDashboard?:language=en-US&publish=yes&:display_count=n&:origin=viz_share_link'>
+              View dashboard on Tableau Public
             </Link>
-          </li>
-          <li>
-            <Link href='https://github.com/lele-mathis/PortfolioProjects/blob/main/Alt_Fuel_Stations_SQL_EDA.ipynb'>
-              Data Exploration in SQL
-            </Link>
-          </li>
-          <li>
-            <Link href='https://public.tableau.com/app/profile/lele.mathis/viz/HydrogenFuelStations/HydrogenDashboard?publish=yes'>
-              Data Visualization in Tableau
-            </Link>
-          </li>
-        </ul>
+          ) : (
+            <HydrogenDashboard />
+          )}
+        </div>
       </Card>
     </>
   );
