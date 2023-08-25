@@ -38,13 +38,14 @@ function HomePage() {
         direction={isNarrow ? 'column' : 'row'}
         display='flex'
         justifyContent='center'
+        alignItems='stretch'
         sx={{ my: 2 }}
       >
         <Grid item xs={5}>
           <Card
             className='homeCard'
             onClick={clickWeatherHandler}
-            sx={{ m: m, p: m, minHeight: '200px' }}
+            sx={{ m: m, p: m, height: '100%' }}
           >
             <Typography
               component='h2'
@@ -58,7 +59,7 @@ function HomePage() {
             </Typography>
 
             <Typography variant='subtitle1'>
-              built using react.js with redux and TypeScript
+              made using react.js with redux and TypeScript
             </Typography>
             <ul>
               <li>
@@ -75,7 +76,7 @@ function HomePage() {
           <Card
             onClick={clickDataHandler}
             className='homeCard'
-            sx={{ m: m, p: m, minHeight: '200px' }}
+            sx={{ m: m, p: m, height: '100%' }}
           >
             <Typography
               component='h2'
