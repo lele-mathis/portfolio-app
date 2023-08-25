@@ -15,6 +15,7 @@ Please try it out and let me know if you run into any issues, find any bugs, or 
 
 - Add average daily temperature to five-day forecast summary
 - Add ability to close forecast plots on mobile
+- Add code splitting
 
 ### Known bugs:
 
