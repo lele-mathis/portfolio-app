@@ -20,8 +20,9 @@ const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
     return formattedDate;
   };
   //make schedule with icons
-  let weatherByDate: { [keys: string]: { weather: string[]; icon: string[] } } =
-    {};
+  let weatherByDate: {
+    [keys: string]: { weather: string[]; icon: string[]; temp: number[] };
+  } = {};
 
   //from https://stackoverflow.com/questions/40410470/highest-occurrence-in-an-array-or-first-selected
   function mostFrequent(array: string[]) {
@@ -36,47 +37,60 @@ const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
   for (let value of props.data) {
     const dateString = stringDate(value.dt_txt);
     if (dateString in weatherByDate) {
-      weatherByDate[stringDate(value.dt_txt)].weather.push(
-        value.weather[0].main
-      );
-      weatherByDate[stringDate(value.dt_txt)].icon.push(
+      weatherByDate[dateString].weather.push(value.weather[0].main);
+      weatherByDate[dateString].icon.push(
         value.weather[0].icon.substring(0, 2)
       );
+      weatherByDate[dateString].temp.push(value.main.temp);
     } else {
-      weatherByDate[stringDate(value.dt_txt)] = { weather: [], icon: [] };
+      weatherByDate[dateString] = {
+        weather: [],
+        icon: [],
+        temp: [],
+      };
     }
   }
 
   const fiveDayWeather: JSX.Element[] = [];
 
+  const average = (arr: number[]) => {
+    return (
+      arr.reduce((total, val) => {
+        return total + val;
+      }) / arr.length
+    );
+  };
+
   for (let date in weatherByDate) {
     const weatherMode = mostFrequent(weatherByDate[date].weather);
     const iconMode = mostFrequent(weatherByDate[date].icon);
+    const avgTemp = average(weatherByDate[date].temp);
+    const formattedAvgTemp = avgTemp.toFixed(0);
 
     if (weatherMode && iconMode) {
       fiveDayWeather.push(
         <Grid item key={date} sx={{ textAlign: 'center' }}>
+          <Typography
+            className='caption'
+            variant={isNarrow ? 'body2' : 'body1'}
+          >
+            {date}
+          </Typography>
           <img //only using 'day' icons
             alt='weather icon'
-            aria-labelledby='caption'
             src={
               isNarrow
                 ? `https://openweathermap.org/img/wn/${iconMode}d.png`
                 : `https://openweathermap.org/img/wn/${iconMode}d@2x.png`
             }
           />
-          <Typography id='caption' variant={isNarrow ? 'body2' : 'body1'}>
-            {date}
-            <br />
-            {weatherMode}
+          <Typography
+            className='caption'
+            variant={isNarrow ? 'body2' : 'body1'}
+          >
+            {formattedAvgTemp}
+            {'\xB0F'}, {weatherMode}
           </Typography>
-          {/* <Typography variant='caption'>
-            {date}
-            <br />
-            {weatherByDate[date].icon.map((val) => val)}
-            <br />
-            {weatherByDate[date].weather.map((val) => val)}
-          </Typography> */}
         </Grid>
       );
     } else {
