@@ -13,9 +13,9 @@ Please try it out and let me know if you run into any issues, find any bugs, or 
 
 ### Planned improvements:
 
-- Add average daily temperature to five-day forecast summary
-- Add ability to close forecast plots on mobile
-- Add code splitting
+- Use tanstack query for organizing HTTP requests
+- Add ability to close/hide forecast plots on mobile
+- Add code splitting or migrate to Vite
 
 ### Known bugs:
 
