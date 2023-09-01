@@ -11,7 +11,7 @@ const FiveDayForecast: React.FC<{ data: WeatherPoint[] }> = (props) => {
     //always use short date format on mobile
     let formattedDate = new Date(date_txt).toLocaleString('en-US', {
       weekday: isMobile || isNarrow ? 'short' : 'long',
-      month: isMobile || isNarrow ? 'short' : 'long',
+      month: 'short',
       day: 'numeric',
     });
     if (formattedDate === 'Invalid Date') {
